@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string>DSProgressRingWidget</string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>DSProgressRingWidget(title: &quot;&lt;#Progress#&gt;&quot;, metrics: [(label: &quot;&lt;#Tasks#&gt;&quot;, value: &lt;#7#&gt;, max: &lt;#10#&gt;, color: DSColor.primary)])</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>71cc6a18-ffe6-4732-9dd8-55993ecb0a4e</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string>DesignSystem DSProgressRingWidget</string>
+	<key>IDECodeSnippetTitle</key>
+	<string>DSProgressRingWidget</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

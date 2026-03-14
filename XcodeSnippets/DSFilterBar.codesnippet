@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string>DSFilterBar</string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>DSFilterBar(filters: [&quot;&lt;#All#&gt;&quot;, &quot;&lt;#Active#&gt;&quot;], selected: $&lt;#selected#&gt;)</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>c531eead-0394-4665-8741-daf537732660</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string>DesignSystem DSFilterBar</string>
+	<key>IDECodeSnippetTitle</key>
+	<string>DSFilterBar</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

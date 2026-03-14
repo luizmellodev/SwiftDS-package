@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string>DSCircularProgress</string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>DSCircularProgress(value: &lt;#0.75#&gt;, total: &lt;#1.0#&gt;, color: DSColor.&lt;#primary#&gt;)</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>46343eab-fb72-42bf-bae8-3019489ccb8c</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string>DesignSystem DSCircularProgress</string>
+	<key>IDECodeSnippetTitle</key>
+	<string>DSCircularProgress</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

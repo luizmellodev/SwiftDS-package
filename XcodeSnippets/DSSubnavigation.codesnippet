@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string>DSSubnavigation</string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>DSSubnavigation(items: [&quot;&lt;#One#&gt;&quot;, &quot;&lt;#Two#&gt;&quot;], selection: $&lt;#selection#&gt;)</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>3fa01f7b-ccb5-4850-a0a2-453a1a05826d</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string>DesignSystem DSSubnavigation</string>
+	<key>IDECodeSnippetTitle</key>
+	<string>DSSubnavigation</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

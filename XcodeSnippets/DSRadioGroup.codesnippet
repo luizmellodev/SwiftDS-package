@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string>DSRadioGroup</string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>DSRadioGroup(options: [(&quot;&lt;#A#&gt;&quot;, &lt;#valueA#&gt;), (&quot;&lt;#B#&gt;&quot;, &lt;#valueB#&gt;)], selection: $&lt;#selection#&gt;)</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>e92837f3-dc83-4f62-8982-ce0a5a7fda5d</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string>DesignSystem DSRadioGroup</string>
+	<key>IDECodeSnippetTitle</key>
+	<string>DSRadioGroup</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

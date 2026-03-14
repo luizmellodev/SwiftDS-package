@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string>DSStepIndicator</string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>DSStepIndicator(steps: [&quot;&lt;#Step1#&gt;&quot;, &quot;&lt;#Step2#&gt;&quot;], currentIndex: $&lt;#index#&gt;)</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>f95d1389-11d5-4d97-8a6d-32f023569dc7</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string>DesignSystem DSStepIndicator</string>
+	<key>IDECodeSnippetTitle</key>
+	<string>DSStepIndicator</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

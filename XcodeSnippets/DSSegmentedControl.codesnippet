@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string>DSSegmentedControl</string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>DSSegmentedControl(options: [(&quot;&lt;#A#&gt;&quot;, &lt;#a#&gt;, nil), (&quot;&lt;#B#&gt;&quot;, &lt;#b#&gt;, nil)], selection: $&lt;#selection#&gt;)</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>a01881b3-d68c-4b66-b92b-31ddb3a2f65e</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string>DesignSystem DSSegmentedControl</string>
+	<key>IDECodeSnippetTitle</key>
+	<string>DSSegmentedControl</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

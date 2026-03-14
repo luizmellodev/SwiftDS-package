@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string>DSChatInputBar</string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>DSChatInputBar(placeholder: &quot;&lt;#Type a message...#&gt;&quot;, text: $&lt;#text#&gt;, onSend: { &lt;#text#&gt; in &lt;#code#&gt; })</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>e419d274-7910-4718-9538-e8d75fa0d499</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string>DesignSystem DSChatInputBar</string>
+	<key>IDECodeSnippetTitle</key>
+	<string>DSChatInputBar</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string>DSMetricCard</string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>DSMetricCard(title: &quot;&lt;#Revenue#&gt;&quot;, value: &quot;&lt;#$12.5k#&gt;&quot;, change: &quot;&lt;#+12%#&gt;&quot;, trend: .up, icon: &quot;dollarsign.circle.fill&quot;)</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>8c89b7e5-0823-4a3f-a032-009acd010f56</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string>DesignSystem DSMetricCard</string>
+	<key>IDECodeSnippetTitle</key>
+	<string>DSMetricCard</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

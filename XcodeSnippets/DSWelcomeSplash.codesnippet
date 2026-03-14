@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string>DSWelcomeSplash</string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>DSWelcomeSplash(productName: &quot;&lt;#App Name#&gt;&quot;, tagline: &quot;&lt;#Tagline#&gt;&quot;, features: [(icon: &quot;&lt;#star.fill#&gt;&quot;, text: &quot;&lt;#Feature#&gt;&quot;)], onGetStarted: { &lt;#code#&gt; }, onSignIn: { &lt;#code#&gt; })</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>c317ecd5-f23c-4946-b83e-f100206797f4</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string>DesignSystem DSWelcomeSplash</string>
+	<key>IDECodeSnippetTitle</key>
+	<string>DSWelcomeSplash</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string>DSTabBar</string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>DSTabBar(options: [(label: &quot;&lt;#Tab 1#&gt;&quot;, value: &quot;&lt;#tab1#&gt;&quot;, count: &lt;#nil#&gt;)], selection: $&lt;#selectedTab#&gt;)</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>3363beff-8095-4599-96f0-01e90d2cdec1</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string>DesignSystem DSTabBar</string>
+	<key>IDECodeSnippetTitle</key>
+	<string>DSTabBar</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>

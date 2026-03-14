@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string>DSTestimonialCard</string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>DSTestimonialCard(quote: &quot;&lt;#Quote#&gt;&quot;, authorName: &quot;&lt;#Name#&gt;&quot;, authorRole: &quot;&lt;#Role#&gt;&quot;, authorInitials: &quot;&lt;#AB#&gt;&quot;)</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>e1861989-20a3-4d84-a41b-6590229c73cf</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string>DesignSystem DSTestimonialCard</string>
+	<key>IDECodeSnippetTitle</key>
+	<string>DSTestimonialCard</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>2</integer>
+</dict>
+</plist>
