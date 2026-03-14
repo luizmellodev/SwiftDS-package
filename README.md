@@ -180,4 +180,3 @@ Full documentation site: **[swiftds.dev](https://swiftds.dev)** *(coming soon)*
 ## License
 
 MIT License — See [LICENSE](LICENSE) for details.
-# SwiftDS-package
