@@ -1,15 +1,12 @@
-<p align="center">
-  <h1 align="center">SwiftDS</h1>
-  <p align="center">A comprehensive, production-ready SwiftUI design system with 124+ components.</p>
-</p>
+# SwiftDS
 
-<p align="center">
-  <a href="https://swift.org"><img src="https://img.shields.io/badge/Swift-5.10+-orange.svg" alt="Swift 5.10+"></a>
-  <a href="https://developer.apple.com/ios/"><img src="https://img.shields.io/badge/iOS-17+-blue.svg" alt="iOS 17+"></a>
-  <a href="https://developer.apple.com/macos/"><img src="https://img.shields.io/badge/macOS-14+-blue.svg" alt="macOS 14+"></a>
-  <a href="https://developer.apple.com/visionos/"><img src="https://img.shields.io/badge/visionOS-1+-blue.svg" alt="visionOS 1+"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-green.svg" alt="MIT License"></a>
-</p>
+A comprehensive, production-ready SwiftUI design system with 124+ components.
+
+[![Swift 5.10+](https://img.shields.io/badge/Swift-5.10+-orange.svg)](https://swift.org)
+[![iOS 17+](https://img.shields.io/badge/iOS-17+-blue.svg)](https://developer.apple.com/ios/)
+[![macOS 14+](https://img.shields.io/badge/macOS-14+-blue.svg)](https://developer.apple.com/macos/)
+[![visionOS 1+](https://img.shields.io/badge/visionOS-1+-blue.svg)](https://developer.apple.com/visionos/)
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 ---
 
