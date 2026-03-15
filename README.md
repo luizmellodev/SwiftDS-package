@@ -27,14 +27,14 @@ A comprehensive, production-ready SwiftUI design system with 124+ components.
 In Xcode, go to **File → Add Package Dependencies...** and enter:
 
 ```
-https://github.com/luizmellodev/SwiftDS
+https://github.com/luizmellodev/SwiftDS-package
 ```
 
 ### Package.swift
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/luizmellodev/SwiftDS", from: "1.0.0")
+    .package(url: "https://github.com/luizmellodev/SwiftDS-package", from: "1.0.0")
 ]
 ```
 
