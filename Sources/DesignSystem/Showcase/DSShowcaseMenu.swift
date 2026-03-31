@@ -260,22 +260,22 @@ public enum DSShowcaseMenu {
                 DSDocDemo(id: "action_menu_button", name: "MenuButton") { ScrollView { ButtonsShowcase().padding(DSSpacing.xl) } }
             },
             DSCategory("Inputs") {
-                DSDocDemo(id: "input_text_field", name: "TextField") { ScrollView { InputsShowcase().padding(DSSpacing.xl) } }
-                DSDocDemo(id: "input_secure_field", name: "SecureField") { ScrollView { InputsShowcase().padding(DSSpacing.xl) } }
-                DSDocDemo(id: "input_search_bar", name: "SearchBar") { ScrollView { InputsShowcase().padding(DSSpacing.xl) } }
-                DSDocDemo(id: "input_text_area", name: "TextArea") { ScrollView { InputsShowcase().padding(DSSpacing.xl) } }
+                DSDocDemo(id: "input_text_field", name: "TextField") { TextFieldShowcase() }
+                DSDocDemo(id: "input_secure_field", name: "SecureField") { SecureFieldShowcase() }
+                DSDocDemo(id: "input_search_bar", name: "SearchBar") { SearchBarShowcase() }
+                DSDocDemo(id: "input_text_area", name: "TextArea") { TextAreaShowcase() }
                 DSDocDemo(id: "input_otp_field", name: "OTPField", showsInShowroom: false) {
                     DSDocsReferenceView(title: "OTPField", message: "Reference pattern for one-time-code entry.", bullets: ["Use Inputs and Selection primitives to assemble OTP flows.", "A dedicated OTP showcase can be added as the package gains a native component."])
                 }
                 DSDocDemo(id: "input_phone_field", name: "PhoneField", showsInShowroom: false) {
                     DSDocsReferenceView(title: "PhoneField", message: "Reference pattern for phone-number input.", bullets: ["Use text inputs, validation, and country selection patterns.", "A dedicated phone field showcase can be added later if the package includes a native component."])
                 }
-                DSDocDemo(id: "input_date_picker", name: "DatePicker") { ScrollView { InputsShowcase().padding(DSSpacing.xl) } }
+                DSDocDemo(id: "input_date_picker", name: "DatePicker") { DatePickerShowcase() }
                 DSDocDemo(id: "input_color_picker", name: "ColorPicker", showsInShowroom: false) {
                     DSDocsReferenceView(title: "ColorPicker", message: "Reference pattern for selecting colors in forms and theming flows.", bullets: ["Color Selector covers the package's current color choice UI.", "A more advanced color picker can be added later if the package exposes one."])
                 }
-                DSDocDemo(id: "input_select_field", name: "SelectField") { ScrollView { InputsShowcase().padding(DSSpacing.xl) } }
-                DSDocDemo(id: "input_color_selector", name: "ColorSelector") { ScrollView { InputsShowcase().padding(DSSpacing.xl) } }
+                DSDocDemo(id: "input_select_field", name: "SelectField") { SelectFieldShowcase() }
+                DSDocDemo(id: "input_color_selector", name: "ColorSelector") { ColorSelectorShowcase() }
             },
             DSCategory("Selection") {
                 DSDocDemo(id: "selection_toggle", name: "Toggle") { ScrollView { InputsShowcase().padding(DSSpacing.xl) } }

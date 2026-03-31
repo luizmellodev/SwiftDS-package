@@ -674,6 +674,125 @@ struct InputsShowcase: View {
     }
 }
 
+struct TextFieldShowcase: View {
+    @State private var email = ""
+    @State private var username = ""
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: DSSpacing.xxl) {
+                ShowcaseSection("TextField", subtitle: "Single-line text inputs with labels, icons, hints, and validation states.") {
+                    VStack(spacing: DSSpacing.md) {
+                        DSTextField(label: "Email", placeholder: "name@company.com", text: $email, leadingIcon: "envelope")
+                        DSTextField(label: "Username", placeholder: "@username", text: $username, leadingIcon: "at")
+                        DSTextField(label: "With error", placeholder: "required field", text: .constant(""), error: "This field is required")
+                        DSTextField(label: "With hint", placeholder: "Letters only", text: .constant("Jordan"), hint: "Maximum 50 characters")
+                    }
+                }
+            }
+            .padding(DSSpacing.xl)
+        }
+    }
+}
+
+struct SecureFieldShowcase: View {
+    @State private var password = ""
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: DSSpacing.xxl) {
+                ShowcaseSection("SecureField", subtitle: "Password and sensitive-value entry with the SwiftDS field styling.") {
+                    DSSecureField(label: "Password", placeholder: "••••••••", text: $password)
+                }
+            }
+            .padding(DSSpacing.xl)
+        }
+    }
+}
+
+struct SearchBarShowcase: View {
+    @State private var search = ""
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: DSSpacing.xxl) {
+                ShowcaseSection("SearchBar", subtitle: "Inline search input for filtering lists, commands, and content.") {
+                    DSSearchBar(text: $search)
+                }
+            }
+            .padding(DSSpacing.xl)
+        }
+    }
+}
+
+struct TextAreaShowcase: View {
+    @State private var message = ""
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: DSSpacing.xxl) {
+                ShowcaseSection("TextArea", subtitle: "Multiline text input for notes, messages, and longer form content.") {
+                    DSTextArea(label: "Message", placeholder: "Write here...", text: $message)
+                }
+            }
+            .padding(DSSpacing.xl)
+        }
+    }
+}
+
+struct DatePickerShowcase: View {
+    @State private var selectedDate = Date()
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: DSSpacing.xxl) {
+                ShowcaseSection("DatePicker", subtitle: "Date input surface for scheduling and forms.") {
+                    DSDatePicker(label: "Date", selection: $selectedDate, displayedComponents: .date)
+                }
+            }
+            .padding(DSSpacing.xl)
+        }
+    }
+}
+
+struct SelectFieldShowcase: View {
+    @State private var selection: String? = "us"
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: DSSpacing.xxl) {
+                ShowcaseSection("SelectField", subtitle: "Dropdown-style selection field for structured choices.") {
+                    DSSelectField(
+                        label: "Country",
+                        options: [("Brazil", "br"), ("United States", "us"), ("Portugal", "pt")],
+                        selection: $selection,
+                        placeholder: "Choose a country"
+                    )
+                }
+            }
+            .padding(DSSpacing.xl)
+        }
+    }
+}
+
+struct ColorSelectorShowcase: View {
+    @State private var selectedColor: Color?
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: DSSpacing.xxl) {
+                ShowcaseSection("ColorSelector", subtitle: "Compact color choice control for themes, tags, and visual customization.") {
+                    DSColorSelector(
+                        colors: [DSColor.primary, DSColor.success, DSColor.warning, DSColor.error, DSColor.info, DSColor.accent],
+                        selection: $selectedColor
+                    )
+                }
+            }
+            .padding(DSSpacing.xl)
+        }
+    }
+}
+
 // MARK: - Navigation Showcase
 
 struct NavigationShowcase: View {
