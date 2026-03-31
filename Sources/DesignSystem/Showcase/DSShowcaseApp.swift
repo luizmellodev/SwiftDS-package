@@ -29,9 +29,6 @@ public struct DSShowcaseRoot: View {
             DSCategoriesView()
                 .background(scheme == .dark ? DSColor.backgroundDark : DSColor.background)
         }
-        #if os(iOS)
-        .toolbar(.hidden, for: .navigationBar)
-        #endif
     }
 }
 
@@ -151,12 +148,12 @@ private let foundationLayoutItems: [FoundationLayoutItem] = [
 struct FoundationsPaletteShowcase: View {
     var body: some View {
         VStack(alignment: .leading, spacing: DSSpacing.xxl) {
-            ShowcaseSection("Paleta de Cores") {
+            ShowcaseSection("Color Palette") {
                 VStack(alignment: .leading, spacing: DSSpacing.sm) {
-                    _colorRow("Primária", colors: [DSColor.primaryMuted, DSColor.primary, DSColor.primaryHover])
+                    _colorRow("Primary", colors: [DSColor.primaryMuted, DSColor.primary, DSColor.primaryHover])
                     _colorRow("Accent", colors: [DSColor.accentMuted, DSColor.accent])
-                    _colorRow("Semânticas", colors: [DSColor.successMuted, DSColor.success, DSColor.warningMuted, DSColor.warning, DSColor.errorMuted, DSColor.error])
-                    _colorRow("Neutros", colors: [DSColor.borderSubtle, DSColor.border, DSColor.muted, DSColor.secondary, DSColor.foreground])
+                    _colorRow("Semantic", colors: [DSColor.successMuted, DSColor.success, DSColor.warningMuted, DSColor.warning, DSColor.errorMuted, DSColor.error])
+                    _colorRow("Neutral", colors: [DSColor.borderSubtle, DSColor.border, DSColor.muted, DSColor.secondary, DSColor.foreground])
                 }
             }
         }
@@ -169,7 +166,7 @@ struct FoundationsTypographyShowcase: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: DSSpacing.xxl) {
-            ShowcaseSection("Tipografia") {
+            ShowcaseSection("Typography") {
                 VStack(alignment: .leading, spacing: 10) {
                     _typographyRow("Large Title", style: .largeTitle, scheme: scheme)
                     _typographyRow("Title", style: .title, scheme: scheme)
@@ -190,7 +187,7 @@ struct FoundationsTypographyShowcase: View {
 struct FoundationsSpacingShowcase: View {
     var body: some View {
         VStack(alignment: .leading, spacing: DSSpacing.xxl) {
-            ShowcaseSection("Espaçamento") {
+            ShowcaseSection("Spacing") {
                 VStack(alignment: .leading, spacing: DSSpacing.sm) {
                     _spacingRow("xs", value: DSSpacing.xs)
                     _spacingRow("sm", value: DSSpacing.sm)
@@ -228,7 +225,7 @@ struct FoundationsShadowsShowcase: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: DSSpacing.xxl) {
-            ShowcaseSection("Sombras") {
+            ShowcaseSection("Shadows") {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: DSSpacing.lg) {
                         _shadowCard("sm", shadow: .sm, scheme: scheme)
@@ -411,11 +408,11 @@ struct ButtonsShowcase: View {
     var body: some View {
         VStack(alignment: .leading, spacing: DSSpacing.xxl) {
 
-            ShowcaseSection("Botões", subtitle: "PrimaryButton, SecondaryButton, GhostButton, IconButton") {
+            ShowcaseSection("Buttons", subtitle: "Primary, secondary, ghost, destructive, and icon button patterns.") {
                 EmptyView()
             }
 
-            ShowcaseSection("Variantes") {
+            ShowcaseSection("Variants") {
                 VStack(spacing: DSSpacing.sm) {
                     DSButton("Primary Button", variant: .primary, icon: "arrow.right", iconPosition: .trailing)
                         .frame(maxWidth: .infinity)
@@ -430,7 +427,7 @@ struct ButtonsShowcase: View {
                 }
             }
 
-            ShowcaseSection("Tamanhos") {
+            ShowcaseSection("Sizes") {
                 HStack(spacing: DSSpacing.sm) {
                     DSButton("Small", size: .sm)
                     DSButton("Medium", size: .md)
@@ -438,7 +435,7 @@ struct ButtonsShowcase: View {
                 }
             }
 
-            ShowcaseSection("Variante × Tamanho") {
+            ShowcaseSection("Variant × Size") {
                 VStack(alignment: .leading, spacing: DSSpacing.lg) {
                     variantSizeRow("Primary", variant: .primary)
                     variantSizeRow("Secondary", variant: .secondary)
@@ -448,10 +445,10 @@ struct ButtonsShowcase: View {
                 }
             }
 
-            ShowcaseSection("Estados") {
+            ShowcaseSection("States") {
                 VStack(alignment: .leading, spacing: DSSpacing.lg) {
                     VStack(alignment: .leading, spacing: DSSpacing.xs) {
-                        Text("Ativo")
+                        Text("Active")
                             .font(.system(size: 12, weight: .medium))
                             .foregroundStyle(DSColor.muted)
                         HStack(spacing: DSSpacing.sm) {
@@ -461,7 +458,7 @@ struct ButtonsShowcase: View {
                         }
                     }
                     VStack(alignment: .leading, spacing: DSSpacing.xs) {
-                        Text("Indisponível (disabled)")
+                        Text("Disabled")
                             .font(.system(size: 12, weight: .medium))
                             .foregroundStyle(DSColor.muted)
                         HStack(spacing: DSSpacing.sm) {
@@ -471,12 +468,12 @@ struct ButtonsShowcase: View {
                         }
                     }
                     VStack(alignment: .leading, spacing: DSSpacing.xs) {
-                        Text("Carregando (loading)")
+                        Text("Loading")
                             .font(.system(size: 12, weight: .medium))
                             .foregroundStyle(DSColor.muted)
                         HStack(spacing: DSSpacing.sm) {
-                            DSButton("Carregando", isLoading: true, action: {})
-                            DSButton("Carregar", isLoading: isLoading, action: {
+                            DSButton("Loading", isLoading: true, action: {})
+                            DSButton("Start loading", isLoading: isLoading, action: {
                                 isLoading = true
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) { isLoading = false }
                             })
@@ -501,21 +498,21 @@ struct ButtonsShowcase: View {
 
             ShowcaseSection("Menu Button") {
                 DSMenuButton(
-                    label: "Ações",
+                    label: "Actions",
                     icon: "ellipsis.circle",
                     items: [
-                        DSMenuItem(title: "Editar", icon: "pencil", action: {}),
-                        DSMenuItem(title: "Compartilhar", icon: "square.and.arrow.up", action: {}),
-                        DSMenuItem(title: "Excluir", icon: "trash", action: {})
+                        DSMenuItem(title: "Edit", icon: "pencil", action: {}),
+                        DSMenuItem(title: "Share", icon: "square.and.arrow.up", action: {}),
+                        DSMenuItem(title: "Delete", icon: "trash", action: {})
                     ]
                 )
             }
 
             ShowcaseSection("Button Group") {
                 DSButtonGroup(
-                    primaryLabel: "Confirmar",
+                    primaryLabel: "Confirm",
                     primaryAction: {},
-                    secondaryLabel: "Cancelar",
+                    secondaryLabel: "Cancel",
                     secondaryAction: {}
                 )
             }
@@ -568,43 +565,43 @@ struct InputsShowcase: View {
 
             ShowcaseSection("Text Fields") {
                 VStack(spacing: DSSpacing.md) {
-                    DSTextField(label: "Email", placeholder: "nome@empresa.com", text: $text1, leadingIcon: "envelope")
-                    DSTextField(label: "Username", placeholder: "@usuario", text: $text2, leadingIcon: "at")
-                    DSTextField(label: "Com erro", placeholder: "campo obrigatório", text: .constant(""), error: "Este campo é obrigatório")
-                    DSTextField(label: "Com dica", placeholder: "Apenas letras", text: .constant("João"), hint: "Máximo 50 caracteres")
+                    DSTextField(label: "Email", placeholder: "name@company.com", text: $text1, leadingIcon: "envelope")
+                    DSTextField(label: "Username", placeholder: "@username", text: $text2, leadingIcon: "at")
+                    DSTextField(label: "With error", placeholder: "required field", text: .constant(""), error: "This field is required")
+                    DSTextField(label: "With hint", placeholder: "Letters only", text: .constant("Jordan"), hint: "Maximum 50 characters")
                 }
             }
 
-            ShowcaseSection("Senha") {
-                DSSecureField(label: "Senha", placeholder: "••••••••", text: $password)
+            ShowcaseSection("Secure Field") {
+                DSSecureField(label: "Password", placeholder: "••••••••", text: $password)
             }
 
-            ShowcaseSection("Busca") {
+            ShowcaseSection("Search") {
                 DSSearchBar(text: $search)
             }
 
-            ShowcaseSection("Área de texto") {
-                DSTextArea(label: "Mensagem", placeholder: "Escreva aqui...", text: $area)
+            ShowcaseSection("Text Area") {
+                DSTextArea(label: "Message", placeholder: "Write here...", text: $area)
             }
 
-            ShowcaseSection("Controles") {
+            ShowcaseSection("Controls") {
                 VStack(spacing: 0) {
-                    DSToggle("Modo escuro", description: "Ativar tema escuro", isOn: $toggle1)
+                    DSToggle("Dark mode", description: "Enable the dark appearance", isOn: $toggle1)
                     DSDivider().padding(.vertical, DSSpacing.sm)
-                    DSToggle("Notificações", description: "Receber alertas push", isOn: $toggle2)
+                    DSToggle("Notifications", description: "Receive push alerts", isOn: $toggle2)
                     DSDivider().padding(.vertical, DSSpacing.sm)
-                    DSCheckbox("Concordo com os termos de uso", isChecked: $check1)
+                    DSCheckbox("I agree to the terms of service", isChecked: $check1)
                     DSDivider().padding(.vertical, DSSpacing.sm)
-                    DSCheckbox("Receber emails de marketing", isChecked: $check2)
+                    DSCheckbox("Receive marketing emails", isChecked: $check2)
                 }
             }
 
-            ShowcaseSection("Radio") {
+            ShowcaseSection("Radio Group") {
                 DSRadioGroup(
                     options: [
-                        ("Opção gratuita", "option1"),
-                        ("Opção Pro — R$ 29/mês", "option2"),
-                        ("Opção Enterprise — Sob consulta", "option3")
+                        ("Free plan", "option1"),
+                        ("Pro plan — $29/mo", "option2"),
+                        ("Enterprise — Contact sales", "option3")
                     ],
                     selection: $radio
                 )
@@ -613,13 +610,13 @@ struct InputsShowcase: View {
             ShowcaseSection("Slider") {
                 VStack(spacing: DSSpacing.md) {
                     DSSlider(label: "Volume", value: $slider, range: 0...100, showValue: true)
-                    DSSlider(label: "Opacidade", value: .constant(0.7), range: 0...1, step: 0.01, showValue: true, formatValue: { String(format: "%.0f%%", $0 * 100) })
+                    DSSlider(label: "Opacity", value: .constant(0.7), range: 0...1, step: 0.01, showValue: true, formatValue: { String(format: "%.0f%%", $0 * 100) })
                 }
             }
 
             ShowcaseSection("Stepper") {
                 VStack(alignment: .leading, spacing: DSSpacing.sm) {
-                    Text("Quantidade")
+                    Text("Quantity")
                         .font(.system(size: 13, weight: .medium))
                         .foregroundStyle(DSColor.muted)
                     DSStepper(value: $stepperValue, minValue: 1, maxValue: 9)
@@ -628,28 +625,28 @@ struct InputsShowcase: View {
 
             ShowcaseSection("Select") {
                 DSSelectField(
-                    label: "País",
-                    options: [("Brasil", "br"), ("EUA", "us"), ("Portugal", "pt")],
+                    label: "Country",
+                    options: [("Brazil", "br"), ("United States", "us"), ("Portugal", "pt")],
                     selection: $selectValue,
-                    placeholder: "Escolha o país"
+                    placeholder: "Choose a country"
                 )
             }
 
             ShowcaseSection("Date Picker") {
-                DSDatePicker(label: "Data", selection: $selectedDate, displayedComponents: .date)
+                DSDatePicker(label: "Date", selection: $selectedDate, displayedComponents: .date)
             }
 
             ShowcaseSection("Chips") {
                 VStack(alignment: .leading, spacing: DSSpacing.md) {
                     DSChipGroup {
-                        DSChipToggle("Opção A", isOn: $chipToggleA)
-                        DSChipToggle("Opção B", isOn: $chipToggleB)
-                        DSChipToggle("Indisponível", isOn: .constant(false), isUnavailable: true)
+                        DSChipToggle("Option A", isOn: $chipToggleA)
+                        DSChipToggle("Option B", isOn: $chipToggleB)
+                        DSChipToggle("Unavailable", isOn: .constant(false), isUnavailable: true)
                     }
                     DSChipGroup {
                         DSChip("64GB", isSelected: selectedStorage == "64GB") { selectedStorage = "64GB" }
                         DSChip("128GB", isSelected: selectedStorage == "128GB") { selectedStorage = "128GB" }
-                        DSChip("Remover", trailingIcon: "xmark", size: .sm) {}
+                        DSChip("Remove", trailingIcon: "xmark", size: .sm) {}
                     }
                 }
             }
@@ -687,20 +684,20 @@ struct NavigationShowcase: View {
     var body: some View {
         VStack(alignment: .leading, spacing: DSSpacing.xxl) {
 
-            ShowcaseSection("Navegação", subtitle: "Tabs, SegmentedControl, NavigationBar, Sidebar, Subnavigation") {
+            ShowcaseSection("Navigation", subtitle: "Tabs, segmented controls, navigation bars, sidebars, and subnavigation.") {
                 EmptyView()
             }
 
             ShowcaseSection("Subnavigation") {
                 DSSubnavigation(
-                    items: ["Visão geral", "Detalhes", "Histórico"],
+                    items: ["Overview", "Details", "History"],
                     selection: $subnavIndex
                 )
             }
 
             ShowcaseSection("Navigation Bar") {
                 DSNavigationBar(
-                    title: "Meu App",
+                    title: "My App",
                     subtitle: "Dashboard",
                     leadingItems: [DSNavBarItem(icon: "chevron.left"), DSNavBarItem(icon: "house")],
                     trailingItems: [DSNavBarItem(icon: "bell"), DSNavBarItem(icon: "person.crop.circle")]
@@ -713,18 +710,18 @@ struct NavigationShowcase: View {
                 VStack(spacing: DSSpacing.sm) {
                     DSSegmentedControl(
                         options: [
-                            ("Todos", "all", nil),
-                            ("Ativos", "active", nil),
-                            ("Inativos", "inactive", nil)
+                            ("All", "all", nil),
+                            ("Active", "active", nil),
+                            ("Inactive", "inactive", nil)
                         ],
                         selection: $segment
                     )
 
                     DSSegmentedControl(
                         options: [
-                            ("Grade", "grid", "square.grid.2x2"),
-                            ("Lista", "list", "list.bullet"),
-                            ("Mapa", "map", "map")
+                            ("Grid", "grid", "square.grid.2x2"),
+                            ("List", "list", "list.bullet"),
+                            ("Map", "map", "map")
                         ],
                         selection: $segment,
                         size: .sm
@@ -739,14 +736,14 @@ struct NavigationShowcase: View {
                             DSSidebarItem(id: "dashboard", label: "Dashboard", icon: "square.grid.2x2.fill"),
                             DSSidebarItem(id: "analytics", label: "Analytics", icon: "chart.bar.fill", badge: "12")
                         ]),
-                        ("Conteúdo", [
-                            DSSidebarItem(id: "posts", label: "Publicações", icon: "doc.text.fill"),
-                            DSSidebarItem(id: "media", label: "Mídia", icon: "photo.fill"),
-                            DSSidebarItem(id: "comments", label: "Comentários", icon: "bubble.left.fill", badge: "4")
+                        ("Content", [
+                            DSSidebarItem(id: "posts", label: "Posts", icon: "doc.text.fill"),
+                            DSSidebarItem(id: "media", label: "Media", icon: "photo.fill"),
+                            DSSidebarItem(id: "comments", label: "Comments", icon: "bubble.left.fill", badge: "4")
                         ]),
-                        ("Conta", [
-                            DSSidebarItem(id: "settings", label: "Configurações", icon: "gearshape.fill"),
-                            DSSidebarItem(id: "help", label: "Ajuda", icon: "questionmark.circle.fill")
+                        ("Account", [
+                            DSSidebarItem(id: "settings", label: "Settings", icon: "gearshape.fill"),
+                            DSSidebarItem(id: "help", label: "Help", icon: "questionmark.circle.fill")
                         ])
                     ],
                     selection: $sidebarSelection
@@ -773,16 +770,16 @@ struct DataDisplayShowcaseItem: Identifiable {
 
 struct DataShowcase: View {
     let people = [
-        DataDisplayShowcaseItem(name: "Ana Silva", role: "Designer", status: "Ativo", color: DSColor.primary),
-        DataDisplayShowcaseItem(name: "Bruno Costa", role: "Engenheiro", status: "Ativo", color: DSColor.success),
-        DataDisplayShowcaseItem(name: "Carla Mendes", role: "Product", status: "Inativo", color: DSColor.warning),
-        DataDisplayShowcaseItem(name: "Diego Lima", role: "Marketing", status: "Pendente", color: DSColor.accent)
+        DataDisplayShowcaseItem(name: "Ana Silva", role: "Designer", status: "Active", color: DSColor.primary),
+        DataDisplayShowcaseItem(name: "Bruno Costa", role: "Engineer", status: "Active", color: DSColor.success),
+        DataDisplayShowcaseItem(name: "Carla Mendes", role: "Product", status: "Inactive", color: DSColor.warning),
+        DataDisplayShowcaseItem(name: "Diego Lima", role: "Marketing", status: "Pending", color: DSColor.accent)
     ]
 
     var body: some View {
         VStack(alignment: .leading, spacing: DSSpacing.xxl) {
 
-            ShowcaseSection("Exibição de Dados", subtitle: "Card, Avatar, Badge, Tag, Tooltip, List, Table, EmptyState") {
+            ShowcaseSection("Data Display", subtitle: "Cards, avatars, badges, tags, lists, tables, and empty states.") {
                 EmptyView()
             }
 
@@ -791,26 +788,26 @@ struct DataShowcase: View {
                     DSCard(variant: .elevated, isInteractive: true, action: {}) {
                         VStack(alignment: .leading, spacing: DSSpacing.sm) {
                             HStack {
-                                DSBadge("Novo", variant: .filled, color: DSColor.primary)
+                                DSBadge("New", variant: .filled, color: DSColor.primary)
                                 Spacer()
                                 DSIconButton(icon: "heart", size: .sm)
                             }
-                            DSText("Card Interativo", style: .callout)
-                            DSText("Clique para interagir com este cartão.", style: .caption)
+                            DSText("Interactive Card", style: .callout)
+                            DSText("Tap to interact with this card.", style: .caption)
                         }
                     }
 
                     DSCard(variant: .outlined) {
                         VStack(alignment: .leading, spacing: DSSpacing.sm) {
-                            DSBadge("Destaque", variant: .soft, color: DSColor.success, icon: "star.fill")
+                            DSBadge("Featured", variant: .soft, color: DSColor.success, icon: "star.fill")
                             DSText("Card Outlined", style: .callout)
-                            DSText("Com borda visível.", style: .caption)
+                            DSText("With a visible outline.", style: .caption)
                         }
                     }
                 }
             }
 
-            ShowcaseSection("Avatares") {
+            ShowcaseSection("Avatars") {
                 HStack(spacing: DSSpacing.md) {
                     DSAvatar(initials: "AS", size: .xs)
                     DSAvatar(initials: "BC", size: .sm, status: .online)
@@ -835,9 +832,9 @@ struct DataShowcase: View {
 
             ShowcaseSection("Status Label") {
                 HStack(spacing: DSSpacing.md) {
-                    DSStatusLabel("Ativo", style: .success)
-                    DSStatusLabel("Pendente", style: .warning)
-                    DSStatusLabel("Erro", style: .error)
+                    DSStatusLabel("Active", style: .success)
+                    DSStatusLabel("Pending", style: .warning)
+                    DSStatusLabel("Error", style: .error)
                     DSStatusLabel("Info", style: .info)
                 }
             }
@@ -845,22 +842,22 @@ struct DataShowcase: View {
             ShowcaseSection("Promo Label") {
                 HStack(spacing: DSSpacing.sm) {
                     DSPromoLabel("−20%")
-                    DSPromoLabel("Novo", color: DSColor.success)
-                    DSPromoLabel("Oferta", color: DSColor.accent)
+                    DSPromoLabel("New", color: DSColor.success)
+                    DSPromoLabel("Offer", color: DSColor.accent)
                 }
             }
 
             ShowcaseSection("Link") {
                 VStack(alignment: .leading, spacing: DSSpacing.sm) {
-                    DSLink("Saiba mais", action: {})
-                    DSLink("Documentação", size: .lg, isUnderlined: false, action: {})
+                    DSLink("Learn more", action: {})
+                    DSLink("Documentation", size: .lg, isUnderlined: false, action: {})
                 }
             }
 
             ShowcaseSection("Tidbit") {
                 VStack(spacing: DSSpacing.sm) {
-                    DSTidbit(title: "Dica", body: "Use este componente para avisos ou informações destacadas.", style: .info)
-                    DSTidbit(body: "Operação concluída com sucesso.", style: .success, onDismiss: {})
+                    DSTidbit(title: "Tip", body: "Use this component for highlighted notes and inline guidance.", style: .info)
+                    DSTidbit(body: "Action completed successfully.", style: .success, onDismiss: {})
                 }
             }
 
@@ -874,14 +871,14 @@ struct DataShowcase: View {
                 }
             }
 
-            ShowcaseSection("Lista") {
+            ShowcaseSection("List") {
                 VStack(spacing: 0) {
                     ForEach(people) { person in
                         DSListRow(
                             title: person.name,
                             subtitle: person.role,
                             leadingIcon: "person.fill",
-                            badge: person.status == "Ativo" ? "Ativo" : nil
+                            badge: person.status == "Active" ? "Active" : nil
                         )
                         if person.id != people.last?.id {
                             DSDivider().padding(.horizontal, DSSpacing.md)
@@ -893,17 +890,17 @@ struct DataShowcase: View {
                 .dsShadow(.sm)
             }
 
-            ShowcaseSection("Tabela") {
+            ShowcaseSection("Table") {
                 ScrollView(.horizontal, showsIndicators: false) {
                     DSTable(
                         columns: [
-                            DSTableColumn("Nome") { item in
+                            DSTableColumn("Name") { item in
                                 HStack(spacing: 8) {
                                     DSAvatar(initials: item.name.prefix(2).uppercased(), size: .xs, tint: item.color)
                                     Text(item.name).font(.system(size: 14, weight: .medium))
                                 }
                             },
-                            DSTableColumn("Cargo") { item in
+                            DSTableColumn("Role") { item in
                                 Text(item.role).font(.system(size: 13)).foregroundStyle(DSColor.muted)
                             },
                             DSTableColumn("Status", width: 100) { item in
@@ -919,9 +916,9 @@ struct DataShowcase: View {
             ShowcaseSection("Empty State") {
                 DSEmptyState(
                     icon: "magnifyingglass",
-                    title: "Nenhum resultado",
-                    message: "Tente ajustar os filtros ou realizar uma nova busca.",
-                    actionLabel: "Limpar filtros"
+                    title: "No results",
+                    message: "Try adjusting your filters or running another search.",
+                    actionLabel: "Clear filters"
                 )
                 .frame(maxWidth: .infinity)
             }

@@ -12,20 +12,36 @@ public struct DSCategoriesView: View {
     public init() {}
 
     public var body: some View {
-        List(DSShowcaseMenu.categories) { category in
-            NavigationLink(destination: DSTemplatesListView(templates: category.templates)) {
-                HStack(spacing: DSSpacing.sm) {
-                    Text(category.name)
-                        .font(.system(size: 16, weight: .medium))
-                        .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+        List {
+            Section {
+                ForEach(DSShowcaseMenu.categories) { category in
+                    NavigationLink(destination: DSTemplatesListView(categoryName: category.name, templates: category.templates)) {
+                        HStack(spacing: DSSpacing.sm) {
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(category.name)
+                                    .font(.system(size: 16, weight: .medium))
+                                    .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                                Text("\(category.templates.count) demos")
+                                    .font(.system(size: 12))
+                                    .foregroundStyle(DSColor.muted)
+                            }
+                            Spacer()
+                        }
+                    }
+                    .listRowBackground(scheme == .dark ? DSColor.surfaceDark : DSColor.surface)
+                }
+            } header: {
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("SwiftDS Showcase")
+                    Text("Interactive documentation structure aligned with the website.")
+                        .textCase(nil)
                 }
             }
-            .listRowBackground(scheme == .dark ? DSColor.surfaceDark : DSColor.surface)
         }
         #if os(iOS)
         .listStyle(.insetGrouped)
         #endif
-        .navigationTitle("Design System")
+        .navigationTitle("SwiftDS")
         .background(scheme == .dark ? DSColor.backgroundDark : DSColor.background)
     }
 }
@@ -34,10 +50,12 @@ public struct DSCategoriesView: View {
 
 /// Second level: list of demos in a category. Tap to open full-screen demo.
 public struct DSTemplatesListView: View {
+    let categoryName: String
     let templates: [any DSShowcaseTemplate]
     @Environment(\.colorScheme) private var scheme
 
-    public init(templates: [any DSShowcaseTemplate]) {
+    public init(categoryName: String, templates: [any DSShowcaseTemplate]) {
+        self.categoryName = categoryName
         self.templates = templates
     }
 
@@ -57,7 +75,7 @@ public struct DSTemplatesListView: View {
         .listStyle(.insetGrouped)
         .navigationBarTitleDisplayMode(.inline)
         #endif
-        .navigationTitle("Components")
+        .navigationTitle(categoryName)
         .background(scheme == .dark ? DSColor.backgroundDark : DSColor.background)
     }
 }

@@ -7,19 +7,19 @@ import SwiftUI
 
 struct FoundationsPaletteDemo: DSShowcaseTemplate {
     var id: String { "foundations_palette" }
-    var name: String { "Paleta de Cores" }
+    var name: String { "Color Palette" }
     var view: AnyView { AnyView(ScrollView { FoundationsPaletteShowcase().padding(DSSpacing.xl) }) }
 }
 
 struct FoundationsTypographyDemo: DSShowcaseTemplate {
     var id: String { "foundations_typography" }
-    var name: String { "Tipografia" }
+    var name: String { "Typography" }
     var view: AnyView { AnyView(ScrollView { FoundationsTypographyShowcase().padding(DSSpacing.xl) }) }
 }
 
 struct FoundationsSpacingDemo: DSShowcaseTemplate {
     var id: String { "foundations_spacing" }
-    var name: String { "Espaçamento" }
+    var name: String { "Spacing" }
     var view: AnyView { AnyView(ScrollView { FoundationsSpacingShowcase().padding(DSSpacing.xl) }) }
 }
 
@@ -31,7 +31,7 @@ struct FoundationsCornerRadiusDemo: DSShowcaseTemplate {
 
 struct FoundationsShadowsDemo: DSShowcaseTemplate {
     var id: String { "foundations_shadows" }
-    var name: String { "Sombras" }
+    var name: String { "Shadows" }
     var view: AnyView { AnyView(ScrollView { FoundationsShadowsShowcase().padding(DSSpacing.xl) }) }
 }
 
@@ -87,25 +87,25 @@ struct FeedbackAlertDemo: DSShowcaseTemplate {
 
 struct FeedbackStepIndicatorDemo: DSShowcaseTemplate {
     var id: String { "feedback_step_indicator" }
-    var name: String { "Indicador de passos" }
+    var name: String { "Step Indicator" }
     var view: AnyView { AnyView(ScrollView { FeedbackStepIndicatorShowcase().padding(DSSpacing.xl) }) }
 }
 
 struct FeedbackProgressBarDemo: DSShowcaseTemplate {
     var id: String { "feedback_progress_bar" }
-    var name: String { "Barra de Progresso" }
+    var name: String { "Progress Bar" }
     var view: AnyView { AnyView(ScrollView { FeedbackProgressBarShowcase().padding(DSSpacing.xl) }) }
 }
 
 struct FeedbackStarRatingDemo: DSShowcaseTemplate {
     var id: String { "feedback_star_rating" }
-    var name: String { "Avaliação em estrelas" }
+    var name: String { "Star Rating" }
     var view: AnyView { AnyView(ScrollView { FeedbackStarRatingShowcase().padding(DSSpacing.xl) }) }
 }
 
 struct FeedbackStarRatingControlDemo: DSShowcaseTemplate {
     var id: String { "feedback_star_rating_control" }
-    var name: String { "Avaliação interativa" }
+    var name: String { "Star Rating Control" }
     var view: AnyView { AnyView(ScrollView { FeedbackStarRatingControlShowcase().padding(DSSpacing.xl) }) }
 }
 
@@ -157,11 +157,11 @@ struct FeedbackFullPageInterruptionDemo: DSShowcaseTemplate {
     var view: AnyView { AnyView(ScrollView { FeedbackFullPageInterruptionShowcase().padding(DSSpacing.xl) }) }
 }
 
-// MARK: - Data
+// MARK: - Data Display
 
 struct DataDemo: DSShowcaseTemplate {
     var id: String { "data" }
-    var name: String { "Data" }
+    var name: String { "Data Display" }
     var view: AnyView { AnyView(ScrollView { DataShowcase().padding(DSSpacing.xl) }) }
 }
 
@@ -177,7 +177,7 @@ private let commandSearchItems: [DSCommandItem] = [
     .init(title: "Documentation", icon: "doc.text.fill", category: "Help")
 ]
 
-private struct CommandSearchDemoView: View {
+struct CommandSearchDemoView: View {
     @State private var searchQuery = ""
 
     var body: some View {
@@ -199,11 +199,11 @@ private struct ProductCardsFeatureScreen: View {
             DSFeatureGrid(
                 features: [
                     ("bolt.fill", "Performance", "Edge computing com 99.9% uptime e resposta sub-milissegundo."),
-                    ("shield.lefthalf.filled", "Segurança", "Criptografia ponta a ponta e conformidade LGPD."),
-                    ("arrow.triangle.2.circlepath", "Sync em Tempo Real", "Dados sincronizados instantaneamente."),
+                    ("shield.lefthalf.filled", "Security", "End-to-end encryption with enterprise-grade compliance."),
+                    ("arrow.triangle.2.circlepath", "Real-Time Sync", "Data stays synchronized instantly."),
                     ("chart.line.uptrend.xyaxis", "Analytics", "Insights sobre comportamento e uso."),
-                    ("puzzlepiece.extension.fill", "100+ Integrações", "Conecte com suas ferramentas favoritas."),
-                    ("person.2.fill", "Colaboração", "Time unido em um único espaço de trabalho.")
+                    ("puzzlepiece.extension.fill", "100+ Integrations", "Connect your favorite tools."),
+                    ("person.2.fill", "Collaboration", "Keep your team aligned in one workspace.")
                 ],
                 style: .gradient
             )
@@ -225,9 +225,9 @@ private struct ProductCardsPricingScreen: View {
                     ? [GridItem(.flexible(), spacing: DSSpacing.md)]
                     : [GridItem(.flexible(), spacing: DSSpacing.md), GridItem(.flexible(), spacing: DSSpacing.md), GridItem(.flexible(), spacing: DSSpacing.md)]
                 LazyVGrid(columns: columns, alignment: .leading, spacing: DSSpacing.md) {
-                    DSPricingCard(plan: DSPricingPlan(name: "Starter", price: "Grátis", period: "", description: "Para explorar", features: [.init(text: "3 projetos"), .init(text: "1 GB"), .init(text: "Suporte email"), .init(text: "Analytics", included: false)], ctaLabel: "Começar grátis"), isAnnual: annual)
-                    DSPricingCard(plan: DSPricingPlan(name: "Pro", price: annual ? "R$39" : "R$49", description: "Para profissionais", features: [.init(text: "Ilimitado"), .init(text: "50 GB"), .init(text: "Suporte prioritário"), .init(text: "Analytics avançado")], isPopular: true), isAnnual: annual)
-                    DSPricingCard(plan: DSPricingPlan(name: "Enterprise", price: annual ? "R$159" : "R$199", description: "Para empresas", features: [.init(text: "Tudo do Pro"), .init(text: "500 GB"), .init(text: "SLA 99.99%"), .init(text: "SSO & SAML")], ctaLabel: "Falar com vendas", color: DSColor.accent), isAnnual: annual)
+                    DSPricingCard(plan: DSPricingPlan(name: "Starter", price: "Free", period: "", description: "For exploration", features: [.init(text: "3 projects"), .init(text: "1 GB storage"), .init(text: "Email support"), .init(text: "Analytics", included: false)], ctaLabel: "Start for free"), isAnnual: annual)
+                    DSPricingCard(plan: DSPricingPlan(name: "Pro", price: annual ? "$39" : "$49", description: "For professionals", features: [.init(text: "Unlimited"), .init(text: "50 GB"), .init(text: "Priority support"), .init(text: "Advanced analytics")], isPopular: true), isAnnual: annual)
+                    DSPricingCard(plan: DSPricingPlan(name: "Enterprise", price: annual ? "$159" : "$199", description: "For companies", features: [.init(text: "Everything in Pro"), .init(text: "500 GB"), .init(text: "99.99% SLA"), .init(text: "SSO & SAML")], ctaLabel: "Talk to sales", color: DSColor.accent), isAnnual: annual)
                 }
             }
             .padding(DSSpacing.xl)
@@ -292,10 +292,10 @@ struct OnboardingDemo: DSShowcaseTemplate {
 
 private struct OnboardingSetupChecklistScreen: View {
     @State private var checklistItems: [DSSetupChecklist.ChecklistItem] = [
-        .init(icon: "person.fill", title: "Complete seu perfil", description: "Adicione nome, foto e bio", isCompleted: true, estimatedTime: "2 min"),
-        .init(icon: "bell.fill", title: "Configure notificações", description: "Escolha como quer ser notificado", estimatedTime: "1 min"),
-        .init(icon: "person.badge.plus", title: "Convide seu time", description: "Adicione pelo menos um membro", estimatedTime: "3 min"),
-        .init(icon: "creditcard.fill", title: "Adicione pagamento", description: "Para continuar após o trial", estimatedTime: "2 min")
+        .init(icon: "person.fill", title: "Complete your profile", description: "Add your name, photo, and bio", isCompleted: true, estimatedTime: "2 min"),
+        .init(icon: "bell.fill", title: "Configure notifications", description: "Choose how you want to be notified", estimatedTime: "1 min"),
+        .init(icon: "person.badge.plus", title: "Invite your team", description: "Add at least one teammate", estimatedTime: "3 min"),
+        .init(icon: "creditcard.fill", title: "Add billing", description: "Required after the trial period", estimatedTime: "2 min")
     ]
 
     var body: some View {
@@ -311,11 +311,11 @@ private struct OnboardingWelcomeSplashScreen: View {
     var body: some View {
         DSWelcomeSplash(
             productName: "AppDS",
-            tagline: "O design system que os seus usuários vão amar.",
+            tagline: "The design system your users will love.",
             features: [
-                ("checkmark.circle.fill", "Componentes acessíveis e elegantes"),
-                ("bolt.fill", "Micro interações com spring animations"),
-                ("moon.fill", "Dark mode nativo em todos os componentes")
+                ("checkmark.circle.fill", "Accessible, polished components"),
+                ("bolt.fill", "Micro-interactions powered by spring animations"),
+                ("moon.fill", "Native dark mode across every component")
             ],
             onGetStarted: {},
             onSignIn: {}
@@ -361,11 +361,11 @@ private struct MarketingHeroScreen: View {
         ScrollView {
             DSHeroSection(
                 eyebrow: "Design System v2.0",
-                headline: "Construa produtos\nque as pessoas amam",
-                subheadline: "Componentes SwiftUI de nível produto com tokens de design, dark mode e micro interações.",
-                primaryCTA: ("Começar grátis", {}),
-                secondaryCTA: ("Ver demo", {}),
-                socialProof: "Mais de 2.000 times já usam",
+                headline: "Build products\npeople love",
+                subheadline: "Production-ready SwiftUI components with design tokens, dark mode, and polished motion.",
+                primaryCTA: ("Start for free", {}),
+                secondaryCTA: ("View demo", {}),
+                socialProof: "Trusted by more than 2,000 teams",
                 badgeIcon: "sparkles"
             )
             .padding(DSSpacing.xl)
@@ -378,10 +378,10 @@ private struct MarketingStatsBannerScreen: View {
     var body: some View {
         ScrollView {
             DSStatsBanner(stats: [
-                ("2M+", "Componentes\nrenderizados"),
+                ("2M+", "Components\nrendered"),
                 ("99.9%", "Uptime"),
-                ("< 1ms", "Latência"),
-                ("150+", "Times")
+                ("< 1ms", "Latency"),
+                ("150+", "Teams")
             ])
             .padding(DSSpacing.xl)
         }
@@ -398,9 +398,9 @@ private struct MarketingTestimonialsScreen: View {
                 ? [GridItem(.flexible(), spacing: DSSpacing.md)]
                 : [GridItem(.flexible(), spacing: DSSpacing.md), GridItem(.flexible(), spacing: DSSpacing.md), GridItem(.flexible(), spacing: DSSpacing.md)]
             LazyVGrid(columns: columns, alignment: .leading, spacing: DSSpacing.md) {
-                DSTestimonialCard(quote: "O melhor design system que já usei. Economizamos semanas de trabalho.", authorName: "Marcos Souza", authorRole: "CTO @ TechStartup", authorInitials: "MS", authorColor: DSColor.primary)
-                DSTestimonialCard(quote: "Os componentes são elegantes, acessíveis e funcionam perfeitamente no dark mode.", authorName: "Juliana Costa", authorRole: "Lead Designer @ Fintech", authorInitials: "JC", authorColor: DSColor.accent, rating: 5)
-                DSTestimonialCard(quote: "O command palette e os charts são incríveis. Nossa equipe adorou.", authorName: "Rafael Lima", authorRole: "PM @ SaaS Co", authorInitials: "RL", authorColor: DSColor.success)
+                DSTestimonialCard(quote: "This is the best design system I have used. We saved weeks of work.", authorName: "Marcos Souza", authorRole: "CTO @ TechStartup", authorInitials: "MS", authorColor: DSColor.primary)
+                DSTestimonialCard(quote: "The components are polished, accessible, and work beautifully in dark mode.", authorName: "Juliana Costa", authorRole: "Lead Designer @ Fintech", authorInitials: "JC", authorColor: DSColor.accent, rating: 5)
+                DSTestimonialCard(quote: "The command palette and charts are fantastic. Our team loves them.", authorName: "Rafael Lima", authorRole: "PM @ SaaS Co", authorInitials: "RL", authorColor: DSColor.success)
             }
             .padding(DSSpacing.xl)
         }
@@ -412,9 +412,9 @@ private struct MarketingFAQScreen: View {
     var body: some View {
         ScrollView {
             DSFAQSection(items: [
-                .init(question: "Como funciona o período de trial?", answer: "14 dias grátis com acesso completo. Sem cartão de crédito."),
-                .init(question: "Posso cancelar a qualquer momento?", answer: "Sim. Cancele nas configurações sem multas ou taxas."),
-                .init(question: "Os dados são seguros?", answer: "Criptografia em trânsito e repouso. Conformidade com LGPD.")
+                .init(question: "How does the trial work?", answer: "14 days free with full access. No credit card required."),
+                .init(question: "Can I cancel at any time?", answer: "Yes. Cancel from settings with no penalties or extra fees."),
+                .init(question: "Is my data secure?", answer: "Encryption in transit and at rest with enterprise-grade compliance.")
             ])
             .padding(DSSpacing.xl)
         }
@@ -426,10 +426,10 @@ private struct MarketingCTABannerScreen: View {
     var body: some View {
         ScrollView {
             DSCTABanner(
-                title: "Pronto para começar?",
-                subtitle: "Junte-se a mais de 2.000 times que já confiam no nosso design system.",
-                primaryLabel: "Criar conta grátis",
-                secondaryLabel: "Falar com especialista",
+                title: "Ready to get started?",
+                subtitle: "Join more than 2,000 teams already building with our design system.",
+                primaryLabel: "Create a free account",
+                secondaryLabel: "Talk to an expert",
                 onPrimary: {},
                 onSecondary: {}
             )

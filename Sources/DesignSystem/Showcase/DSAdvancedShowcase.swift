@@ -12,13 +12,13 @@ public struct DSAdvancedShowcase: View {
     @Environment(\.colorScheme) private var scheme
 
     private let commandItems: [DSCommandItem] = [
-        .init(title: "Ir para Dashboard", icon: "chart.bar.fill", category: "Navegação", shortcut: "⌘1"),
-        .init(title: "Nova Tarefa", subtitle: "Criar uma nova tarefa no projeto", icon: "plus.circle.fill", category: "Criar", shortcut: "⌘N"),
-        .init(title: "Convidar Membro", icon: "person.badge.plus", category: "Time"),
-        .init(title: "Exportar Relatório", icon: "arrow.down.doc.fill", category: "Exportar"),
-        .init(title: "Configurações", icon: "gearshape.fill", category: "Sistema", shortcut: "⌘,"),
-        .init(title: "Modo Escuro", icon: "moon.fill", category: "Aparência"),
-        .init(title: "Documentação", icon: "doc.text.fill", category: "Ajuda")
+        .init(title: "Go to Dashboard", icon: "chart.bar.fill", category: "Navigation", shortcut: "⌘1"),
+        .init(title: "New Task", subtitle: "Create a new project task", icon: "plus.circle.fill", category: "Create", shortcut: "⌘N"),
+        .init(title: "Invite Member", icon: "person.badge.plus", category: "Team"),
+        .init(title: "Export Report", icon: "arrow.down.doc.fill", category: "Export"),
+        .init(title: "Settings", icon: "gearshape.fill", category: "System", shortcut: "⌘,"),
+        .init(title: "Dark Mode", icon: "moon.fill", category: "Appearance"),
+        .init(title: "Documentation", icon: "doc.text.fill", category: "Help")
     ]
 
     public init() {}
@@ -75,13 +75,13 @@ public struct DSAdvancedShowcase: View {
 // MARK: - Tab Enum
 
 private enum AdvancedTab: String, CaseIterable {
-    case commandSearch = "Busca"
+    case commandSearch = "Search"
     case productCards  = "Cards"
     case analytics     = "Analytics"
     case activity      = "Feeds"
-    case profile       = "Perfil"
-    case settings      = "Config."
-    case onboarding    = "Onboard."
+    case profile       = "Profile"
+    case settings      = "Settings"
+    case onboarding    = "Onboarding"
     case marketing     = "Marketing"
 
     var icon: String {
@@ -143,7 +143,7 @@ private struct DSAdvancedNavbar: View {
                 HStack(spacing: 6) {
                     Image(systemName: "magnifyingglass")
                         .font(.system(size: 12))
-                    Text("Buscar...")
+                    Text("Search...")
                         .font(DSFont.regular(size: DSFont.Size.sm))
                     Spacer()
                     DSShortcutBadge(keys: ["⌘K"])
@@ -175,10 +175,10 @@ struct CommandSearchTab: View {
                     VStack(spacing: DSSpacing.md) {
                         DSSearchInterface(
                             query: $searchQuery,
-                            suggestions: ["Dashboard Analytics", "Configurações de conta", "Exportar relatório CSV", "Convidar novo usuário", "Ver histórico de atividades"]
+                            suggestions: ["Dashboard analytics", "Account settings", "Export CSV report", "Invite a new user", "Open recent activity"]
                         )
                         DSFilterBar(
-                            filters: ["Todos", "Projetos", "Tarefas", "Membros", "Relatórios", "Integrações"],
+                            filters: ["All", "Projects", "Tasks", "Members", "Reports", "Integrations"],
                             selected: $selectedFilter
                         )
                     }
@@ -199,11 +199,11 @@ struct CommandSearchTab: View {
 
 private let featureCardData: [(icon: String, title: String, description: String)] = [
     ("bolt.fill", "Performance", "Edge computing com 99.9% uptime e resposta sub-milissegundo."),
-    ("shield.lefthalf.filled", "Segurança", "Criptografia ponta a ponta e conformidade LGPD."),
-    ("arrow.triangle.2.circlepath", "Sync em Tempo Real", "Dados sincronizados entre dispositivos."),
+    ("shield.lefthalf.filled", "Security", "End-to-end encryption with enterprise-grade compliance."),
+    ("arrow.triangle.2.circlepath", "Real-Time Sync", "Data stays synchronized across devices."),
     ("chart.line.uptrend.xyaxis", "Analytics", "Insights sobre comportamento e uso."),
-    ("puzzlepiece.extension.fill", "100+ Integrações", "Conecte com suas ferramentas favoritas."),
-    ("person.2.fill", "Colaboração", "Time unido em um único espaço de trabalho.")
+    ("puzzlepiece.extension.fill", "100+ Integrations", "Connect your favorite tools."),
+    ("person.2.fill", "Collaboration", "Keep your team aligned in one workspace.")
 ]
 
 struct ProductCardsTab: View {
@@ -226,9 +226,9 @@ struct ProductCardsTab: View {
                         ? [GridItem(.flexible(), spacing: DSSpacing.md)]
                         : [GridItem(.flexible(), spacing: DSSpacing.md), GridItem(.flexible(), spacing: DSSpacing.md), GridItem(.flexible(), spacing: DSSpacing.md)]
                     LazyVGrid(columns: columns, alignment: .leading, spacing: DSSpacing.md) {
-                        DSPricingCard(plan: DSPricingPlan(name: "Starter", price: "Grátis", period: "", description: "Para explorar", features: [.init(text: "3 projetos"), .init(text: "1 GB"), .init(text: "Suporte email"), .init(text: "Analytics", included: false)], ctaLabel: "Começar grátis"), isAnnual: annual)
-                        DSPricingCard(plan: DSPricingPlan(name: "Pro", price: annual ? "R$39" : "R$49", description: "Para profissionais", features: [.init(text: "Ilimitado"), .init(text: "50 GB"), .init(text: "Suporte prioritário"), .init(text: "Analytics avançado")], isPopular: true), isAnnual: annual)
-                        DSPricingCard(plan: DSPricingPlan(name: "Enterprise", price: annual ? "R$159" : "R$199", description: "Para empresas", features: [.init(text: "Tudo do Pro"), .init(text: "500 GB"), .init(text: "SLA 99.99%"), .init(text: "SSO & SAML")], ctaLabel: "Falar com vendas", color: DSColor.accent), isAnnual: annual)
+                        DSPricingCard(plan: DSPricingPlan(name: "Starter", price: "Free", period: "", description: "For exploration", features: [.init(text: "3 projects"), .init(text: "1 GB storage"), .init(text: "Email support"), .init(text: "Analytics", included: false)], ctaLabel: "Start for free"), isAnnual: annual)
+                        DSPricingCard(plan: DSPricingPlan(name: "Pro", price: annual ? "$39" : "$49", description: "For professionals", features: [.init(text: "Unlimited"), .init(text: "50 GB"), .init(text: "Priority support"), .init(text: "Advanced analytics")], isPopular: true), isAnnual: annual)
+                        DSPricingCard(plan: DSPricingPlan(name: "Enterprise", price: annual ? "$159" : "$199", description: "For companies", features: [.init(text: "Everything in Pro"), .init(text: "500 GB"), .init(text: "99.99% SLA"), .init(text: "SSO & SAML")], ctaLabel: "Talk to sales", color: DSColor.accent), isAnnual: annual)
                     }
                 }
             }
@@ -248,26 +248,26 @@ struct AnalyticsTab: View {
                     ? [GridItem(.flexible(), spacing: DSSpacing.md)]
                     : [GridItem(.flexible(), spacing: DSSpacing.md), GridItem(.flexible(), spacing: DSSpacing.md)],
                           spacing: DSSpacing.md) {
-                    DSMetricCard(title: "Receita", value: "R$124.5k", change: "+12.4%", trend: .up, icon: "dollarsign.circle.fill", accentColor: DSColor.success, sparkline: [40, 55, 48, 62, 58, 70, 80, 76, 90, 95])
-                    DSMetricCard(title: "Usuários", value: "8.291", change: "+5.8%", trend: .up, icon: "person.fill", accentColor: DSColor.primary, sparkline: [20, 30, 28, 40, 38, 50, 60, 55, 68, 72])
+                    DSMetricCard(title: "Revenue", value: "$124.5k", change: "+12.4%", trend: .up, icon: "dollarsign.circle.fill", accentColor: DSColor.success, sparkline: [40, 55, 48, 62, 58, 70, 80, 76, 90, 95])
+                    DSMetricCard(title: "Users", value: "8,291", change: "+5.8%", trend: .up, icon: "person.fill", accentColor: DSColor.primary, sparkline: [20, 30, 28, 40, 38, 50, 60, 55, 68, 72])
                     DSMetricCard(title: "Churn", value: "2.3%", change: "-0.4%", trend: .down, icon: "arrow.down.circle.fill", accentColor: DSColor.error, sparkline: [8, 7, 9, 6, 7, 5, 4, 6, 4, 3])
                     DSMetricCard(title: "NPS", value: "72", change: "+3", trend: .up, icon: "star.fill", accentColor: DSColor.warning, sparkline: [60, 62, 65, 64, 68, 70, 69, 71, 72, 72])
                 }
                 if isCompact {
                     VStack(alignment: .leading, spacing: DSSpacing.md) {
-                        DSLineChartWidget(title: "Receita Mensal", subtitle: "Últimos 6 meses", xLabels: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun"], series: [.init(label: "2024", values: [45, 52, 48, 60, 72, 80], color: DSColor.primary), .init(label: "2023", values: [30, 38, 35, 42, 55, 60], color: DSColor.muted)])
-                        DSDonutChartWidget(title: "Canais", segments: [.init(label: "Orgânico", value: 42, color: DSColor.primary), .init(label: "Pago", value: 28, color: DSColor.accent), .init(label: "Referral", value: 18, color: DSColor.success), .init(label: "Direto", value: 12, color: DSColor.warning)], centerValue: "8.3k")
-                        DSBarChartWidget(title: "Conversões", subtitle: "Esta semana", bars: [.init(label: "Seg", value: 45, color: DSColor.primary), .init(label: "Ter", value: 62, color: DSColor.primary), .init(label: "Qua", value: 38, color: DSColor.primary), .init(label: "Qui", value: 80, color: DSColor.primary), .init(label: "Sex", value: 72, color: DSColor.primary), .init(label: "Sáb", value: 30, color: DSColor.muted), .init(label: "Dom", value: 20, color: DSColor.muted)])
-                        DSProgressRingWidget(title: "Metas Q1", metrics: [("Receita", 87000, 100000, DSColor.primary), ("Usuários", 1840, 2500, DSColor.success), ("NPS", 72, 80, DSColor.warning), ("Uptime", 99.6, 100, DSColor.info)])
+                        DSLineChartWidget(title: "Monthly Revenue", subtitle: "Last 6 months", xLabels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"], series: [.init(label: "2024", values: [45, 52, 48, 60, 72, 80], color: DSColor.primary), .init(label: "2023", values: [30, 38, 35, 42, 55, 60], color: DSColor.muted)])
+                        DSDonutChartWidget(title: "Channels", segments: [.init(label: "Organic", value: 42, color: DSColor.primary), .init(label: "Paid", value: 28, color: DSColor.accent), .init(label: "Referral", value: 18, color: DSColor.success), .init(label: "Direct", value: 12, color: DSColor.warning)], centerValue: "8.3k")
+                        DSBarChartWidget(title: "Conversions", subtitle: "This week", bars: [.init(label: "Mon", value: 45, color: DSColor.primary), .init(label: "Tue", value: 62, color: DSColor.primary), .init(label: "Wed", value: 38, color: DSColor.primary), .init(label: "Thu", value: 80, color: DSColor.primary), .init(label: "Fri", value: 72, color: DSColor.primary), .init(label: "Sat", value: 30, color: DSColor.muted), .init(label: "Sun", value: 20, color: DSColor.muted)])
+                        DSProgressRingWidget(title: "Q1 Goals", metrics: [("Revenue", 87000, 100000, DSColor.primary), ("Users", 1840, 2500, DSColor.success), ("NPS", 72, 80, DSColor.warning), ("Uptime", 99.6, 100, DSColor.info)])
                     }
                 } else {
                     HStack(alignment: .top, spacing: DSSpacing.md) {
-                        DSLineChartWidget(title: "Receita Mensal", subtitle: "Últimos 6 meses", xLabels: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun"], series: [.init(label: "2024", values: [45, 52, 48, 60, 72, 80], color: DSColor.primary), .init(label: "2023", values: [30, 38, 35, 42, 55, 60], color: DSColor.muted)])
-                        DSDonutChartWidget(title: "Canais", segments: [.init(label: "Orgânico", value: 42, color: DSColor.primary), .init(label: "Pago", value: 28, color: DSColor.accent), .init(label: "Referral", value: 18, color: DSColor.success), .init(label: "Direto", value: 12, color: DSColor.warning)], centerValue: "8.3k")
+                        DSLineChartWidget(title: "Monthly Revenue", subtitle: "Last 6 months", xLabels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"], series: [.init(label: "2024", values: [45, 52, 48, 60, 72, 80], color: DSColor.primary), .init(label: "2023", values: [30, 38, 35, 42, 55, 60], color: DSColor.muted)])
+                        DSDonutChartWidget(title: "Channels", segments: [.init(label: "Organic", value: 42, color: DSColor.primary), .init(label: "Paid", value: 28, color: DSColor.accent), .init(label: "Referral", value: 18, color: DSColor.success), .init(label: "Direct", value: 12, color: DSColor.warning)], centerValue: "8.3k")
                     }
                     HStack(alignment: .top, spacing: DSSpacing.md) {
-                        DSBarChartWidget(title: "Conversões", subtitle: "Esta semana", bars: [.init(label: "Seg", value: 45, color: DSColor.primary), .init(label: "Ter", value: 62, color: DSColor.primary), .init(label: "Qua", value: 38, color: DSColor.primary), .init(label: "Qui", value: 80, color: DSColor.primary), .init(label: "Sex", value: 72, color: DSColor.primary), .init(label: "Sáb", value: 30, color: DSColor.muted), .init(label: "Dom", value: 20, color: DSColor.muted)])
-                        DSProgressRingWidget(title: "Metas Q1", metrics: [("Receita", 87000, 100000, DSColor.primary), ("Usuários", 1840, 2500, DSColor.success), ("NPS", 72, 80, DSColor.warning), ("Uptime", 99.6, 100, DSColor.info)])
+                        DSBarChartWidget(title: "Conversions", subtitle: "This week", bars: [.init(label: "Mon", value: 45, color: DSColor.primary), .init(label: "Tue", value: 62, color: DSColor.primary), .init(label: "Wed", value: 38, color: DSColor.primary), .init(label: "Thu", value: 80, color: DSColor.primary), .init(label: "Fri", value: 72, color: DSColor.primary), .init(label: "Sat", value: 30, color: DSColor.muted), .init(label: "Sun", value: 20, color: DSColor.muted)])
+                        DSProgressRingWidget(title: "Q1 Goals", metrics: [("Revenue", 87000, 100000, DSColor.primary), ("Users", 1840, 2500, DSColor.success), ("NPS", 72, 80, DSColor.warning), ("Uptime", 99.6, 100, DSColor.info)])
                     }
                 }
             }
@@ -278,19 +278,19 @@ struct AnalyticsTab: View {
 
 struct ActivityTab: View {
     @State var notifs: [DSNotification] = [
-        .init(type: .mention, title: "Carlos mencionou você", message: "Pode revisar o PR do dashboard?", timestamp: Date().addingTimeInterval(-300), action: "Ver PR", senderInitials: "CS", senderColor: DSColor.primary),
-        .init(type: .success, title: "Deploy concluído", message: "v2.4.1 foi deployado com sucesso.", timestamp: Date().addingTimeInterval(-900), isRead: true),
-        .init(type: .warning, title: "Limite próximo", message: "Você usou 85% do seu limite mensal.", timestamp: Date().addingTimeInterval(-3600), action: "Upgrade")
+        .init(type: .mention, title: "Carlos mentioned you", message: "Can you review the dashboard PR?", timestamp: Date().addingTimeInterval(-300), action: "View PR", senderInitials: "CS", senderColor: DSColor.primary),
+        .init(type: .success, title: "Deploy completed", message: "v2.4.1 shipped successfully.", timestamp: Date().addingTimeInterval(-900), isRead: true),
+        .init(type: .warning, title: "Limit approaching", message: "You have used 85% of your monthly limit.", timestamp: Date().addingTimeInterval(-3600), action: "Upgrade")
     ]
     @State var showCenter = false
     @Environment(\.horizontalSizeClass) private var sizeClass
     private let now = Date()
 
     var events: [DSActivityEvent] { [
-        .init(type: .deploy, actor: "Carlos", actorInitials: "CS", actorColor: DSColor.success, title: "fez deploy em produção", detail: "v2.4.1 — 3 features, 2 bugfixes", timestamp: now.addingTimeInterval(-120), metadata: "feat/dashboard"),
-        .init(type: .comment, actor: "Ana", actorInitials: "AL", actorColor: DSColor.accent, title: "comentou no PR #47", detail: "Ótima abordagem! Sugiro refatorar os tokens.", timestamp: now.addingTimeInterval(-600)),
-        .init(type: .review, actor: "Pedro", actorInitials: "PO", actorColor: DSColor.primary, title: "aprovou o PR #47", timestamp: now.addingTimeInterval(-1800)),
-        .init(type: .merge, actor: "Larissa", actorInitials: "LM", actorColor: DSColor.info, title: "fez merge de feat/pricing", timestamp: now.addingTimeInterval(-3600), metadata: "main ← feat/pricing")
+        .init(type: .deploy, actor: "Carlos", actorInitials: "CS", actorColor: DSColor.success, title: "deployed to production", detail: "v2.4.1 — 3 features, 2 bug fixes", timestamp: now.addingTimeInterval(-120), metadata: "feat/dashboard"),
+        .init(type: .comment, actor: "Ana", actorInitials: "AL", actorColor: DSColor.accent, title: "commented on PR #47", detail: "Great approach. I suggest refactoring the tokens.", timestamp: now.addingTimeInterval(-600)),
+        .init(type: .review, actor: "Pedro", actorInitials: "PO", actorColor: DSColor.primary, title: "approved PR #47", timestamp: now.addingTimeInterval(-1800)),
+        .init(type: .merge, actor: "Larissa", actorInitials: "LM", actorColor: DSColor.info, title: "merged feat/pricing", timestamp: now.addingTimeInterval(-3600), metadata: "main ← feat/pricing")
     ] }
 
     var body: some View {
@@ -318,7 +318,7 @@ struct ProfileTab: View {
         ScrollView {
             VStack(alignment: .leading, spacing: DSSpacing.md) {
                 DSProfileHeroCard(
-                    user: DSUser(name: "Ana Lima", username: "analima", role: "Product Designer", email: "ana@empresa.com", initials: "AL", avatarColor: DSColor.accent, bio: "Apaixonada por design systems e acessibilidade.", location: "São Paulo, BR", website: "analima.design", stats: [("Projetos", "24"), ("Seguidores", "1.2k"), ("Seguindo", "340")], badges: [.init(icon: "star.fill", label: "Top Contributor", color: DSColor.warning), .init(icon: "bolt.fill", label: "Early Adopter", color: DSColor.primary)], isVerified: true, isOnline: true),
+                    user: DSUser(name: "Ana Lima", username: "analima", role: "Product Designer", email: "ana@company.com", initials: "AL", avatarColor: DSColor.accent, bio: "Passionate about design systems and accessibility.", location: "Sao Paulo, BR", website: "analima.design", stats: [("Projects", "24"), ("Followers", "1.2k"), ("Following", "340")], badges: [.init(icon: "star.fill", label: "Top Contributor", color: DSColor.warning), .init(icon: "bolt.fill", label: "Early Adopter", color: DSColor.primary)], isVerified: true, isOnline: true),
                     onEdit: {}, onMessage: {}
                 )
                 DSTeamGrid(members: [
@@ -343,25 +343,25 @@ struct SettingsTab: View {
         ScrollView {
             VStack(spacing: DSSpacing.lg) {
                 DSSettingsScreen(sections: [
-                    DSSettingsSection(title: "Conta", items: [
-                        DSSettingsItem(icon: "person.fill", iconColor: DSColor.primary, title: "Informações Pessoais", subtitle: "Nome, email e foto", type: .navigation(destination: AnyView(Text("Perfil")))),
-                        DSSettingsItem(icon: "lock.fill", iconColor: DSColor.warning, title: "Segurança", subtitle: "Senha e autenticação 2FA", type: .navigation(destination: AnyView(Text("Segurança")))),
-                        DSSettingsItem(icon: "creditcard.fill", iconColor: DSColor.success, title: "Faturamento", subtitle: "Pro · R$49/mês", type: .value(text: "Pro"))
+                    DSSettingsSection(title: "Account", items: [
+                        DSSettingsItem(icon: "person.fill", iconColor: DSColor.primary, title: "Personal Information", subtitle: "Name, email, and photo", type: .navigation(destination: AnyView(Text("Profile")))),
+                        DSSettingsItem(icon: "lock.fill", iconColor: DSColor.warning, title: "Security", subtitle: "Password and 2FA", type: .navigation(destination: AnyView(Text("Security")))),
+                        DSSettingsItem(icon: "creditcard.fill", iconColor: DSColor.success, title: "Billing", subtitle: "Pro · $49/mo", type: .value(text: "Pro"))
                     ]),
-                    DSSettingsSection(title: "Notificações", items: [
-                        DSSettingsItem(icon: "bell.fill", iconColor: DSColor.accent, title: "Notificações Push", type: .toggle(binding: $notifications)),
-                        DSSettingsItem(icon: "envelope.fill", iconColor: DSColor.info, title: "Emails de Marketing", type: .toggle(binding: $marketing))
+                    DSSettingsSection(title: "Notifications", items: [
+                        DSSettingsItem(icon: "bell.fill", iconColor: DSColor.accent, title: "Push Notifications", type: .toggle(binding: $notifications)),
+                        DSSettingsItem(icon: "envelope.fill", iconColor: DSColor.info, title: "Marketing Emails", type: .toggle(binding: $marketing))
                     ])
                 ])
                 DSDangerZone(items: [
-                    ("Exportar Dados", "Baixe uma cópia de todos os seus dados.", "Exportar", {}),
-                    ("Excluir Conta", "Ação permanente e irreversível.", "Excluir", {})
+                    ("Export Data", "Download a copy of all your data.", "Export", {}),
+                    ("Delete Account", "Permanent and irreversible action.", "Delete", {})
                 ])
                 .padding(.horizontal, DSSpacing.md)
                 DSShowcaseSection(title: "API Key Manager") {
                     VStack(spacing: DSSpacing.sm) {
-                        DSApiKeyRow(label: "Chave de Produção", keyValue: "sk_live_abc123def456ghi789jkl", onRevoke: {}, onCopy: {})
-                        DSApiKeyRow(label: "Chave de Testes", keyValue: "sk_test_xyz987wvu654tsr321qpo", onRevoke: {}, onCopy: {})
+                        DSApiKeyRow(label: "Production Key", keyValue: "sk_live_abc123def456ghi789jkl", onRevoke: {}, onCopy: {})
+                        DSApiKeyRow(label: "Test Key", keyValue: "sk_test_xyz987wvu654tsr321qpo", onRevoke: {}, onCopy: {})
                     }
                 }
             }
@@ -372,9 +372,9 @@ struct SettingsTab: View {
 struct OnboardingTab: View {
     @State var checklistItems: [DSSetupChecklist.ChecklistItem] = [
         .init(icon: "person.fill", title: "Complete seu perfil", description: "Adicione nome, foto e bio", isCompleted: true, estimatedTime: "2 min"),
-        .init(icon: "bell.fill", title: "Configure notificações", description: "Escolha como quer ser notificado", estimatedTime: "1 min"),
-        .init(icon: "person.badge.plus", title: "Convide seu time", description: "Adicione pelo menos um membro", estimatedTime: "3 min"),
-        .init(icon: "creditcard.fill", title: "Adicione pagamento", description: "Para continuar após o trial", estimatedTime: "2 min")
+        .init(icon: "bell.fill", title: "Configure notifications", description: "Choose how you want to be notified", estimatedTime: "1 min"),
+        .init(icon: "person.badge.plus", title: "Invite your team", description: "Add at least one teammate", estimatedTime: "3 min"),
+        .init(icon: "creditcard.fill", title: "Add billing", description: "Required after the trial period", estimatedTime: "2 min")
     ]
 
     var body: some View {
@@ -386,11 +386,11 @@ struct OnboardingTab: View {
                 DSShowcaseSection(title: "Welcome Splash") {
                     DSWelcomeSplash(
                         productName: "AppDS",
-                        tagline: "O design system que os seus usuários vão amar.",
+                        tagline: "The design system your users will love.",
                         features: [
-                            ("checkmark.circle.fill", "Componentes acessíveis e elegantes"),
-                            ("bolt.fill", "Micro interações com spring animations"),
-                            ("moon.fill", "Dark mode nativo em todos os componentes")
+                            ("checkmark.circle.fill", "Accessible, polished components"),
+                            ("bolt.fill", "Micro-interactions powered by spring animations"),
+                            ("moon.fill", "Native dark mode across every component")
                         ],
                         onGetStarted: {},
                         onSignIn: {}
@@ -423,35 +423,35 @@ struct MarketingTab: View {
                     DSHeroSection(
                         eyebrow: "Design System v2.0",
                         headline: "Construa produtos\nque as pessoas amam",
-                        subheadline: "Componentes SwiftUI de nível produto com tokens de design, dark mode e micro interações.",
-                        primaryCTA: ("Começar grátis", {}),
-                        secondaryCTA: ("Ver demo", {}),
-                        socialProof: "Mais de 2.000 times já usam",
+                        subheadline: "Production-ready SwiftUI components with design tokens, dark mode, and polished motion.",
+                        primaryCTA: ("Start for free", {}),
+                        secondaryCTA: ("View demo", {}),
+                        socialProof: "Trusted by more than 2,000 teams",
                         badgeIcon: "sparkles"
                     )
                 }
                 DSShowcaseSection(title: "Stats Banner") {
-                    DSStatsBanner(stats: [("2M+", "Componentes\nrenderizados"), ("99.9%", "Uptime"), ("< 1ms", "Latência"), ("150+", "Times")])
+                    DSStatsBanner(stats: [("2M+", "Components\nrendered"), ("99.9%", "Uptime"), ("< 1ms", "Latency"), ("150+", "Teams")])
                 }
                 DSShowcaseSection(title: "Testimonials") {
                     let testimonialColumns = sizeClass == .compact
                         ? [GridItem(.flexible(), spacing: DSSpacing.md)]
                         : [GridItem(.flexible(), spacing: DSSpacing.md), GridItem(.flexible(), spacing: DSSpacing.md), GridItem(.flexible(), spacing: DSSpacing.md)]
                     LazyVGrid(columns: testimonialColumns, alignment: .leading, spacing: DSSpacing.md) {
-                        DSTestimonialCard(quote: "O melhor design system que já usei. Economizamos semanas de trabalho.", authorName: "Marcos Souza", authorRole: "CTO @ TechStartup", authorInitials: "MS", authorColor: DSColor.primary)
-                        DSTestimonialCard(quote: "Os componentes são elegantes, acessíveis e funcionam perfeitamente no dark mode.", authorName: "Juliana Costa", authorRole: "Lead Designer @ Fintech", authorInitials: "JC", authorColor: DSColor.accent, rating: 5)
-                        DSTestimonialCard(quote: "O command palette e os charts são incríveis. Nossa equipe adorou.", authorName: "Rafael Lima", authorRole: "PM @ SaaS Co", authorInitials: "RL", authorColor: DSColor.success)
+                        DSTestimonialCard(quote: "This is the best design system I have used. We saved weeks of work.", authorName: "Marcos Souza", authorRole: "CTO @ TechStartup", authorInitials: "MS", authorColor: DSColor.primary)
+                        DSTestimonialCard(quote: "The components are polished, accessible, and work beautifully in dark mode.", authorName: "Juliana Costa", authorRole: "Lead Designer @ Fintech", authorInitials: "JC", authorColor: DSColor.accent, rating: 5)
+                        DSTestimonialCard(quote: "The command palette and charts are fantastic. Our team loves them.", authorName: "Rafael Lima", authorRole: "PM @ SaaS Co", authorInitials: "RL", authorColor: DSColor.success)
                     }
                 }
                 DSShowcaseSection(title: "FAQ") {
                     DSFAQSection(items: [
-                        .init(question: "Como funciona o período de trial?", answer: "14 dias grátis com acesso completo. Sem cartão de crédito."),
-                        .init(question: "Posso cancelar a qualquer momento?", answer: "Sim. Cancele nas configurações sem multas ou taxas."),
-                        .init(question: "Os dados são seguros?", answer: "Criptografia em trânsito e repouso. Conformidade com LGPD.")
+                        .init(question: "How does the trial work?", answer: "14 days free with full access. No credit card required."),
+                        .init(question: "Can I cancel at any time?", answer: "Yes. Cancel from settings with no penalties or extra fees."),
+                        .init(question: "Is my data secure?", answer: "Encryption in transit and at rest with enterprise-grade compliance.")
                     ])
                 }
                 DSShowcaseSection(title: "CTA Banner") {
-                    DSCTABanner(title: "Pronto para começar?", subtitle: "Junte-se a mais de 2.000 times que já confiam no nosso design system.", primaryLabel: "Criar conta grátis", secondaryLabel: "Falar com especialista", onPrimary: {}, onSecondary: {})
+                    DSCTABanner(title: "Ready to get started?", subtitle: "Join more than 2,000 teams already building with our design system.", primaryLabel: "Create a free account", secondaryLabel: "Talk to an expert", onPrimary: {}, onSecondary: {})
                 }
             }
             .padding()

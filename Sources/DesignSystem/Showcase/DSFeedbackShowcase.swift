@@ -8,10 +8,10 @@ struct FeedbackNoticeBarShowcase: View {
         VStack(alignment: .leading, spacing: DSSpacing.xxl) {
             ShowcaseSection("Notice Bar") {
                 VStack(spacing: DSSpacing.sm) {
-                    DSNoticeBar(style: .info, title: "Nova atualização disponível.", message: "Atualize para a versão 2.0.")
-                    DSNoticeBar(style: .success, title: "Alterações salvas com sucesso.")
-                    DSNoticeBar(style: .warning, title: "Verifique sua conexão.", onDismiss: {})
-                    DSNoticeBar(style: .error, title: "Erro ao enviar.", message: "Tente novamente.", linkText: "Reenviar", linkAction: {})
+                    DSNoticeBar(style: .info, title: "A new update is available.", message: "Update to version 2.0.")
+                    DSNoticeBar(style: .success, title: "Changes saved successfully.")
+                    DSNoticeBar(style: .warning, title: "Check your connection.", onDismiss: {})
+                    DSNoticeBar(style: .error, title: "Unable to send.", message: "Please try again.", linkText: "Retry", linkAction: {})
                 }
             }
         }
@@ -26,18 +26,18 @@ struct FeedbackToastShowcase: View {
         VStack(alignment: .leading, spacing: DSSpacing.xxl) {
             ShowcaseSection("Toast") {
                 VStack(spacing: DSSpacing.sm) {
-                    DSToast(title: "Operação concluída!", message: "O arquivo foi salvo com sucesso.", style: .success)
-                    DSToast(title: "Atenção", message: "Verifique sua conexão.", style: .warning)
-                    DSToast(title: "Erro ao salvar", message: "Tente novamente mais tarde.", style: .error)
-                    DSToast(title: "Nova atualização", message: "Versão 2.0 disponível.", style: .info)
-                    DSButton("Disparar Toast", variant: .primary, icon: "bell") {
+                    DSToast(title: "Action completed", message: "The file was saved successfully.", style: .success)
+                    DSToast(title: "Heads up", message: "Check your connection.", style: .warning)
+                    DSToast(title: "Save failed", message: "Please try again later.", style: .error)
+                    DSToast(title: "Update available", message: "Version 2.0 is ready.", style: .info)
+                    DSButton("Trigger toast", variant: .primary, icon: "bell") {
                         withAnimation(DSAnimation.smooth) { showToast = true }
                     }
                 }
             }
         }
         .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-        .dsToast(isPresented: $showToast, title: "Toast disparado!", message: "Funcionou perfeitamente.", style: .success)
+        .dsToast(isPresented: $showToast, title: "Toast triggered", message: "Everything worked as expected.", style: .success)
     }
 }
 
@@ -46,11 +46,11 @@ struct FeedbackAlertShowcase: View {
         VStack(alignment: .leading, spacing: DSSpacing.xxl) {
             ShowcaseSection("Alert") {
                 DSAlert(
-                    title: "Excluir?",
-                    message: "Esta ação não pode ser desfeita.",
+                    title: "Delete item?",
+                    message: "This action cannot be undone.",
                     style: .error,
-                    primaryLabel: "Excluir",
-                    secondaryLabel: "Cancelar"
+                    primaryLabel: "Delete",
+                    secondaryLabel: "Cancel"
                 )
             }
         }
@@ -63,17 +63,17 @@ struct FeedbackStepIndicatorShowcase: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: DSSpacing.xxl) {
-            ShowcaseSection("Indicador de passos") {
+            ShowcaseSection("Step Indicator") {
                 VStack(alignment: .leading, spacing: DSSpacing.md) {
                     DSStepIndicator(
-                        steps: ["Pagamento", "Revisão", "Confirmação"],
+                        steps: ["Payment", "Review", "Confirmation"],
                         currentIndex: $stepIndex
                     )
                     HStack(spacing: DSSpacing.sm) {
-                        DSButton("Anterior", variant: .secondary, size: .sm) {
+                        DSButton("Previous", variant: .secondary, size: .sm) {
                             if stepIndex > 0 { stepIndex -= 1 }
                         }
-                        DSButton("Próximo", variant: .primary, size: .sm) {
+                        DSButton("Next", variant: .primary, size: .sm) {
                             if stepIndex < 2 { stepIndex += 1 }
                         }
                     }
@@ -90,7 +90,7 @@ struct FeedbackProgressBarShowcase: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: DSSpacing.xxl) {
-            ShowcaseSection("Barra de Progresso") {
+            ShowcaseSection("Progress Bar") {
                 VStack(spacing: DSSpacing.md) {
                     DSProgressBar(value: progress1, label: "Upload", showPercentage: true)
                     DSProgressBar(value: progress2, label: "Download", tint: DSColor.success, height: 10)
@@ -114,7 +114,7 @@ struct FeedbackProgressBarShowcase: View {
 struct FeedbackStarRatingShowcase: View {
     var body: some View {
         VStack(alignment: .leading, spacing: DSSpacing.xxl) {
-            ShowcaseSection("Avaliação em estrelas") {
+            ShowcaseSection("Star Rating") {
                 VStack(alignment: .leading, spacing: DSSpacing.sm) {
                     HStack(spacing: DSSpacing.lg) {
                         DSStarRating(0)
@@ -137,7 +137,7 @@ struct FeedbackStarRatingControlShowcase: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: DSSpacing.xxl) {
-            ShowcaseSection("Avaliação interativa") {
+            ShowcaseSection("Star Rating Control") {
                 VStack(alignment: .leading, spacing: DSSpacing.sm) {
                     DSStarRatingControl(value: $rating, size: 28)
                     Text("Rating: \(String(format: "%.1f", rating))")
@@ -158,7 +158,7 @@ struct FeedbackPageLoaderShowcase: View {
                     RoundedRectangle(cornerRadius: DSRadius.showcaseCard, style: .continuous)
                         .fill(DSColor.surface)
                         .frame(height: 120)
-                    DSPageLoader(isPresented: true, message: "Carregando...")
+                    DSPageLoader(isPresented: true, message: "Loading...")
                 }
             }
         }

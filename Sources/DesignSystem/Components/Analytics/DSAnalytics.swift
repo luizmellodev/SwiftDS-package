@@ -70,20 +70,23 @@ public struct DSMetricCard: View {
                     Text(title)
                         .font(DSFont.medium(size: DSFont.Size.sm))
                         .foregroundStyle(DSColor.muted)
+                        .lineLimit(1)
                 }
-                Spacer()
+                Spacer(minLength: 4)
                 if !change.isEmpty {
                     HStack(spacing: 3) {
                         Image(systemName: trendIcon)
                             .font(.system(size: 10, weight: .bold))
                         Text(change)
                             .font(DSFont.semibold(size: DSFont.Size.xs))
+                            .lineLimit(1)
                     }
                     .foregroundStyle(trendColor)
                     .padding(.horizontal, 8)
                     .padding(.vertical, 3)
                     .background(trendColor.opacity(0.1))
                     .clipShape(Capsule())
+                    .fixedSize()
                 }
             }
 
