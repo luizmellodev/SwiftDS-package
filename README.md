@@ -177,6 +177,38 @@ Full documentation site: **[swiftds.dev](https://swiftds.dev)** *(coming soon)*
 - [PREVIEW_LIST.md](PREVIEW_LIST.md) — Component previews
 - [XcodeSnippets/README.md](XcodeSnippets/README.md) — Code snippets
 
+## Snapshot Testing
+
+SwiftDS includes documentation-oriented snapshot tests using [`SnapshotTesting`](https://github.com/pointfreeco/swift-snapshot-testing).
+
+### Running snapshots
+
+```bash
+swift test
+```
+
+The reference images live next to the test suite under `Tests/SwiftDSTests/__Snapshots__/`.
+
+### Recording new snapshots
+
+To record or refresh the reference images, run:
+
+```bash
+RECORD_SNAPSHOTS=1 swift test
+```
+
+This records the current component and variant assets covered by the documentation snapshot catalog.
+
+### Exporting doc assets
+
+Both `swift test` and `RECORD_SNAPSHOTS=1 swift test` already sync the PNGs directly into `../website doc/public/screenshots/components/<category>/` via the shared snapshot helper.
+
+### Recommended usage
+
+- Use snapshot tests to keep documentation previews aligned with real SwiftUI components and variants.
+- Record first when references need refreshing; the website doc assets are synchronized automatically during the test run.
+- Prefer compact, deterministic component states instead of broad showcase screens.
+
 ## License
 
 MIT License — See [LICENSE](LICENSE) for details.

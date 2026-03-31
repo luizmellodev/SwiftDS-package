@@ -18,10 +18,25 @@ let package = Package(
             targets: ["SwiftDS"]
         )
     ],
+    dependencies: [
+        .package(
+            url: "https://github.com/pointfreeco/swift-snapshot-testing",
+            from: "1.19.2"
+        )
+    ],
     targets: [
         .target(
             name: "SwiftDS",
             path: "Sources/DesignSystem"
+        ),
+        .testTarget(
+            name: "SwiftDSTests",
+            dependencies: [
+                "SwiftDS",
+                .product(name: "SnapshotTesting", package: "swift-snapshot-testing")
+            ],
+            path: "Tests/SwiftDSTests",
+            exclude: ["__Snapshots__"]
         )
     ]
 )
