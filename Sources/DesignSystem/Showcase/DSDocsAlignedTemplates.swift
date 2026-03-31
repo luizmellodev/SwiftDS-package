@@ -4,11 +4,13 @@ struct DSDocDemo: DSShowcaseTemplate {
     let id: String
     let name: String
     let view: AnyView
+    let showsInShowroom: Bool
 
-    init<Content: View>(id: String, name: String, @ViewBuilder content: () -> Content) {
+    init<Content: View>(id: String, name: String, showsInShowroom: Bool = true, @ViewBuilder content: () -> Content) {
         self.id = id
         self.name = name
         self.view = AnyView(content())
+        self.showsInShowroom = showsInShowroom
     }
 }
 

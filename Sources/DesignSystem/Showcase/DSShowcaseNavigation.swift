@@ -8,13 +8,20 @@ import SwiftUI
 /// Root list: all showcase categories. Tap to open list of demos.
 public struct DSCategoriesView: View {
     @Environment(\.colorScheme) private var scheme
+    private var showroomCategories: [DSCategory] {
+        DSShowcaseMenu.categories.compactMap { category in
+            let visibleTemplates = category.templates.filter(\.showsInShowroom)
+            guard !visibleTemplates.isEmpty else { return nil }
+            return DSCategory(name: category.name, templates: visibleTemplates)
+        }
+    }
 
     public init() {}
 
     public var body: some View {
         List {
             Section {
-                ForEach(DSShowcaseMenu.categories) { category in
+                ForEach(showroomCategories) { category in
                     NavigationLink(destination: DSTemplatesListView(categoryName: category.name, templates: category.templates)) {
                         HStack(spacing: DSSpacing.sm) {
                             VStack(alignment: .leading, spacing: 4) {

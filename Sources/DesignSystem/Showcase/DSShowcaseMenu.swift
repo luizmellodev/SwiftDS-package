@@ -10,6 +10,11 @@ public protocol DSShowcaseTemplate: Identifiable {
     var id: String { get }
     var name: String { get }
     var view: AnyView { get }
+    var showsInShowroom: Bool { get }
+}
+
+public extension DSShowcaseTemplate {
+    var showsInShowroom: Bool { true }
 }
 
 // MARK: - DSShowcaseBuilder
@@ -29,10 +34,14 @@ public struct DSCategory: Identifiable {
     public let name: String
     public let templates: [any DSShowcaseTemplate]
 
-    public init(_ name: String, @DSShowcaseBuilder templates: () -> [any DSShowcaseTemplate]) {
+    public init(name: String, templates: [any DSShowcaseTemplate]) {
         self.name = name
         self.id = name.lowercased().replacingOccurrences(of: " ", with: "_").replacingOccurrences(of: "&", with: "and")
-        self.templates = templates()
+        self.templates = templates
+    }
+
+    public init(_ name: String, @DSShowcaseBuilder templates: () -> [any DSShowcaseTemplate]) {
+        self.init(name: name, templates: templates())
     }
 }
 
@@ -43,7 +52,7 @@ public enum DSShowcaseMenu {
     public static var categories: [DSCategory] {
         [
             DSCategory("Getting Started") {
-                DSDocDemo(id: "getting_started_overview", name: "Overview") {
+                DSDocDemo(id: "getting_started_overview", name: "Overview", showsInShowroom: false) {
                     DSDocsReferenceView(
                         title: "Overview",
                         message: "High-level introduction to SwiftDS, its philosophy, and how the showcase maps to the public documentation.",
@@ -54,7 +63,7 @@ public enum DSShowcaseMenu {
                         ]
                     )
                 }
-                DSDocDemo(id: "getting_started_installation", name: "Installation") {
+                DSDocDemo(id: "getting_started_installation", name: "Installation", showsInShowroom: false) {
                     DSDocsReferenceView(
                         title: "Installation",
                         message: "Reference page for package setup guidance.",
@@ -65,7 +74,7 @@ public enum DSShowcaseMenu {
                         ]
                     )
                 }
-                DSDocDemo(id: "getting_started_configuration", name: "Configuration") {
+                DSDocDemo(id: "getting_started_configuration", name: "Configuration", showsInShowroom: false) {
                     DSDocsReferenceView(
                         title: "Configuration",
                         message: "Reference page for design token and theme setup.",
@@ -76,7 +85,7 @@ public enum DSShowcaseMenu {
                         ]
                     )
                 }
-                DSDocDemo(id: "getting_started_all_components", name: "All Components") {
+                DSDocDemo(id: "getting_started_all_components", name: "All Components", showsInShowroom: false) {
                     DSDocsReferenceView(
                         title: "All Components",
                         message: "Browse the categories below to explore the complete design system surface area.",
@@ -89,7 +98,7 @@ public enum DSShowcaseMenu {
                 }
             },
             DSCategory("Showcases") {
-                DSDocDemo(id: "showcase_gallery", name: "Gallery") {
+                DSDocDemo(id: "showcase_gallery", name: "Gallery", showsInShowroom: false) {
                     DSDocsReferenceView(
                         title: "Gallery",
                         message: "Reference entry that maps to the public docs gallery.",
@@ -114,7 +123,7 @@ public enum DSShowcaseMenu {
                 DSDocDemo(id: "screen_profile_hero_card", name: "ProfileHeroCard") { ScrollView { ProfileTab().padding(DSSpacing.xl) } }
                 DSDocDemo(id: "screen_settings_row", name: "SettingsRow") { ScrollView { SettingsTab().padding(DSSpacing.xl) } }
                 DSDocDemo(id: "screen_onboarding_flow", name: "OnboardingFlow") { OnboardingTab() }
-                DSDocDemo(id: "screen_login", name: "LoginScreen") {
+                DSDocDemo(id: "screen_login", name: "LoginScreen", showsInShowroom: false) {
                     DSDocsReferenceView(
                         title: "LoginScreen",
                         message: "The docs site contains a login screen pattern, but the package showcase currently focuses on reusable design-system screens.",
@@ -124,7 +133,7 @@ public enum DSShowcaseMenu {
                         ]
                     )
                 }
-                DSDocDemo(id: "screen_home_feed", name: "HomeFeedScreen") {
+                DSDocDemo(id: "screen_home_feed", name: "HomeFeedScreen", showsInShowroom: false) {
                     DSDocsReferenceView(
                         title: "HomeFeedScreen",
                         message: "Reference screen pattern documented on the site.",
@@ -135,7 +144,7 @@ public enum DSShowcaseMenu {
                     )
                 }
                 DSDocDemo(id: "screen_settings_screen", name: "SettingsScreen") { ScrollView { SettingsScreenView().padding(DSSpacing.xl) } }
-                DSDocDemo(id: "screen_checkout_form", name: "CheckoutForm") {
+                DSDocDemo(id: "screen_checkout_form", name: "CheckoutForm", showsInShowroom: false) {
                     DSDocsReferenceView(
                         title: "CheckoutForm",
                         message: "Reference pattern combining inputs, selection controls, and pricing information.",
@@ -146,7 +155,7 @@ public enum DSShowcaseMenu {
                     )
                 }
                 DSDocDemo(id: "screen_media_gallery", name: "MediaGallery") { DSLayoutGalleryShowcase() }
-                DSDocDemo(id: "screen_conversation_list", name: "ConversationList") {
+                DSDocDemo(id: "screen_conversation_list", name: "ConversationList", showsInShowroom: false) {
                     DSDocsReferenceView(
                         title: "ConversationList",
                         message: "Messaging list pattern combining avatars, rows, badges, and navigation states.",
@@ -158,7 +167,7 @@ public enum DSShowcaseMenu {
                 }
                 DSDocDemo(id: "screen_chat_bubble", name: "ChatBubble") { ScrollView { FeedbackMessageBubbleShowcase().padding(DSSpacing.xl) } }
                 DSDocDemo(id: "screen_task_card", name: "TaskCard") { ScrollView { DataShowcase().padding(DSSpacing.xl) } }
-                DSDocDemo(id: "screen_kanban_board", name: "KanbanBoard") {
+                DSDocDemo(id: "screen_kanban_board", name: "KanbanBoard", showsInShowroom: false) {
                     DSDocsReferenceView(
                         title: "KanbanBoard",
                         message: "Board composition pattern documented on the site.",
@@ -168,7 +177,7 @@ public enum DSShowcaseMenu {
                         ]
                     )
                 }
-                DSDocDemo(id: "screen_calendar_view", name: "CalendarView") {
+                DSDocDemo(id: "screen_calendar_view", name: "CalendarView", showsInShowroom: false) {
                     DSDocsReferenceView(
                         title: "CalendarView",
                         message: "Calendar UI pattern documented on the site.",
@@ -183,7 +192,7 @@ public enum DSShowcaseMenu {
                 DSDocDemo(id: "screen_dashboard", name: "DashboardScreen") { AnalyticsTab() }
             },
             DSCategory("Resources") {
-                DSDocDemo(id: "resource_changelog", name: "Changelog") {
+                DSDocDemo(id: "resource_changelog", name: "Changelog", showsInShowroom: false) {
                     DSDocsReferenceView(
                         title: "Changelog",
                         message: "Reference page for release notes and shipped improvements.",
@@ -193,7 +202,7 @@ public enum DSShowcaseMenu {
                         ]
                     )
                 }
-                DSDocDemo(id: "resource_roadmap", name: "Roadmap") {
+                DSDocDemo(id: "resource_roadmap", name: "Roadmap", showsInShowroom: false) {
                     DSDocsReferenceView(
                         title: "Roadmap",
                         message: "Reference page for planned component and documentation work.",
@@ -203,7 +212,7 @@ public enum DSShowcaseMenu {
                         ]
                     )
                 }
-                DSDocDemo(id: "resource_whats_new", name: "What's New") {
+                DSDocDemo(id: "resource_whats_new", name: "What's New", showsInShowroom: false) {
                     DSDocsReferenceView(
                         title: "What's New",
                         message: "Highlights of recently added components and patterns.",
@@ -220,7 +229,7 @@ public enum DSShowcaseMenu {
                 DSDocDemo(id: "foundations_typography", name: "Typography") { ScrollView { FoundationsTypographyShowcase().padding(DSSpacing.xl) } }
                 DSDocDemo(id: "foundations_spacing", name: "Spacing") { ScrollView { FoundationsSpacingShowcase().padding(DSSpacing.xl) } }
                 DSDocDemo(id: "foundations_shadows", name: "Shadows") { ScrollView { FoundationsShadowsShowcase().padding(DSSpacing.xl) } }
-                DSDocDemo(id: "foundations_animations", name: "Animations") {
+                DSDocDemo(id: "foundations_animations", name: "Animations", showsInShowroom: false) {
                     DSDocsReferenceView(
                         title: "Animations",
                         message: "Animation guidance is showcased across buttons, progress, charts, and transitions.",
@@ -231,7 +240,7 @@ public enum DSShowcaseMenu {
                         ]
                     )
                 }
-                DSDocDemo(id: "foundations_icons", name: "Icons") {
+                DSDocDemo(id: "foundations_icons", name: "Icons", showsInShowroom: false) {
                     DSDocsReferenceView(
                         title: "Icons",
                         message: "SwiftDS uses SF Symbols across navigation, actions, and semantic states.",
@@ -255,14 +264,14 @@ public enum DSShowcaseMenu {
                 DSDocDemo(id: "input_secure_field", name: "SecureField") { ScrollView { InputsShowcase().padding(DSSpacing.xl) } }
                 DSDocDemo(id: "input_search_bar", name: "SearchBar") { ScrollView { InputsShowcase().padding(DSSpacing.xl) } }
                 DSDocDemo(id: "input_text_area", name: "TextArea") { ScrollView { InputsShowcase().padding(DSSpacing.xl) } }
-                DSDocDemo(id: "input_otp_field", name: "OTPField") {
+                DSDocDemo(id: "input_otp_field", name: "OTPField", showsInShowroom: false) {
                     DSDocsReferenceView(title: "OTPField", message: "Reference pattern for one-time-code entry.", bullets: ["Use Inputs and Selection primitives to assemble OTP flows.", "A dedicated OTP showcase can be added as the package gains a native component."])
                 }
-                DSDocDemo(id: "input_phone_field", name: "PhoneField") {
+                DSDocDemo(id: "input_phone_field", name: "PhoneField", showsInShowroom: false) {
                     DSDocsReferenceView(title: "PhoneField", message: "Reference pattern for phone-number input.", bullets: ["Use text inputs, validation, and country selection patterns.", "A dedicated phone field showcase can be added later if the package includes a native component."])
                 }
                 DSDocDemo(id: "input_date_picker", name: "DatePicker") { ScrollView { InputsShowcase().padding(DSSpacing.xl) } }
-                DSDocDemo(id: "input_color_picker", name: "ColorPicker") {
+                DSDocDemo(id: "input_color_picker", name: "ColorPicker", showsInShowroom: false) {
                     DSDocsReferenceView(title: "ColorPicker", message: "Reference pattern for selecting colors in forms and theming flows.", bullets: ["Color Selector covers the package's current color choice UI.", "A more advanced color picker can be added later if the package exposes one."])
                 }
                 DSDocDemo(id: "input_select_field", name: "SelectField") { ScrollView { InputsShowcase().padding(DSSpacing.xl) } }
@@ -276,7 +285,7 @@ public enum DSShowcaseMenu {
                 DSDocDemo(id: "selection_stepper", name: "Stepper") { ScrollView { InputsShowcase().padding(DSSpacing.xl) } }
                 DSDocDemo(id: "selection_chip", name: "Chip") { ChipShowcase() }
                 DSDocDemo(id: "selection_chip_toggle", name: "ChipToggle") { ScrollView { InputsShowcase().padding(DSSpacing.xl) } }
-                DSDocDemo(id: "selection_filter_chip", name: "Filter Chip") {
+                DSDocDemo(id: "selection_filter_chip", name: "Filter Chip", showsInShowroom: false) {
                     DSDocsReferenceView(title: "FilterChip", message: "Reference pattern for compact filtering actions.", bullets: ["Chip and Chip Toggle cover the current package primitives.", "Use Chip Group to assemble filter bars."])
                 }
                 DSDocDemo(id: "selection_rating_stars", name: "RatingStars") { ScrollView { FeedbackStarRatingShowcase().padding(DSSpacing.xl) } }
@@ -325,10 +334,10 @@ public enum DSShowcaseMenu {
                 DSDocDemo(id: "navigation_segmented_control", name: "SegmentedControl") { ScrollView { NavigationShowcase().padding(DSSpacing.xl) } }
                 DSDocDemo(id: "navigation_navigation_bar", name: "NavigationBar") { ScrollView { NavigationShowcase().padding(DSSpacing.xl) } }
                 DSDocDemo(id: "navigation_sidebar", name: "Sidebar") { ScrollView { NavigationShowcase().padding(DSSpacing.xl) } }
-                DSDocDemo(id: "navigation_breadcrumb", name: "Breadcrumb") {
+                DSDocDemo(id: "navigation_breadcrumb", name: "Breadcrumb", showsInShowroom: false) {
                     DSDocsReferenceView(title: "Breadcrumb", message: "Reference navigation pattern for deep content hierarchy.", bullets: ["Use subnavigation and list hierarchy for current package flows.", "A dedicated breadcrumb component can be added later."])
                 }
-                DSDocDemo(id: "navigation_pagination", name: "Pagination") {
+                DSDocDemo(id: "navigation_pagination", name: "Pagination", showsInShowroom: false) {
                     DSDocsReferenceView(title: "Pagination", message: "Reference pattern for paged data navigation.", bullets: ["Use segmented controls, tabs, or custom paging where appropriate.", "A dedicated pagination component can be added later."])
                 }
             },
@@ -340,28 +349,28 @@ public enum DSShowcaseMenu {
                 DSDocDemo(id: "layout_divider", name: "DSDivider") { ScrollView { FoundationsLayoutShowcase().padding(DSSpacing.xl) } }
                 DSDocDemo(id: "layout_chip_group", name: "ChipGroup") { DSLayoutGalleryShowcase() }
                 DSDocDemo(id: "layout_flow_layout", name: "FlowLayout") { DSLayoutGalleryShowcase() }
-                DSDocDemo(id: "layout_accordion", name: "Accordion") {
+                DSDocDemo(id: "layout_accordion", name: "Accordion", showsInShowroom: false) {
                     DSDocsReferenceView(title: "Accordion", message: "Reference layout pattern for collapsible content sections.", bullets: ["The docs site documents an accordion pattern.", "A dedicated package showcase can be added when the component is exposed here."])
                 }
                 DSDocDemo(id: "layout_image_gallery", name: "ImageGallery") { DSLayoutGalleryShowcase() }
                 DSDocDemo(id: "layout_card_carousel", name: "CardCarousel") { DSLayoutGalleryShowcase() }
             },
             DSCategory("Overlays") {
-                DSDocDemo(id: "overlay_popover", name: "Popover") {
+                DSDocDemo(id: "overlay_popover", name: "Popover", showsInShowroom: false) {
                     DSDocsReferenceView(title: "Popover", message: "Reference overlay pattern for anchored contextual content.", bullets: ["Current package coverage focuses on modal, bottom sheet, and tooltip surfaces.", "A dedicated popover showcase can be added when the component is promoted in the package."])
                 }
-                DSDocDemo(id: "overlay_context_menu", name: "ContextMenu") {
+                DSDocDemo(id: "overlay_context_menu", name: "ContextMenu", showsInShowroom: false) {
                     DSDocsReferenceView(title: "ContextMenu", message: "Reference pattern for contextual actions.", bullets: ["Menu Button covers the current action-menu pattern in the package.", "A dedicated context menu showcase can be added later if the component is exposed."])
                 }
             },
             DSCategory("Media") {
-                DSDocDemo(id: "media_file_upload", name: "FileUpload") {
+                DSDocDemo(id: "media_file_upload", name: "FileUpload", showsInShowroom: false) {
                     DSDocsReferenceView(title: "FileUpload", message: "Reference media/input pattern for uploading files.", bullets: ["The public docs include a file upload page.", "A native package showcase can be added when file upload becomes part of the SwiftUI surface."])
                 }
-                DSDocDemo(id: "media_image_picker", name: "ImagePicker") {
+                DSDocDemo(id: "media_image_picker", name: "ImagePicker", showsInShowroom: false) {
                     DSDocsReferenceView(title: "ImagePicker", message: "Reference media/input pattern for choosing images.", bullets: ["Use image gallery and form primitives as the current composition base.", "A dedicated image picker showcase can be added later."])
                 }
-                DSDocDemo(id: "media_map_view", name: "MapView") {
+                DSDocDemo(id: "media_map_view", name: "MapView", showsInShowroom: false) {
                     DSDocsReferenceView(title: "MapView", message: "Reference screen/media pattern for geospatial content.", bullets: ["Ride Request demonstrates a map-like hero area today.", "A dedicated map component showcase can be added when the package exposes one."])
                 }
             },
