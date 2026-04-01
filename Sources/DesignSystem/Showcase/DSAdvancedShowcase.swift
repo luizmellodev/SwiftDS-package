@@ -313,6 +313,40 @@ struct ActivityTab: View {
     }
 }
 
+struct ActivityFeedScreenDemoView: View {
+    private let now = Date()
+
+    private var events: [DSActivityEvent] { [
+        .init(type: .deploy, actor: "Carlos", actorInitials: "CS", actorColor: DSColor.success, title: "deployed to production", detail: "v2.4.1 — 3 features, 2 bug fixes", timestamp: now.addingTimeInterval(-120), metadata: "feat/dashboard"),
+        .init(type: .comment, actor: "Ana", actorInitials: "AL", actorColor: DSColor.accent, title: "commented on PR #47", detail: "Great approach. I suggest refactoring the tokens.", timestamp: now.addingTimeInterval(-600)),
+        .init(type: .review, actor: "Pedro", actorInitials: "PO", actorColor: DSColor.primary, title: "approved PR #47", timestamp: now.addingTimeInterval(-1800)),
+        .init(type: .merge, actor: "Larissa", actorInitials: "LM", actorColor: DSColor.info, title: "merged feat/pricing", timestamp: now.addingTimeInterval(-3600), metadata: "main ← feat/pricing")
+    ] }
+
+    var body: some View {
+        ScrollView {
+            DSActivityFeed(events: events)
+                .padding()
+        }
+    }
+}
+
+struct NotificationCenterScreenDemoView: View {
+    @State private var notifications: [DSNotification] = [
+        .init(type: .mention, title: "Carlos mentioned you", message: "Can you review the dashboard PR?", timestamp: Date().addingTimeInterval(-300), action: "View PR", senderInitials: "CS", senderColor: DSColor.primary),
+        .init(type: .success, title: "Deploy completed", message: "v2.4.1 shipped successfully.", timestamp: Date().addingTimeInterval(-900), isRead: true),
+        .init(type: .warning, title: "Limit approaching", message: "You have used 85% of your monthly limit.", timestamp: Date().addingTimeInterval(-3600), action: "Upgrade")
+    ]
+    @State private var isPresented = true
+
+    var body: some View {
+        ScrollView {
+            DSNotificationCenter(notifications: $notifications, isPresented: $isPresented)
+                .padding()
+        }
+    }
+}
+
 struct ProfileTab: View {
     var body: some View {
         ScrollView {
@@ -328,6 +362,19 @@ struct ProfileTab: View {
                     DSUser(name: "Larissa Matos", username: "larissa", role: "Product Manager", email: "", initials: "LM", avatarColor: DSColor.info, isOnline: true)
                 ], onInvite: {})
             }
+            .padding()
+        }
+    }
+}
+
+struct ProfileHeroCardScreenDemoView: View {
+    var body: some View {
+        ScrollView {
+            DSProfileHeroCard(
+                user: DSUser(name: "Ana Lima", username: "analima", role: "Product Designer", email: "ana@company.com", initials: "AL", avatarColor: DSColor.accent, bio: "Passionate about design systems and accessibility.", location: "Sao Paulo, BR", website: "analima.design", stats: [("Projects", "24"), ("Followers", "1.2k"), ("Following", "340")], badges: [.init(icon: "star.fill", label: "Top Contributor", color: DSColor.warning), .init(icon: "bolt.fill", label: "Early Adopter", color: DSColor.primary)], isVerified: true, isOnline: true),
+                onEdit: {},
+                onMessage: {}
+            )
             .padding()
         }
     }

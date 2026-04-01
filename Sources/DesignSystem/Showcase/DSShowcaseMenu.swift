@@ -98,16 +98,6 @@ public enum DSShowcaseMenu {
                 }
             },
             DSCategory("Showcases") {
-                DSDocDemo(id: "showcase_gallery", name: "Gallery", showsInShowroom: false) {
-                    DSDocsReferenceView(
-                        title: "Gallery",
-                        message: "Reference entry that maps to the public docs gallery.",
-                        bullets: [
-                            "Use the categories below as the source of truth for the system.",
-                            "App showcases demonstrate complete flows built with SwiftDS."
-                        ]
-                    )
-                }
                 DSDocDemo(id: "showcase_todo_list", name: "Todo List App") { AppTodoListView() }
                 DSDocDemo(id: "showcase_ai_chat", name: "AI Chat App") { AppAIChatView() }
                 DSDocDemo(id: "showcase_travel_organizer", name: "Travel Organizer") { AppTravelOrganizerView() }
@@ -117,11 +107,9 @@ public enum DSShowcaseMenu {
             },
             DSCategory("Screens") {
                 DSDocDemo(id: "screen_command_palette", name: "CommandPalette") { CommandSearchDemoView() }
-                DSDocDemo(id: "screen_activity_feed", name: "ActivityFeed") { ActivityTab() }
-                DSDocDemo(id: "screen_notification_center", name: "NotificationCenter") { ActivityTab() }
-                DSDocDemo(id: "screen_user_profile_card", name: "UserProfileCard") { ScrollView { ProfileTab().padding(DSSpacing.xl) } }
-                DSDocDemo(id: "screen_profile_hero_card", name: "ProfileHeroCard") { ScrollView { ProfileTab().padding(DSSpacing.xl) } }
-                DSDocDemo(id: "screen_settings_row", name: "SettingsRow") { ScrollView { SettingsTab().padding(DSSpacing.xl) } }
+                DSDocDemo(id: "screen_activity_feed", name: "ActivityFeed") { ActivityFeedScreenDemoView() }
+                DSDocDemo(id: "screen_notification_center", name: "NotificationCenter") { NotificationCenterScreenDemoView() }
+                DSDocDemo(id: "screen_profile_hero_card", name: "ProfileHeroCard") { ProfileHeroCardScreenDemoView() }
                 DSDocDemo(id: "screen_onboarding_flow", name: "OnboardingFlow") { OnboardingTab() }
                 DSDocDemo(id: "screen_login", name: "LoginScreen", showsInShowroom: false) {
                     DSDocsReferenceView(
@@ -187,8 +175,6 @@ public enum DSShowcaseMenu {
                         ]
                     )
                 }
-                DSDocDemo(id: "screen_search_results", name: "SearchResultsScreen") { CommandSearchDemoView() }
-                DSDocDemo(id: "screen_profile_edit", name: "ProfileEditScreen") { ScrollView { SettingsTab().padding(DSSpacing.xl) } }
                 DSDocDemo(id: "screen_dashboard", name: "DashboardScreen") { AnalyticsTab() }
             },
             DSCategory("Resources") {
