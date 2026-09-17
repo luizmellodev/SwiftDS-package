@@ -63,6 +63,7 @@ public struct DSFloatingTabBar: View {
 
     @Namespace private var namespace
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         items: [DSFloatingTabItem],
@@ -131,7 +132,7 @@ public struct DSFloatingTabBar: View {
                 .fill(.ultraThinMaterial)
                 .overlay(
                     Capsule()
-                        .stroke(scheme == .dark ? DSColor.borderDark.opacity(0.5) : DSColor.border.opacity(0.3), lineWidth: 1)
+                        .stroke(scheme == .dark ? theme.borderDark.opacity(0.5) : theme.border.opacity(0.3), lineWidth: 1)
                 )
         )
         .shadow(color: .black.opacity(0.15), radius: 24, x: 0, y: 8)
@@ -148,7 +149,7 @@ public struct DSFloatingTabBar: View {
                 ZStack(alignment: .topTrailing) {
                     Image(systemName: isSelected ? item.icon + ".fill" : item.icon)
                         .font(.system(size: 20, weight: isSelected ? .semibold : .regular))
-                        .foregroundStyle(isSelected ? DSColor.primary : DSColor.muted)
+                        .foregroundStyle(isSelected ? theme.primary : theme.muted)
                         .symbolEffect(.bounce, value: isSelected)
 
                     if let badge = item.badge, badge > 0 {
@@ -157,7 +158,7 @@ public struct DSFloatingTabBar: View {
                             .foregroundStyle(.white)
                             .padding(.horizontal, 4)
                             .padding(.vertical, 2)
-                            .background(Capsule().fill(DSColor.error))
+                            .background(Capsule().fill(theme.error))
                             .offset(x: 6, y: -4)
                     }
                 }
@@ -165,7 +166,7 @@ public struct DSFloatingTabBar: View {
                 if isSelected {
                     Text(item.label)
                         .font(.system(size: 13, weight: .semibold))
-                        .foregroundStyle(DSColor.primary)
+                        .foregroundStyle(theme.primary)
                         .transition(.scale.combined(with: .opacity))
                         .matchedGeometryEffect(id: "label-\(item.id)", in: namespace)
                 }
@@ -176,7 +177,7 @@ public struct DSFloatingTabBar: View {
                 Group {
                     if isSelected {
                         Capsule()
-                            .fill(scheme == .dark ? DSColor.primary.opacity(0.2) : DSColor.primaryMuted)
+                            .fill(scheme == .dark ? theme.primary.opacity(0.2) : theme.primaryMuted)
                             .matchedGeometryEffect(id: "selection", in: namespace)
                     }
                 }
@@ -202,7 +203,7 @@ public struct DSFloatingTabBar: View {
                 .fill(.ultraThinMaterial)
                 .overlay(
                     RoundedRectangle(cornerRadius: DSRadius.large, style: .continuous)
-                        .stroke(scheme == .dark ? DSColor.borderDark : DSColor.border, lineWidth: 1)
+                        .stroke(scheme == .dark ? theme.borderDark : theme.border, lineWidth: 1)
                 )
         )
         .dsShadow(.md)
@@ -219,7 +220,7 @@ public struct DSFloatingTabBar: View {
                 ZStack(alignment: .topTrailing) {
                     Image(systemName: isSelected ? item.icon + ".fill" : item.icon)
                         .font(.system(size: 20, weight: isSelected ? .semibold : .regular))
-                        .foregroundStyle(isSelected ? DSColor.primary : DSColor.muted)
+                        .foregroundStyle(isSelected ? theme.primary : theme.muted)
                         .symbolEffect(.bounce, value: isSelected)
 
                     if let badge = item.badge, badge > 0 {
@@ -228,14 +229,14 @@ public struct DSFloatingTabBar: View {
                             .foregroundStyle(.white)
                             .padding(.horizontal, 4)
                             .padding(.vertical, 2)
-                            .background(Capsule().fill(DSColor.error))
+                            .background(Capsule().fill(theme.error))
                             .offset(x: 8, y: -6)
                     }
                 }
 
                 Text(item.label)
                     .font(.system(size: 11, weight: isSelected ? .semibold : .regular))
-                    .foregroundStyle(isSelected ? DSColor.primary : DSColor.muted)
+                    .foregroundStyle(isSelected ? theme.primary : theme.muted)
                     .lineLimit(1)
             }
             .frame(maxWidth: .infinity)
@@ -244,7 +245,7 @@ public struct DSFloatingTabBar: View {
                 Group {
                     if isSelected {
                         RoundedRectangle(cornerRadius: DSRadius.medium, style: .continuous)
-                            .fill(scheme == .dark ? DSColor.primary.opacity(0.2) : DSColor.primaryMuted)
+                            .fill(scheme == .dark ? theme.primary.opacity(0.2) : theme.primaryMuted)
                             .matchedGeometryEffect(id: "selection", in: namespace)
                     }
                 }
@@ -272,7 +273,7 @@ public struct DSFloatingTabBar: View {
                 .overlay(
                     Rectangle()
                         .frame(height: 0.5)
-                        .foregroundStyle(scheme == .dark ? DSColor.borderDark : DSColor.border),
+                        .foregroundStyle(scheme == .dark ? theme.borderDark : theme.border),
                     alignment: .top
                 )
         )
@@ -295,15 +296,15 @@ public struct DSFloatingTabBar: View {
                             .foregroundStyle(.white)
                             .padding(.horizontal, 4)
                             .padding(.vertical, 2)
-                            .background(Capsule().fill(DSColor.error))
+                            .background(Capsule().fill(theme.error))
                             .offset(x: 8, y: -6)
                     }
                 }
-                .foregroundStyle(isSelected ? DSColor.primary : DSColor.muted)
+                .foregroundStyle(isSelected ? theme.primary : theme.muted)
 
                 Text(item.label)
                     .font(.system(size: 10, weight: isSelected ? .semibold : .regular))
-                    .foregroundStyle(isSelected ? DSColor.primary : DSColor.muted)
+                    .foregroundStyle(isSelected ? theme.primary : theme.muted)
             }
             .frame(maxWidth: .infinity)
             .scaleEffect(isSelected ? 1.05 : 1.0)

@@ -24,6 +24,7 @@ public struct DSFullPageInterruption: View {
     let accessibilityLabel: String?
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         isPresented: Bool,
@@ -54,12 +55,12 @@ public struct DSFullPageInterruption: View {
                 VStack(spacing: DSSpacing.xl) {
                     Text(title)
                         .font(.system(size: 22, weight: .bold))
-                        .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                        .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                         .multilineTextAlignment(.center)
                     if let message {
                         Text(message)
                             .font(.system(size: 15))
-                            .foregroundStyle(DSColor.muted)
+                            .foregroundStyle(theme.muted)
                             .multilineTextAlignment(.center)
                     }
                     VStack(spacing: DSSpacing.sm) {
@@ -73,7 +74,7 @@ public struct DSFullPageInterruption: View {
                 .padding(DSSpacing.xxl)
                 .background(
                     RoundedRectangle(cornerRadius: DSRadius.large, style: .continuous)
-                        .fill(scheme == .dark ? DSColor.surfaceDark : DSColor.surface)
+                        .fill(scheme == .dark ? theme.surfaceDark : theme.surface)
                 )
                 .padding(DSSpacing.xl)
             }

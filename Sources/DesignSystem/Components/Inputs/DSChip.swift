@@ -42,34 +42,40 @@ public struct DSChipToggle: View {
     @Binding var isOn: Bool
     let size: DSChipSize
     let isUnavailable: Bool
+    let color: Color?
     let accessibilityLabel: String?
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         _ title: String,
         isOn: Binding<Bool>,
         size: DSChipSize = .md,
         isUnavailable: Bool = false,
+        color: Color? = nil,
         accessibilityLabel: String? = nil
     ) {
         self.title = title
         self._isOn = isOn
         self.size = size
         self.isUnavailable = isUnavailable
+        self.color = color
         self.accessibilityLabel = accessibilityLabel
     }
 
+    private var accent: Color { color ?? theme.primary }
+
     private var bgColor: Color {
-        isOn ? DSColor.primary : (scheme == .dark ? Color.white.opacity(0.08) : DSColor.borderSubtle)
+        isOn ? accent : (scheme == .dark ? Color.white.opacity(0.08) : theme.borderSubtle)
     }
 
     private var fgColor: Color {
-        isOn ? DSColor.primaryFG : (scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+        isOn ? theme.primaryFG : (scheme == .dark ? theme.foregroundDark : theme.foreground)
     }
 
     private var borderColor: Color {
-        isOn ? .clear : (scheme == .dark ? DSColor.borderDark : DSColor.border)
+        isOn ? .clear : (scheme == .dark ? theme.borderDark : theme.border)
     }
 
     public var body: some View {
@@ -94,7 +100,7 @@ public struct DSChipToggle: View {
             .overlay {
                 if isUnavailable {
                     Rectangle()
-                        .stroke(DSColor.error, lineWidth: 1)
+                        .stroke(theme.error, lineWidth: 1)
                         .rotationEffect(.degrees(-45))
                         .frame(width: 2, height: size.height * 1.5)
                 }
@@ -125,10 +131,10 @@ public struct DSChipToggle: View {
 ///
 /// // Colored chip with leading icon
 /// DSChip("Dark Mode", leadingIcon: "moon.fill", variant: .soft,
-///        color: DSColor.info, isSelected: true) {}
+///        color: theme.info, isSelected: true) {}
 ///
 /// // Removable tag
-/// DSChip("Design", variant: .soft, color: DSColor.info,
+/// DSChip("Design", variant: .soft, color: theme.info,
 ///        isCloseable: true, action: {}) { tags.remove("Design") }
 /// ```
 ///
@@ -138,7 +144,7 @@ public struct DSChipToggle: View {
 ///   - trailingIcon: Optional SF Symbol on trailing side.
 ///   - size: `.sm` or `.md`; default `.md`.
 ///   - variant: Visual style — `.filled`, `.soft`, `.outlined`; default `.filled`.
-///   - color: Accent color; default `DSColor.primary`.
+///   - color: Accent color; default `theme.primary`.
 ///   - isSelected: Shows filled/accented appearance when `true`.
 ///   - isCloseable: Appends a × dismiss button; default `false`.
 ///   - isUnavailable: Dimmed + disabled when `true`.
@@ -160,6 +166,7 @@ public struct DSChip: View {
     let onClose: (() -> Void)?
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         _ title: String,
@@ -238,14 +245,14 @@ public struct DSChip: View {
     private var chipFgColor: Color {
         switch variant {
         case .filled:   return isSelected ? .white : color
-        case .soft:     return isSelected ? color : (scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
-        case .outlined: return isSelected ? color : (scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+        case .soft:     return isSelected ? color : (scheme == .dark ? theme.foregroundDark : theme.foreground)
+        case .outlined: return isSelected ? color : (scheme == .dark ? theme.foregroundDark : theme.foreground)
         }
     }
 
     private var chipBorderColor: Color {
         switch variant {
-        case .outlined: return isSelected ? color : (scheme == .dark ? DSColor.borderDark : DSColor.border)
+        case .outlined: return isSelected ? color : (scheme == .dark ? theme.borderDark : theme.border)
         case .filled, .soft: return .clear
         }
     }

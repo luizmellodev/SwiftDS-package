@@ -26,6 +26,7 @@ public struct DSCard<Content: View>: View {
 
     @State private var isHovered = false
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         variant: DSCardVariant = .elevated,
@@ -71,16 +72,16 @@ public struct DSCard<Content: View>: View {
 
     private var bgColor: Color {
         switch variant {
-        case .elevated: return scheme == .dark ? DSColor.surfaceDark : DSColor.surface
+        case .elevated: return scheme == .dark ? theme.surfaceDark : theme.surface
         case .outlined: return .clear
-        case .filled:   return scheme == .dark ? DSColor.surfaceElevatedDark : DSColor.secondaryMuted
+        case .filled:   return scheme == .dark ? theme.surfaceElevatedDark : theme.secondaryMuted
         case .ghost:    return .clear
         }
     }
 
     private var borderColor: Color {
         switch variant {
-        case .outlined, .elevated: return scheme == .dark ? DSColor.borderDark : DSColor.border
+        case .outlined, .elevated: return scheme == .dark ? theme.borderDark : theme.border
         default:                   return .clear
         }
     }
@@ -116,12 +117,12 @@ public enum DSAvatarSize {
 public enum DSAvatarStatus {
     case online, offline, busy, away
 
-    var color: Color {
+    func color(_ theme: DSTheme) -> Color {
         switch self {
-        case .online:  return DSColor.success
-        case .offline: return DSColor.muted
-        case .busy:    return DSColor.error
-        case .away:    return DSColor.warning
+        case .online:  return theme.success
+        case .offline: return theme.muted
+        case .busy:    return theme.error
+        case .away:    return theme.warning
         }
     }
 }
@@ -135,6 +136,7 @@ public enum DSAvatarStatus {
 ///   - status: Optional indicator (.online, .offline, .busy, .away).
 ///   - tint: Background and text color when no image.
 public struct DSAvatar: View {
+    @Environment(\.dsTheme) private var theme
     let initials: String?
     let imageURL: URL?
     let size: DSAvatarSize
@@ -175,9 +177,9 @@ public struct DSAvatar: View {
 
             if let status {
                 Circle()
-                    .fill(status.color)
+                    .fill(status.color(theme))
                     .frame(width: size.statusSize, height: size.statusSize)
-                    .overlay(Circle().stroke(DSColor.surface, lineWidth: 1.5))
+                    .overlay(Circle().stroke(theme.surface, lineWidth: 1.5))
             }
         }
         .accessibilityElement(children: .combine)
@@ -194,6 +196,7 @@ public struct DSAvatar: View {
 ///   - size: Avatar size; default .sm.
 ///   - max: Max avatars shown before "+N"; default 4.
 public struct DSAvatarGroup: View {
+    @Environment(\.dsTheme) private var theme
     let items: [(initials: String, tint: Color)]
     let size: DSAvatarSize
     let max: Int
@@ -211,20 +214,20 @@ public struct DSAvatarGroup: View {
         HStack(spacing: -(size.dimension / 3)) {
             ForEach(visible.indices, id: \.self) { i in
                 DSAvatar(initials: visible[i].initials, size: size, tint: visible[i].tint)
-                    .overlay(Circle().stroke(DSColor.surface, lineWidth: 2))
+                    .overlay(Circle().stroke(theme.surface, lineWidth: 2))
                     .zIndex(Double(visible.count - i))
             }
 
             if overflow > 0 {
                 ZStack {
                     Circle()
-                        .fill(DSColor.secondaryMuted)
+                        .fill(theme.secondaryMuted)
                     Text("+\(overflow)")
                         .font(.system(size: size.fontSize - 2, weight: .semibold))
-                        .foregroundStyle(DSColor.muted)
+                        .foregroundStyle(theme.muted)
                 }
                 .frame(width: size.dimension, height: size.dimension)
-                .overlay(Circle().stroke(DSColor.surface, lineWidth: 2))
+                .overlay(Circle().stroke(theme.surface, lineWidth: 2))
             }
         }
         .accessibilityElement(children: .combine)
@@ -244,7 +247,7 @@ public enum DSBadgeVariant {
 /// - Parameters:
 ///   - label: Badge text.
 ///   - variant: .filled, .soft, or .outline.
-///   - color: Tint; default DSColor.primary.
+///   - color: Tint; default theme.primary.
 ///   - icon: Optional SF Symbol name.
 public struct DSBadge: View {
     let label: String
@@ -255,6 +258,7 @@ public struct DSBadge: View {
     let size: DSBadgeSize
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         _ label: String,
@@ -389,7 +393,7 @@ public enum DSBadgeSize {
 ///
 /// - Parameters:
 ///   - label: Tag text.
-///   - color: Tint; default DSColor.primary.
+///   - color: Tint; default theme.primary.
 ///   - isRemovable: Shows remove control.
 ///   - onRemove: Called when remove is tapped.
 public struct DSTag: View {
@@ -399,6 +403,7 @@ public struct DSTag: View {
     let color: Color
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
     @State private var isHovered = false
 
     public init(
@@ -457,6 +462,7 @@ public struct DSTooltipModifier: ViewModifier {
     @State private var isVisible = false
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public func body(content: Content) -> some View {
         content
@@ -466,12 +472,12 @@ public struct DSTooltipModifier: ViewModifier {
                     if isVisible {
                         Text(text)
                             .font(.system(size: 12, weight: .medium))
-                            .foregroundStyle(scheme == .dark ? DSColor.foreground : DSColor.foregroundDark)
+                            .foregroundStyle(scheme == .dark ? theme.foreground : theme.foregroundDark)
                             .padding(.horizontal, 10)
                             .padding(.vertical, 6)
                             .background(
                                 RoundedRectangle(cornerRadius: DSRadius.small, style: .continuous)
-                                    .fill(scheme == .dark ? DSColor.surface : DSColor.foreground)
+                                    .fill(scheme == .dark ? theme.surface : theme.foreground)
                                     .dsShadow(.md)
                             )
                             .transition(.opacity.combined(with: .scale(scale: 0.92)))
@@ -529,6 +535,7 @@ public struct DSListRow: View {
     let action: (() -> Void)?
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
     @State private var isHovered = false
 
     public init(
@@ -553,22 +560,22 @@ public struct DSListRow: View {
                 if let leadingIcon {
                     ZStack {
                         RoundedRectangle(cornerRadius: 8, style: .continuous)
-                            .fill(DSColor.primaryMuted)
+                            .fill(theme.primaryMuted)
                             .frame(width: 34, height: 34)
                         Image(systemName: leadingIcon)
                             .font(.system(size: 15, weight: .medium))
-                            .foregroundStyle(DSColor.primary)
+                            .foregroundStyle(theme.primary)
                     }
                 }
 
                 VStack(alignment: .leading, spacing: 2) {
                     Text(title)
                         .font(.system(size: 15, weight: .medium))
-                        .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                        .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                     if let subtitle {
                         Text(subtitle)
                             .font(.system(size: 13))
-                            .foregroundStyle(DSColor.muted)
+                            .foregroundStyle(theme.muted)
                     }
                 }
 
@@ -581,7 +588,7 @@ public struct DSListRow: View {
                 if let trailingIcon {
                     Image(systemName: trailingIcon)
                         .font(.system(size: 12, weight: .semibold))
-                        .foregroundStyle(DSColor.muted)
+                        .foregroundStyle(theme.muted)
                 }
             }
             .padding(.horizontal, DSSpacing.md)
@@ -641,6 +648,7 @@ public struct DSTable<T: Identifiable>: View {
 
     @State private var hoveredRow: T.ID?
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         columns: [DSTableColumn<T>],
@@ -658,16 +666,16 @@ public struct DSTable<T: Identifiable>: View {
                 ForEach(columns.indices, id: \.self) { i in
                     Text(columns[i].title)
                         .font(.system(size: 12, weight: .semibold))
-                        .foregroundStyle(DSColor.muted)
+                        .foregroundStyle(theme.muted)
                         .frame(maxWidth: columns[i].width ?? .infinity, alignment: .leading)
                         .padding(.horizontal, DSSpacing.sm)
                 }
             }
             .padding(.horizontal, DSSpacing.sm)
             .padding(.vertical, DSSpacing.sm)
-            .background(scheme == .dark ? DSColor.surfaceElevatedDark.opacity(0.5) : DSColor.secondaryMuted)
+            .background(scheme == .dark ? theme.surfaceElevatedDark.opacity(0.5) : theme.secondaryMuted)
 
-            Divider().overlay(scheme == .dark ? DSColor.borderDark : DSColor.border)
+            Divider().overlay(scheme == .dark ? theme.borderDark : theme.border)
 
             ForEach(rows) { row in
                 VStack(spacing: 0) {
@@ -690,14 +698,14 @@ public struct DSTable<T: Identifiable>: View {
                     .onTapGesture { onRowSelect?(row) }
                     .animation(DSAnimation.interactive, value: hoveredRow == row.id)
 
-                    Divider().overlay((scheme == .dark ? DSColor.borderDark : DSColor.border).opacity(0.5))
+                    Divider().overlay((scheme == .dark ? theme.borderDark : theme.border).opacity(0.5))
                 }
             }
         }
         .clipShape(RoundedRectangle(cornerRadius: DSRadius.medium, style: .continuous))
         .overlay(
             RoundedRectangle(cornerRadius: DSRadius.medium, style: .continuous)
-                .stroke(scheme == .dark ? DSColor.borderDark : DSColor.border, lineWidth: 1)
+                .stroke(scheme == .dark ? theme.borderDark : theme.border, lineWidth: 1)
         )
     }
 }
@@ -720,6 +728,7 @@ public struct DSEmptyState: View {
     let action: (() -> Void)?
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         icon: String = "tray",
@@ -739,20 +748,20 @@ public struct DSEmptyState: View {
         VStack(spacing: DSSpacing.md) {
             ZStack {
                 Circle()
-                    .fill(DSColor.primaryMuted)
+                    .fill(theme.primaryMuted)
                     .frame(width: 80, height: 80)
                 Image(systemName: icon)
                     .font(.system(size: 32, weight: .medium))
-                    .foregroundStyle(DSColor.primary)
+                    .foregroundStyle(theme.primary)
             }
 
             VStack(spacing: DSSpacing.xs) {
                 Text(title)
                     .font(.system(size: 18, weight: .semibold))
-                    .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                    .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                 Text(message)
                     .font(.system(size: 14))
-                    .foregroundStyle(DSColor.muted)
+                    .foregroundStyle(theme.muted)
                     .multilineTextAlignment(.center)
                     .lineSpacing(3)
             }
@@ -784,14 +793,14 @@ public struct DSEmptyState: View {
 ///     value: 0.75,
 ///     size: 80,
 ///     lineWidth: 8,
-///     color: DSColor.success
+///     color: theme.success
 /// )
 ///
 /// // Custom center label
 /// DSCircularProgress(
 ///     value: Double(completedCount),
 ///     total: Double(totalCount),
-///     color: DSColor.info,
+///     color: theme.info,
 ///     label: "\(completedCount)/\(totalCount)"
 /// )
 /// ```
@@ -801,7 +810,7 @@ public struct DSEmptyState: View {
 ///   - total: Maximum value; default `1.0`.
 ///   - size: Ring diameter in points; default `64`.
 ///   - lineWidth: Ring stroke width; default `6`.
-///   - color: Ring fill color; default `DSColor.primary`.
+///   - color: Ring fill color; default `theme.primary`.
 ///   - label: Text displayed inside the ring. Pass `nil` to auto-show the percentage.
 public struct DSCircularProgress: View {
     let value: Double

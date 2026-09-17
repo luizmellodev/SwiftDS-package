@@ -44,6 +44,7 @@ public struct DSProgressRing: View {
     let animated: Bool
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         value: Double,
@@ -79,11 +80,11 @@ public struct DSProgressRing: View {
     }
 
     private var strokeColor: Color {
-        color ?? (gradient != nil ? .clear : DSColor.primary)
+        color ?? (gradient != nil ? .clear : theme.primary)
     }
 
     private var backgroundRingColor: Color {
-        scheme == .dark ? DSColor.borderDark : DSColor.border
+        scheme == .dark ? theme.borderDark : theme.border
     }
 
     public var body: some View {
@@ -120,11 +121,11 @@ public struct DSProgressRing: View {
         VStack(spacing: 2) {
             Text("\(percentage)")
                 .font(.system(size: size * 0.25, weight: .bold, design: .rounded))
-                .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
 
             Text("%")
                 .font(.system(size: size * 0.12, weight: .semibold))
-                .foregroundStyle(DSColor.muted)
+                .foregroundStyle(theme.muted)
         }
     }
 }
@@ -153,6 +154,7 @@ public struct DSProgressRingWithLabel: View {
     let size: CGFloat
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         label: String,
@@ -185,7 +187,7 @@ public struct DSProgressRingWithLabel: View {
 
             Text(label)
                 .font(.system(size: 14, weight: .medium))
-                .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
         }
         .accessibilityElement(children: .combine)
         .dsProgressAccessibility(label: label, value: value / total)

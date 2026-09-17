@@ -8,16 +8,17 @@ import SwiftUI
 ///
 /// - Parameters:
 ///   - size: Diameter; default 20.
-///   - color: Stroke color; default DSColor.primary.
+///   - color: Stroke color; default theme.primary.
 ///   - lineWidth: Stroke width; default 2.
 public struct DSSpinner: View {
     let size: CGFloat
-    let color: Color
+    let color: Color?
     let lineWidth: CGFloat
 
     @State private var rotation: Double = 0
+    @Environment(\.dsTheme) private var theme
 
-    public init(size: CGFloat = 20, color: Color = DSColor.primary, lineWidth: CGFloat = 2) {
+    public init(size: CGFloat = 20, color: Color? = nil, lineWidth: CGFloat = 2) {
         self.size      = size
         self.color     = color
         self.lineWidth = lineWidth
@@ -26,7 +27,7 @@ public struct DSSpinner: View {
     public var body: some View {
         Circle()
             .trim(from: 0, to: 0.75)
-            .stroke(color, style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))
+            .stroke(color ?? theme.primary, style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))
             .frame(width: size, height: size)
             .rotationEffect(.degrees(rotation))
             .onAppear {
@@ -54,21 +55,21 @@ public enum DSToastStyle {
         }
     }
 
-    var iconColor: Color {
+    func iconColor(_ theme: DSTheme) -> Color {
         switch self {
-        case .info:    return DSColor.info
-        case .success: return DSColor.success
-        case .warning: return DSColor.warning
-        case .error:   return DSColor.error
+        case .info:    return theme.info
+        case .success: return theme.success
+        case .warning: return theme.warning
+        case .error:   return theme.error
         }
     }
 
-    var bgColor: Color {
+    func bgColor(_ theme: DSTheme) -> Color {
         switch self {
-        case .info:    return DSColor.infoMuted
-        case .success: return DSColor.successMuted
-        case .warning: return DSColor.warningMuted
-        case .error:   return DSColor.errorMuted
+        case .info:    return theme.infoMuted
+        case .success: return theme.successMuted
+        case .warning: return theme.warningMuted
+        case .error:   return theme.errorMuted
         }
     }
 
@@ -96,6 +97,7 @@ public struct DSToast: View {
     var onDismiss: (() -> Void)?
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         title: String,
@@ -113,16 +115,16 @@ public struct DSToast: View {
         HStack(spacing: DSSpacing.sm) {
             Image(systemName: style.icon)
                 .font(.system(size: 18, weight: .semibold))
-                .foregroundStyle(style.iconColor)
+                .foregroundStyle(style.iconColor(theme))
 
             VStack(alignment: .leading, spacing: 1) {
                 Text(title)
                     .font(.system(size: 14, weight: .semibold))
-                    .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                    .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                 if let message {
                     Text(message)
                         .font(.system(size: 13))
-                        .foregroundStyle(DSColor.muted)
+                        .foregroundStyle(theme.muted)
                 }
             }
 
@@ -132,9 +134,9 @@ public struct DSToast: View {
                 Button(action: { onDismiss?() }) {
                     Image(systemName: "xmark")
                         .font(.system(size: 11, weight: .bold))
-                        .foregroundStyle(DSColor.muted)
+                        .foregroundStyle(theme.muted)
                         .frame(width: 24, height: 24)
-                        .background(Circle().fill(scheme == .dark ? DSColor.borderDark : DSColor.borderSubtle))
+                        .background(Circle().fill(scheme == .dark ? theme.borderDark : theme.borderSubtle))
                 }
                 .buttonStyle(.plain)
             }
@@ -142,12 +144,12 @@ public struct DSToast: View {
         .padding(DSSpacing.md)
         .background(
             RoundedRectangle(cornerRadius: DSRadius.medium, style: .continuous)
-                .fill(scheme == .dark ? DSColor.surfaceDark : DSColor.surface)
+                .fill(scheme == .dark ? theme.surfaceDark : theme.surface)
                 .dsShadow(.lg)
         )
         .overlay(
             RoundedRectangle(cornerRadius: DSRadius.medium, style: .continuous)
-                .stroke(scheme == .dark ? DSColor.borderDark : DSColor.border, lineWidth: 1)
+                .stroke(scheme == .dark ? theme.borderDark : theme.border, lineWidth: 1)
         )
         .accessibilityElement(children: .combine)
         .accessibilityLabel("\(style.accessibilityPrefix) \(title)\(message.map { ". \($0)" } ?? "")")
@@ -228,6 +230,7 @@ public struct DSAlert: View {
     let secondaryAction: (() -> Void)?
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         title: String,
@@ -252,22 +255,22 @@ public struct DSAlert: View {
             // Icon
             ZStack {
                 Circle()
-                    .fill(style.bgColor)
+                    .fill(style.bgColor(theme))
                     .frame(width: 56, height: 56)
                 Image(systemName: style.icon)
                     .font(.system(size: 24, weight: .semibold))
-                    .foregroundStyle(style.iconColor)
+                    .foregroundStyle(style.iconColor(theme))
             }
 
             VStack(spacing: DSSpacing.xs) {
                 Text(title)
                     .font(.system(size: 18, weight: .bold))
-                    .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                    .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                     .multilineTextAlignment(.center)
 
                 Text(message)
                     .font(.system(size: 14))
-                    .foregroundStyle(DSColor.muted)
+                    .foregroundStyle(theme.muted)
                     .multilineTextAlignment(.center)
                     .lineSpacing(3)
             }
@@ -286,12 +289,12 @@ public struct DSAlert: View {
         .frame(maxWidth: 320)
         .background(
             RoundedRectangle(cornerRadius: DSRadius.large, style: .continuous)
-                .fill(scheme == .dark ? DSColor.surfaceDark : DSColor.surface)
+                .fill(scheme == .dark ? theme.surfaceDark : theme.surface)
                 .dsShadow(.xl)
         )
         .overlay(
             RoundedRectangle(cornerRadius: DSRadius.large, style: .continuous)
-                .stroke(scheme == .dark ? DSColor.borderDark : DSColor.border, lineWidth: 1)
+                .stroke(scheme == .dark ? theme.borderDark : theme.border, lineWidth: 1)
         )
         .accessibilityElement(children: .combine)
         .accessibilityLabel("\(style.accessibilityPrefix) \(title). \(message)")
@@ -315,6 +318,7 @@ public struct DSModal<Content: View>: View {
     @ViewBuilder let content: Content
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         isPresented: Binding<Bool>,
@@ -346,7 +350,7 @@ public struct DSModal<Content: View>: View {
                         HStack {
                             Text(title)
                                 .font(.system(size: 17, weight: .semibold))
-                                .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                                .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                             Spacer()
                             DSIconButton(icon: "xmark") {
                                 withAnimation(DSAnimation.smooth) { isPresented = false }
@@ -355,7 +359,7 @@ public struct DSModal<Content: View>: View {
                         .padding(DSSpacing.md)
 
                         Divider()
-                            .overlay(scheme == .dark ? DSColor.borderDark : DSColor.border)
+                            .overlay(scheme == .dark ? theme.borderDark : theme.border)
                     }
 
                     content
@@ -363,12 +367,12 @@ public struct DSModal<Content: View>: View {
                 .frame(maxWidth: maxWidth)
                 .background(
                     RoundedRectangle(cornerRadius: DSRadius.large, style: .continuous)
-                        .fill(scheme == .dark ? DSColor.surfaceDark : DSColor.surface)
+                        .fill(scheme == .dark ? theme.surfaceDark : theme.surface)
                         .dsShadow(.xl)
                 )
                 .overlay(
                     RoundedRectangle(cornerRadius: DSRadius.large, style: .continuous)
-                        .stroke(scheme == .dark ? DSColor.borderDark : DSColor.border, lineWidth: 1)
+                        .stroke(scheme == .dark ? theme.borderDark : theme.border, lineWidth: 1)
                 )
                 .padding(DSSpacing.xl)
                 .transition(.scale(scale: 0.94).combined(with: .opacity))
@@ -397,6 +401,7 @@ public struct DSBottomSheet<Content: View>: View {
     @ViewBuilder let content: Content
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         isPresented: Binding<Bool>,
@@ -416,7 +421,7 @@ public struct DSBottomSheet<Content: View>: View {
                 VStack(spacing: 0) {
                     // Grab handle
                     Capsule()
-                        .fill(scheme == .dark ? DSColor.borderDark : DSColor.border)
+                        .fill(scheme == .dark ? theme.borderDark : theme.border)
                         .frame(width: 36, height: 4)
                         .padding(.top, DSSpacing.sm)
                         .padding(.bottom, DSSpacing.xs)
@@ -425,7 +430,7 @@ public struct DSBottomSheet<Content: View>: View {
                         HStack {
                             Text(title)
                                 .font(.system(size: 17, weight: .semibold))
-                                .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                                .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                             Spacer()
                             DSIconButton(icon: "xmark") {
                                 withAnimation(DSAnimation.smooth) { isPresented = false }
@@ -442,7 +447,7 @@ public struct DSBottomSheet<Content: View>: View {
                 .presentationDetents(Set(detents))
                 .presentationDragIndicator(.hidden)
                 .presentationCornerRadius(DSRadius.large)
-                .background(scheme == .dark ? DSColor.surfaceDark : DSColor.surface)
+                .background(scheme == .dark ? theme.surfaceDark : theme.surface)
                 .accessibilityElement(children: .contain)
                 .accessibilityLabel(title ?? "Bottom sheet")
                 .accessibilityHint("Swipe down to dismiss")
@@ -459,7 +464,7 @@ public struct DSBottomSheet<Content: View>: View {
 ///   - total: Max value; default 1.0.
 ///   - label: Optional label.
 ///   - showPercentage: Show "N%".
-///   - tint: Bar color; default DSColor.primary.
+///   - tint: Bar color; default theme.primary.
 ///   - height: Bar height; default 8.
 ///   - animated: Animate fill on change.
 public struct DSProgressBar: View {
@@ -467,11 +472,12 @@ public struct DSProgressBar: View {
     let total: Double
     let label: String?
     let showPercentage: Bool
-    let tint: Color
+    let tint: Color?
     let height: CGFloat
     let animated: Bool
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
     @State private var animatedValue: Double = 0
 
     public init(
@@ -479,7 +485,7 @@ public struct DSProgressBar: View {
         total: Double = 1.0,
         label: String? = nil,
         showPercentage: Bool = false,
-        tint: Color = DSColor.primary,
+        tint: Color? = nil,
         height: CGFloat = 8,
         animated: Bool = true
     ) {
@@ -493,6 +499,7 @@ public struct DSProgressBar: View {
     }
 
     private var progress: Double { min(max(value / total, 0), 1) }
+    private var barTint: Color { tint ?? theme.primary }
 
     public var body: some View {
         VStack(alignment: .leading, spacing: 6) {
@@ -501,13 +508,13 @@ public struct DSProgressBar: View {
                     if let label {
                         Text(label)
                             .font(.system(size: 13, weight: .medium))
-                            .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                            .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                     }
                     Spacer()
                     if showPercentage {
                         Text("\(Int(progress * 100))%")
                             .font(.system(size: 12, weight: .semibold, design: .monospaced))
-                            .foregroundStyle(tint)
+                            .foregroundStyle(barTint)
                     }
                 }
             }
@@ -515,10 +522,10 @@ public struct DSProgressBar: View {
             GeometryReader { geo in
                 ZStack(alignment: .leading) {
                     RoundedRectangle(cornerRadius: height / 2, style: .continuous)
-                        .fill(scheme == .dark ? DSColor.borderDark : DSColor.borderSubtle)
+                        .fill(scheme == .dark ? theme.borderDark : theme.borderSubtle)
 
                     RoundedRectangle(cornerRadius: height / 2, style: .continuous)
-                        .fill(tint)
+                        .fill(barTint)
                         .frame(width: geo.size.width * (animated ? animatedValue : progress))
                         .animation(DSAnimation.gentle, value: animatedValue)
                 }
@@ -548,10 +555,11 @@ public struct DSStarRating: View {
     let value: Double
     let size: CGFloat
     let activeColor: Color
-    let inactiveColor: Color
+    let inactiveColor: Color?
     let accessibilityLabel: String?
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         _ value: Double,
@@ -563,7 +571,7 @@ public struct DSStarRating: View {
         self.value = min(5, max(0, value))
         self.size = size
         self.activeColor = activeColor
-        self.inactiveColor = inactiveColor ?? DSColor.subtle
+        self.inactiveColor = inactiveColor
         self.accessibilityLabel = accessibilityLabel
     }
 
@@ -592,12 +600,12 @@ public struct DSStarRating: View {
         case .empty:
             Image(systemName: "star.fill")
                 .font(.system(size: size))
-                .foregroundStyle(inactiveColor)
+                .foregroundStyle(inactiveColor ?? theme.subtle)
         case .half:
             ZStack(alignment: .leading) {
                 Image(systemName: "star.fill")
                     .font(.system(size: size))
-                    .foregroundStyle(inactiveColor)
+                    .foregroundStyle(inactiveColor ?? theme.subtle)
                 Image(systemName: "star.leadinghalf.filled")
                     .font(.system(size: size))
                     .foregroundStyle(activeColor)
@@ -630,6 +638,7 @@ public struct DSStarRatingControl: View {
     let accessibilityLabel: String?
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         value: Binding<Double>,
@@ -643,7 +652,7 @@ public struct DSStarRatingControl: View {
         self.accessibilityLabel = accessibilityLabel
     }
 
-    private var inactiveColor: Color { DSColor.subtle }
+    private var inactiveColor: Color { theme.subtle }
 
     public var body: some View {
         HStack(spacing: 4) {
@@ -695,6 +704,7 @@ public struct DSStepIndicator: View {
     @Binding var currentIndex: Int
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(steps: [String], currentIndex: Binding<Int>) {
         self.steps = steps
@@ -721,7 +731,7 @@ public struct DSStepIndicator: View {
     }
 
     private var trackColor: Color {
-        scheme == .dark ? DSColor.borderDark : DSColor.borderSubtle
+        scheme == .dark ? theme.borderDark : theme.borderSubtle
     }
 
     public var body: some View {
@@ -731,7 +741,7 @@ public struct DSStepIndicator: View {
                     Capsule()
                         .fill(trackColor)
                     Capsule()
-                        .fill(DSColor.primary)
+                        .fill(theme.primary)
                         .frame(width: max(0, geo.size.width * progress))
                 }
             }
@@ -741,15 +751,15 @@ public struct DSStepIndicator: View {
             HStack(alignment: .center, spacing: DSSpacing.xs) {
                 Text("Step")
                     .font(.system(size: 14, weight: .regular))
-                    .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                    .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                 Text(progressLabel)
                     .font(.system(size: 14, weight: .semibold))
-                    .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                    .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                     .lineLimit(1)
                 Spacer(minLength: DSSpacing.md)
                 Text(supportingText)
                     .font(.system(size: 12, weight: .regular))
-                    .foregroundStyle(DSColor.muted)
+                    .foregroundStyle(theme.muted)
             }
         }
         .padding(.vertical, DSSpacing.md)
@@ -774,6 +784,7 @@ public struct DSSkeleton: View {
 
     @State private var opacity: Double = 0.4
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(width: CGFloat? = nil, height: CGFloat = 16, cornerRadius: CGFloat = DSRadius.small) {
         self.width        = width
@@ -783,7 +794,7 @@ public struct DSSkeleton: View {
 
     public var body: some View {
         RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-            .fill(scheme == .dark ? DSColor.borderDark : DSColor.borderSubtle)
+            .fill(scheme == .dark ? theme.borderDark : theme.borderSubtle)
             .frame(width: width, height: height)
             .opacity(opacity)
             .onAppear {
@@ -796,6 +807,7 @@ public struct DSSkeleton: View {
 /// Preset skeleton layout resembling a card (image + lines).
 public struct DSSkeletonCard: View {
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init() {}
 
@@ -809,7 +821,7 @@ public struct DSSkeletonCard: View {
         .padding(DSSpacing.md)
         .background(
             RoundedRectangle(cornerRadius: DSRadius.large, style: .continuous)
-                .fill(scheme == .dark ? DSColor.surfaceDark : DSColor.surface)
+                .fill(scheme == .dark ? theme.surfaceDark : theme.surface)
                 .dsShadow(.sm)
         )
         .accessibilityElement(children: .ignore)
@@ -832,21 +844,21 @@ public enum DSNoticeBarStyle {
         }
     }
 
-    var iconColor: Color {
+    func iconColor(_ theme: DSTheme) -> Color {
         switch self {
-        case .info:    return DSColor.info
-        case .success: return DSColor.success
-        case .warning: return DSColor.warning
-        case .error:   return DSColor.error
+        case .info:    return theme.info
+        case .success: return theme.success
+        case .warning: return theme.warning
+        case .error:   return theme.error
         }
     }
 
-    var backgroundColor: Color {
+    func backgroundColor(_ theme: DSTheme) -> Color {
         switch self {
-        case .info:    return DSColor.infoMuted
-        case .success: return DSColor.successMuted
-        case .warning: return DSColor.warningMuted
-        case .error:   return DSColor.errorMuted
+        case .info:    return theme.infoMuted
+        case .success: return theme.successMuted
+        case .warning: return theme.warningMuted
+        case .error:   return theme.errorMuted
         }
     }
 }
@@ -862,6 +874,7 @@ public struct DSNoticeBar: View {
     let onDismiss: (() -> Void)?
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         style: DSNoticeBarStyle = .info,
@@ -882,14 +895,14 @@ public struct DSNoticeBar: View {
     }
 
     private var textColor: Color {
-        scheme == .dark ? DSColor.foregroundDark : DSColor.foreground
+        scheme == .dark ? theme.foregroundDark : theme.foreground
     }
 
     private var backgroundColor: Color {
         if scheme == .dark {
-            return style.iconColor.opacity(0.12)
+            return style.iconColor(theme).opacity(0.12)
         }
-        return style.backgroundColor
+        return style.backgroundColor(theme)
     }
 
     public var body: some View {
@@ -897,7 +910,7 @@ public struct DSNoticeBar: View {
             if let icon {
                 Image(systemName: icon)
                     .font(.system(size: 18, weight: .semibold))
-                    .foregroundStyle(style.iconColor)
+                    .foregroundStyle(style.iconColor(theme))
             }
 
             VStack(alignment: .leading, spacing: 2) {
@@ -913,7 +926,7 @@ public struct DSNoticeBar: View {
                     Button(action: linkAction) {
                         Text(linkText)
                             .font(.system(size: 13, weight: .medium))
-                            .foregroundStyle(style.iconColor)
+                            .foregroundStyle(style.iconColor(theme))
                     }
                     .buttonStyle(.plain)
                 }

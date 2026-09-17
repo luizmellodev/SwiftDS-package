@@ -34,6 +34,7 @@ public struct DSMessageBubble: View {
     let isLoading: Bool
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         content: AnyView,
@@ -73,12 +74,12 @@ public struct DSMessageBubble: View {
         if let avatarText = avatarText {
             self.avatar = AnyView(
                 Circle()
-                    .fill(DSColor.primary.opacity(0.2))
+                    .fill(theme.primary.opacity(0.2))
                     .frame(width: 28, height: 28)
                     .overlay(
                         Text(avatarText)
                             .font(DSFont.semibold(size: DSFont.Size.xs))
-                            .foregroundStyle(DSColor.primary)
+                            .foregroundStyle(theme.primary)
                     )
             )
         } else {
@@ -88,13 +89,13 @@ public struct DSMessageBubble: View {
 
     private var bubbleBackground: Color {
         if isFromUser {
-            return scheme == .dark ? DSColor.primary.opacity(0.25) : DSColor.primaryMuted
+            return scheme == .dark ? theme.primary.opacity(0.25) : theme.primaryMuted
         }
-        return scheme == .dark ? DSColor.surfaceDark : DSColor.surface
+        return scheme == .dark ? theme.surfaceDark : theme.surface
     }
 
     private var bubbleBorder: Color {
-        scheme == .dark ? DSColor.borderDark : DSColor.border
+        scheme == .dark ? theme.borderDark : theme.border
     }
 
     private var bubbleCornerRadius: UnevenRoundedRectangle {
@@ -125,7 +126,7 @@ public struct DSMessageBubble: View {
                 if let name = senderName, !isFromUser {
                     Text(name)
                         .font(DSFont.medium(size: DSFont.Size.xs))
-                        .foregroundStyle(DSColor.muted)
+                        .foregroundStyle(theme.muted)
                 }
 
                 Group {
@@ -147,7 +148,7 @@ public struct DSMessageBubble: View {
                 if let date = timestamp {
                     Text(formatTimestamp(date))
                         .font(DSFont.regular(size: DSFont.Size.xs))
-                        .foregroundStyle(DSColor.subtle)
+                        .foregroundStyle(theme.subtle)
                 }
             }
             .frame(maxWidth: .infinity, alignment: isFromUser ? .trailing : .leading)
@@ -170,7 +171,7 @@ public struct DSMessageBubble: View {
         HStack(spacing: 6) {
             ForEach(0..<3) { index in
                 Circle()
-                    .fill(DSColor.muted)
+                    .fill(theme.muted)
                     .frame(width: 6, height: 6)
                     .scaleEffect(isLoading ? 1.0 : 0.5)
                     .animation(
@@ -230,6 +231,7 @@ public struct DSChatInputBar: View {
     let maxLines: Int
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
     @FocusState private var isFocused: Bool
 
     public init(
@@ -289,11 +291,11 @@ public struct DSChatInputBar: View {
             )
         }
         .padding(DSSpacing.md)
-        .background(scheme == .dark ? DSColor.surfaceDark : DSColor.surface)
+        .background(scheme == .dark ? theme.surfaceDark : theme.surface)
         .overlay(
             Rectangle()
                 .frame(height: 1)
-                .foregroundStyle(scheme == .dark ? DSColor.borderDark : DSColor.border),
+                .foregroundStyle(scheme == .dark ? theme.borderDark : theme.border),
             alignment: .top
         )
         .animation(DSAnimation.interactive, value: text.isEmpty)
@@ -306,12 +308,12 @@ public struct DSChatInputBar: View {
     private var singleLineInput: some View {
         TextField(placeholder, text: $text)
             .font(.system(size: 15))
-            .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+            .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
             .padding(.horizontal, DSSpacing.sm)
             .padding(.vertical, DSSpacing.sm)
             .background(
                 RoundedRectangle(cornerRadius: DSRadius.medium, style: .continuous)
-                    .fill(scheme == .dark ? DSColor.surfaceElevatedDark : DSColor.secondaryMuted)
+                    .fill(scheme == .dark ? theme.surfaceElevatedDark : theme.secondaryMuted)
             )
             .focused($isFocused)
             .onSubmit { sendIfNeeded() }
@@ -322,21 +324,21 @@ public struct DSChatInputBar: View {
             if text.isEmpty {
                 Text(placeholder)
                     .font(.system(size: 15))
-                    .foregroundStyle(DSColor.muted)
+                    .foregroundStyle(theme.muted)
                     .padding(.horizontal, DSSpacing.sm + 4)
                     .padding(.vertical, DSSpacing.sm + 8)
             }
 
             TextEditor(text: $text)
                 .font(.system(size: 15))
-                .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                 .frame(minHeight: 36, maxHeight: CGFloat(maxLines) * 22)
                 .padding(.horizontal, DSSpacing.sm)
                 .padding(.vertical, DSSpacing.sm)
                 .scrollContentBackground(.hidden)
                 .background(
                     RoundedRectangle(cornerRadius: DSRadius.medium, style: .continuous)
-                        .fill(scheme == .dark ? DSColor.surfaceElevatedDark : DSColor.secondaryMuted)
+                        .fill(scheme == .dark ? theme.surfaceElevatedDark : theme.secondaryMuted)
                 )
                 .focused($isFocused)
         }

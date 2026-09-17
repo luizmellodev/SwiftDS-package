@@ -30,6 +30,7 @@ public struct DSMenuButton: View {
     let accessibilityLabel: String?
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         label: String? = nil,
@@ -69,7 +70,7 @@ public struct DSMenuButton: View {
                 Image(systemName: "chevron.down")
                     .font(.system(size: 11, weight: .semibold))
             }
-            .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+            .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
             .padding(.horizontal, DSSpacing.md)
             .padding(.vertical, DSSpacing.sm)
         }

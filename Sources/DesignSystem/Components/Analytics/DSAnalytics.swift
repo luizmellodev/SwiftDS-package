@@ -26,6 +26,7 @@ public struct DSMetricCard: View {
     @State private var isHovered = false
     @State private var animateValue = false
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         title: String,
@@ -47,9 +48,9 @@ public struct DSMetricCard: View {
 
     private var trendColor: Color {
         switch trend {
-        case .up:      return DSColor.success
-        case .down:    return DSColor.error
-        case .neutral: return DSColor.muted
+        case .up:      return theme.success
+        case .down:    return theme.error
+        case .neutral: return theme.muted
         }
     }
     private var trendIcon: String {
@@ -69,7 +70,7 @@ public struct DSMetricCard: View {
                         .foregroundStyle(accentColor)
                     Text(title)
                         .font(DSFont.medium(size: DSFont.Size.sm))
-                        .foregroundStyle(DSColor.muted)
+                        .foregroundStyle(theme.muted)
                         .lineLimit(1)
                 }
                 Spacer(minLength: 4)
@@ -92,7 +93,7 @@ public struct DSMetricCard: View {
 
             Text(value)
                 .font(DSFont.bold(size: 32))
-                .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                 .scaleEffect(animateValue ? 1.0 : 0.9)
                 .opacity(animateValue ? 1.0 : 0)
 
@@ -102,11 +103,11 @@ public struct DSMetricCard: View {
             }
         }
         .padding(DSSpacing.lg)
-        .background(scheme == .dark ? DSColor.surfaceDark : DSColor.surface)
+        .background(scheme == .dark ? theme.surfaceDark : theme.surface)
         .clipShape(RoundedRectangle(cornerRadius: DSRadius.large))
         .overlay(
             RoundedRectangle(cornerRadius: DSRadius.large)
-                .stroke(scheme == .dark ? DSColor.borderDark : DSColor.border, lineWidth: 1)
+                .stroke(scheme == .dark ? theme.borderDark : theme.border, lineWidth: 1)
         )
         .dsShadow(isHovered ? .md : .sm)
         .scaleEffect(isHovered ? 1.015 : 1.0)
@@ -127,7 +128,7 @@ public struct DSMetricCard: View {
 ///
 /// - Parameters:
 ///   - values: Data points.
-///   - color: Line color; default DSColor.primary.
+///   - color: Line color; default theme.primary.
 ///   - height: Chart height; default 32.
 public struct DSSparkline: View {
     let values: [Double]
@@ -209,6 +210,7 @@ public struct DSBarChartWidget: View {
 
     @State private var animateIn = false
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(title: String, subtitle: String? = nil, bars: [Bar], showValues: Bool = true) {
         self.title = title; self.subtitle = subtitle
@@ -228,7 +230,7 @@ public struct DSBarChartWidget: View {
                         if showValues {
                             Text(formatValue(bar.value))
                                 .font(DSFont.semibold(size: DSFont.Size.xs))
-                                .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                                .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                                 .opacity(animateIn ? 1 : 0)
                         }
                         GeometryReader { geo in
@@ -241,7 +243,7 @@ public struct DSBarChartWidget: View {
                         }
                         Text(bar.label)
                             .font(DSFont.regular(size: DSFont.Size.xs))
-                            .foregroundStyle(DSColor.muted)
+                            .foregroundStyle(theme.muted)
                             .lineLimit(1)
                     }
                 }
@@ -249,9 +251,9 @@ public struct DSBarChartWidget: View {
             .frame(height: 120)
         }
         .padding(DSSpacing.lg)
-        .background(scheme == .dark ? DSColor.surfaceDark : DSColor.surface)
+        .background(scheme == .dark ? theme.surfaceDark : theme.surface)
         .clipShape(RoundedRectangle(cornerRadius: DSRadius.large))
-        .overlay(RoundedRectangle(cornerRadius: DSRadius.large).stroke(scheme == .dark ? DSColor.borderDark : DSColor.border, lineWidth: 1))
+        .overlay(RoundedRectangle(cornerRadius: DSRadius.large).stroke(scheme == .dark ? theme.borderDark : theme.border, lineWidth: 1))
         .dsShadow(.sm)
         .onAppear {
             withAnimation(DSAnimation.smooth.delay(0.2)) { animateIn = true }
@@ -290,6 +292,7 @@ public struct DSDonutChartWidget: View {
     @State private var animateIn = false
     @State private var hoveredIndex: Int?
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(title: String, segments: [Segment], centerLabel: String = "Total", centerValue: String) {
         self.title = title; self.segments = segments
@@ -310,10 +313,10 @@ public struct DSDonutChartWidget: View {
                     VStack(spacing: 2) {
                         Text(centerValue)
                             .font(DSFont.bold(size: DSFont.Size.xl))
-                            .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                            .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                         Text(centerLabel)
                             .font(DSFont.regular(size: DSFont.Size.xs))
-                            .foregroundStyle(DSColor.muted)
+                            .foregroundStyle(theme.muted)
                     }
                 }
 
@@ -328,11 +331,11 @@ public struct DSDonutChartWidget: View {
                                 .frame(width: 8, height: 8)
                             Text(seg.label)
                                 .font(DSFont.regular(size: DSFont.Size.sm))
-                                .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                                .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                             Spacer()
                             Text(String(format: "%.0f%%", pct))
                                 .font(DSFont.semibold(size: DSFont.Size.sm))
-                                .foregroundStyle(DSColor.muted)
+                                .foregroundStyle(theme.muted)
                         }
                         .opacity(hoveredIndex == nil || hoveredIndex == i ? 1 : 0.4)
                         .onHover { hovered in
@@ -343,9 +346,9 @@ public struct DSDonutChartWidget: View {
             }
         }
         .padding(DSSpacing.lg)
-        .background(scheme == .dark ? DSColor.surfaceDark : DSColor.surface)
+        .background(scheme == .dark ? theme.surfaceDark : theme.surface)
         .clipShape(RoundedRectangle(cornerRadius: DSRadius.large))
-        .overlay(RoundedRectangle(cornerRadius: DSRadius.large).stroke(scheme == .dark ? DSColor.borderDark : DSColor.border, lineWidth: 1))
+        .overlay(RoundedRectangle(cornerRadius: DSRadius.large).stroke(scheme == .dark ? theme.borderDark : theme.border, lineWidth: 1))
         .dsShadow(.sm)
         .onAppear {
             withAnimation(DSAnimation.smooth.delay(0.15)) { animateIn = true }
@@ -421,6 +424,7 @@ public struct DSLineChartWidget: View {
 
     @State private var animateIn = false
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(title: String, subtitle: String? = nil, xLabels: [String], series: [Series]) {
         self.title = title; self.subtitle = subtitle
@@ -440,7 +444,7 @@ public struct DSLineChartWidget: View {
                             .frame(width: 16, height: 3)
                         Text(s.label)
                             .font(DSFont.regular(size: DSFont.Size.xs))
-                            .foregroundStyle(DSColor.muted)
+                            .foregroundStyle(theme.muted)
                     }
                 }
             }
@@ -462,7 +466,7 @@ public struct DSLineChartWidget: View {
                             path.move(to: CGPoint(x: 0, y: y))
                             path.addLine(to: CGPoint(x: w, y: y))
                         }
-                        .stroke(scheme == .dark ? DSColor.borderDark : DSColor.border, style: StrokeStyle(lineWidth: 0.5, dash: [4]))
+                        .stroke(scheme == .dark ? theme.borderDark : theme.border, style: StrokeStyle(lineWidth: 0.5, dash: [4]))
                     }
 
                     // Series
@@ -516,16 +520,16 @@ public struct DSLineChartWidget: View {
                     ForEach(xLabels, id: \.self) { label in
                         Text(label)
                             .font(DSFont.regular(size: DSFont.Size.xs))
-                            .foregroundStyle(DSColor.subtle)
+                            .foregroundStyle(theme.subtle)
                             .frame(maxWidth: .infinity)
                     }
                 }
             }
         }
         .padding(DSSpacing.lg)
-        .background(scheme == .dark ? DSColor.surfaceDark : DSColor.surface)
+        .background(scheme == .dark ? theme.surfaceDark : theme.surface)
         .clipShape(RoundedRectangle(cornerRadius: DSRadius.large))
-        .overlay(RoundedRectangle(cornerRadius: DSRadius.large).stroke(scheme == .dark ? DSColor.borderDark : DSColor.border, lineWidth: 1))
+        .overlay(RoundedRectangle(cornerRadius: DSRadius.large).stroke(scheme == .dark ? theme.borderDark : theme.border, lineWidth: 1))
         .dsShadow(.sm)
         .onAppear {
             withAnimation(DSAnimation.smooth.delay(0.1)) { animateIn = true }
@@ -549,6 +553,7 @@ public struct DSProgressRingWidget: View {
 
     @State private var animateIn = false
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(title: String, metrics: [(label: String, value: Double, max: Double, color: Color)]) {
         self.title = title; self.metrics = metrics
@@ -565,7 +570,7 @@ public struct DSProgressRingWidget: View {
                         HStack {
                             Text(m.label)
                                 .font(DSFont.medium(size: DSFont.Size.sm))
-                                .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                                .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                             Spacer()
                             Text(String(format: "%.0f%%", pct * 100))
                                 .font(DSFont.semibold(size: DSFont.Size.sm))
@@ -588,9 +593,9 @@ public struct DSProgressRingWidget: View {
             }
         }
         .padding(DSSpacing.lg)
-        .background(scheme == .dark ? DSColor.surfaceDark : DSColor.surface)
+        .background(scheme == .dark ? theme.surfaceDark : theme.surface)
         .clipShape(RoundedRectangle(cornerRadius: DSRadius.large))
-        .overlay(RoundedRectangle(cornerRadius: DSRadius.large).stroke(scheme == .dark ? DSColor.borderDark : DSColor.border, lineWidth: 1))
+        .overlay(RoundedRectangle(cornerRadius: DSRadius.large).stroke(scheme == .dark ? theme.borderDark : theme.border, lineWidth: 1))
         .dsShadow(.sm)
         .onAppear { withAnimation { animateIn = true } }
         .accessibilityElement(children: .combine)
@@ -610,6 +615,7 @@ public struct DSChartHeader: View {
     let title: String
     let subtitle: String?
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(title: String, subtitle: String?) {
         self.title = title; self.subtitle = subtitle
@@ -620,11 +626,11 @@ public struct DSChartHeader: View {
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
                     .font(DSFont.semibold(size: DSFont.Size.base))
-                    .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                    .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                 if let sub = subtitle {
                     Text(sub)
                         .font(DSFont.regular(size: DSFont.Size.xs))
-                        .foregroundStyle(DSColor.muted)
+                        .foregroundStyle(theme.muted)
                 }
             }
             Spacer()
@@ -638,12 +644,13 @@ public struct DSChartHeader: View {
 private struct DSChartMoreButton: View {
     @State private var hovered = false
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
     var body: some View {
         Image(systemName: "ellipsis")
             .font(.system(size: 14, weight: .medium))
-            .foregroundStyle(DSColor.muted)
+            .foregroundStyle(theme.muted)
             .padding(6)
-            .background(hovered ? (scheme == .dark ? Color.white.opacity(0.08) : DSColor.border.opacity(0.6)) : Color.clear)
+            .background(hovered ? (scheme == .dark ? Color.white.opacity(0.08) : theme.border.opacity(0.6)) : Color.clear)
             .clipShape(RoundedRectangle(cornerRadius: DSRadius.small))
             .onHover { hovered = $0 }
             .animation(DSAnimation.interactive, value: hovered)

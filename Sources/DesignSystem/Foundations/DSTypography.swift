@@ -125,7 +125,6 @@ public enum DSTextStyle {
 /// Applies DSTextStyle (font, lineSpacing, tracking). Use via `.dsTextStyle(_:)`.
 public struct DSTextStyleModifier: ViewModifier {
     let style: DSTextStyle
-    @Environment(\.colorScheme) private var scheme
 
     public func body(content: Content) -> some View {
         content
@@ -161,6 +160,7 @@ public struct DSText: View {
     }
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public var body: some View {
         Text(text)
@@ -171,9 +171,9 @@ public struct DSText: View {
     private var defaultColor: Color {
         switch style {
         case .bodyMuted, .caption, .caption2, .subheadline:
-            return scheme == .dark ? DSColor.muted.opacity(0.8) : DSColor.muted
+            return scheme == .dark ? theme.muted.opacity(0.8) : theme.muted
         default:
-            return scheme == .dark ? DSColor.foregroundDark : DSColor.foreground
+            return scheme == .dark ? theme.foregroundDark : theme.foreground
         }
     }
 }

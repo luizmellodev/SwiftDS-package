@@ -22,6 +22,7 @@ public struct DSSelectField<T: Hashable>: View {
     let accessibilityLabel: String?
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         label: String? = nil,
@@ -47,8 +48,8 @@ public struct DSSelectField<T: Hashable>: View {
     }
 
     private var borderColor: Color {
-        if error != nil { return DSColor.error }
-        return scheme == .dark ? DSColor.borderDark : DSColor.border
+        if error != nil { return theme.error }
+        return scheme == .dark ? theme.borderDark : theme.border
     }
 
     public var body: some View {
@@ -56,7 +57,7 @@ public struct DSSelectField<T: Hashable>: View {
             if let label {
                 Text(label)
                     .font(.system(size: 13, weight: .medium))
-                    .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                    .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
             }
 
             Menu {
@@ -69,15 +70,15 @@ public struct DSSelectField<T: Hashable>: View {
                 HStack {
                     Text(displayText)
                         .font(.system(size: 15))
-                        .foregroundStyle(selection == nil ? DSColor.muted : (scheme == .dark ? DSColor.foregroundDark : DSColor.foreground))
+                        .foregroundStyle(selection == nil ? theme.muted : (scheme == .dark ? theme.foregroundDark : theme.foreground))
                     Spacer()
                     Image(systemName: "chevron.down")
                         .font(.system(size: 12, weight: .semibold))
-                        .foregroundStyle(DSColor.muted)
+                        .foregroundStyle(theme.muted)
                 }
                 .padding(.horizontal, DSSpacing.md)
                 .frame(height: 44)
-                .background(scheme == .dark ? DSColor.surfaceDark : DSColor.surface)
+                .background(scheme == .dark ? theme.surfaceDark : theme.surface)
                 .clipShape(RoundedRectangle(cornerRadius: DSRadius.medium, style: .continuous))
                 .overlay(
                     RoundedRectangle(cornerRadius: DSRadius.medium, style: .continuous)
@@ -89,12 +90,12 @@ public struct DSSelectField<T: Hashable>: View {
             if let error {
                 Text(error)
                     .font(.system(size: 12))
-                    .foregroundStyle(DSColor.error)
+                    .foregroundStyle(theme.error)
             }
             if let hint, error == nil {
                 Text(hint)
                     .font(.system(size: 12))
-                    .foregroundStyle(DSColor.muted)
+                    .foregroundStyle(theme.muted)
             }
         }
         .accessibilityElement(children: .combine)

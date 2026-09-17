@@ -65,6 +65,7 @@ public struct DSSettingsScreen: View {
     let title: String
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(title: String = "Settings", sections: [DSSettingsSection]) {
         self.title = title; self.sections = sections
@@ -76,7 +77,7 @@ public struct DSSettingsScreen: View {
                 // Title
                 Text(title)
                     .font(DSFont.bold(size: DSFont.Size.xxxl))
-                    .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                    .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                     .padding(.horizontal, DSSpacing.lg)
                     .padding(.top, DSSpacing.lg)
 
@@ -87,7 +88,7 @@ public struct DSSettingsScreen: View {
                 .padding(.bottom, DSSpacing.xl)
             }
         }
-        .background(scheme == .dark ? DSColor.backgroundDark : DSColor.background)
+        .background(scheme == .dark ? theme.backgroundDark : theme.background)
         .accessibilityElement(children: .contain)
         .accessibilityLabel("\(title) with \(sections.count) sections")
         .accessibilityAddTraits(.isHeader)
@@ -100,6 +101,7 @@ public struct DSSettingsScreen: View {
 public struct DSSettingsSectionView: View {
     let section: DSSettingsSection
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(section: DSSettingsSection) { self.section = section }
 
@@ -109,7 +111,7 @@ public struct DSSettingsSectionView: View {
                 Text(title.uppercased())
                     .font(DSFont.semibold(size: DSFont.Size.xs))
                     .tracking(0.6)
-                    .foregroundStyle(DSColor.muted)
+                    .foregroundStyle(theme.muted)
                     .padding(.horizontal, DSSpacing.lg)
                     .padding(.bottom, 2)
             }
@@ -119,23 +121,23 @@ public struct DSSettingsSectionView: View {
                     DSSettingsRow(item: item)
                     if item.id != section.items.last?.id {
                         Divider()
-                            .overlay(scheme == .dark ? DSColor.borderDark : DSColor.border)
+                            .overlay(scheme == .dark ? theme.borderDark : theme.border)
                             .padding(.leading, 52)
                     }
                 }
             }
-            .background(scheme == .dark ? DSColor.surfaceDark : DSColor.surface)
+            .background(scheme == .dark ? theme.surfaceDark : theme.surface)
             .clipShape(RoundedRectangle(cornerRadius: DSRadius.large))
             .overlay(
                 RoundedRectangle(cornerRadius: DSRadius.large)
-                    .stroke(scheme == .dark ? DSColor.borderDark : DSColor.border, lineWidth: 1)
+                    .stroke(scheme == .dark ? theme.borderDark : theme.border, lineWidth: 1)
             )
             .padding(.horizontal, DSSpacing.md)
 
             if let footer = section.footer {
                 Text(footer)
                     .font(DSFont.regular(size: DSFont.Size.xs))
-                    .foregroundStyle(DSColor.muted)
+                    .foregroundStyle(theme.muted)
                     .padding(.horizontal, DSSpacing.lg)
                     .padding(.top, 4)
             }
@@ -151,12 +153,13 @@ private struct DSSettingsRow: View {
     let item: DSSettingsItem
     @State private var isHovered = false
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     var body: some View {
         rowContent
             .padding(.horizontal, DSSpacing.md)
             .padding(.vertical, 12)
-            .background(isHovered && isInteractive ? (scheme == .dark ? Color.white.opacity(0.04) : DSColor.primary.opacity(0.02)) : Color.clear)
+            .background(isHovered && isInteractive ? (scheme == .dark ? Color.white.opacity(0.04) : theme.primary.opacity(0.02)) : Color.clear)
             .contentShape(Rectangle())
             .onHover { isHovered = $0 }
             .animation(DSAnimation.interactive, value: isHovered)
@@ -188,13 +191,13 @@ private struct DSSettingsRow: View {
                     .font(DSFont.regular(size: DSFont.Size.base))
                     .foregroundStyle(
                         isDestructive
-                            ? DSColor.error
-                            : (scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                            ? theme.error
+                            : (scheme == .dark ? theme.foregroundDark : theme.foreground)
                     )
                 if let sub = item.subtitle {
                     Text(sub)
                         .font(DSFont.regular(size: DSFont.Size.xs))
-                        .foregroundStyle(DSColor.muted)
+                        .foregroundStyle(theme.muted)
                 }
             }
 
@@ -217,23 +220,23 @@ private struct DSSettingsRow: View {
         case .navigation:
             Image(systemName: "chevron.right")
                 .font(.system(size: 12, weight: .semibold))
-                .foregroundStyle(DSColor.subtle)
+                .foregroundStyle(theme.subtle)
 
         case .toggle(let binding):
             Toggle("", isOn: binding)
                 .toggleStyle(.switch)
-                .tint(DSColor.primary)
+                .tint(theme.primary)
                 .labelsHidden()
 
         case .value(let text):
             Text(text)
                 .font(DSFont.regular(size: DSFont.Size.sm))
-                .foregroundStyle(DSColor.muted)
+                .foregroundStyle(theme.muted)
 
         case .destructive:
             Image(systemName: "chevron.right")
                 .font(.system(size: 12, weight: .semibold))
-                .foregroundStyle(DSColor.error.opacity(0.4))
+                .foregroundStyle(theme.error.opacity(0.4))
 
         case .action:
             EmptyView()
@@ -258,6 +261,7 @@ public struct DSDangerZone: View {
     let items: [(title: String, description: String, buttonLabel: String, action: () -> Void)]
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         title: String = "Zona de Perigo",
@@ -270,7 +274,7 @@ public struct DSDangerZone: View {
         VStack(alignment: .leading, spacing: DSSpacing.sm) {
             Text(title)
                 .font(DSFont.semibold(size: DSFont.Size.sm))
-                .foregroundStyle(DSColor.error)
+                .foregroundStyle(theme.error)
                 .padding(.horizontal, DSSpacing.lg)
 
             VStack(spacing: 0) {
@@ -279,23 +283,23 @@ public struct DSDangerZone: View {
                         VStack(alignment: .leading, spacing: 3) {
                             Text(items[i].title)
                                 .font(DSFont.medium(size: DSFont.Size.base))
-                                .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                                .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                             Text(items[i].description)
                                 .font(DSFont.regular(size: DSFont.Size.sm))
-                                .foregroundStyle(DSColor.muted)
+                                .foregroundStyle(theme.muted)
                         }
                         Spacer()
                         Button(action: items[i].action) {
                             Text(items[i].buttonLabel)
                                 .font(DSFont.semibold(size: DSFont.Size.sm))
-                                .foregroundStyle(DSColor.error)
+                                .foregroundStyle(theme.error)
                                 .padding(.horizontal, DSSpacing.md)
                                 .padding(.vertical, 8)
-                                .background(DSColor.error.opacity(0.1))
+                                .background(theme.error.opacity(0.1))
                                 .clipShape(RoundedRectangle(cornerRadius: DSRadius.medium))
                                 .overlay(
                                     RoundedRectangle(cornerRadius: DSRadius.medium)
-                                        .stroke(DSColor.error.opacity(0.3), lineWidth: 1)
+                                        .stroke(theme.error.opacity(0.3), lineWidth: 1)
                                 )
                         }
                         .buttonStyle(.plain)
@@ -303,15 +307,15 @@ public struct DSDangerZone: View {
                     .padding(DSSpacing.lg)
 
                     if i < items.count - 1 {
-                        Divider().overlay(DSColor.error.opacity(0.2)).padding(.horizontal, DSSpacing.lg)
+                        Divider().overlay(theme.error.opacity(0.2)).padding(.horizontal, DSSpacing.lg)
                     }
                 }
             }
-            .background(DSColor.error.opacity(0.03))
+            .background(theme.error.opacity(0.03))
             .clipShape(RoundedRectangle(cornerRadius: DSRadius.large))
             .overlay(
                 RoundedRectangle(cornerRadius: DSRadius.large)
-                    .stroke(DSColor.error.opacity(0.25), lineWidth: 1)
+                    .stroke(theme.error.opacity(0.25), lineWidth: 1)
             )
             .padding(.horizontal, DSSpacing.md)
         }
@@ -337,6 +341,7 @@ public struct DSApiKeyRow: View {
     @State private var isRevealed = false
     @State private var isCopied = false
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(label: String, keyValue: String, onRevoke: @escaping () -> Void, onCopy: @escaping () -> Void) {
         self.label = label; self.keyValue = keyValue
@@ -353,10 +358,10 @@ public struct DSApiKeyRow: View {
             VStack(alignment: .leading, spacing: 3) {
                 Text(label)
                     .font(DSFont.medium(size: DSFont.Size.sm))
-                    .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                    .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                 Text(isRevealed ? keyValue : maskedKey)
                     .font(DSFont.mono(size: DSFont.Size.xs))
-                    .foregroundStyle(DSColor.muted)
+                    .foregroundStyle(theme.muted)
                     .lineLimit(1)
             }
             Spacer()
@@ -366,9 +371,9 @@ public struct DSApiKeyRow: View {
                 } label: {
                     Image(systemName: isRevealed ? "eye.slash" : "eye")
                         .font(.system(size: 13))
-                        .foregroundStyle(DSColor.muted)
+                        .foregroundStyle(theme.muted)
                         .padding(6)
-                        .background(scheme == .dark ? Color.white.opacity(0.06) : DSColor.border.opacity(0.5))
+                        .background(scheme == .dark ? Color.white.opacity(0.06) : theme.border.opacity(0.5))
                         .clipShape(Circle())
                 }
                 .buttonStyle(.plain)
@@ -382,9 +387,9 @@ public struct DSApiKeyRow: View {
                 } label: {
                     Image(systemName: isCopied ? "checkmark" : "doc.on.doc")
                         .font(.system(size: 13))
-                        .foregroundStyle(isCopied ? DSColor.success : DSColor.muted)
+                        .foregroundStyle(isCopied ? theme.success : theme.muted)
                         .padding(6)
-                        .background(scheme == .dark ? Color.white.opacity(0.06) : DSColor.border.opacity(0.5))
+                        .background(scheme == .dark ? Color.white.opacity(0.06) : theme.border.opacity(0.5))
                         .clipShape(Circle())
                 }
                 .buttonStyle(.plain)
@@ -393,21 +398,21 @@ public struct DSApiKeyRow: View {
                 Button(action: onRevoke) {
                     Text("Revogar")
                         .font(DSFont.medium(size: DSFont.Size.xs))
-                        .foregroundStyle(DSColor.error)
+                        .foregroundStyle(theme.error)
                         .padding(.horizontal, 8)
                         .padding(.vertical, 4)
-                        .background(DSColor.error.opacity(0.1))
+                        .background(theme.error.opacity(0.1))
                         .clipShape(Capsule())
                 }
                 .buttonStyle(.plain)
             }
         }
         .padding(DSSpacing.md)
-        .background(scheme == .dark ? DSColor.surfaceDark : DSColor.surface)
+        .background(scheme == .dark ? theme.surfaceDark : theme.surface)
         .clipShape(RoundedRectangle(cornerRadius: DSRadius.medium))
         .overlay(
             RoundedRectangle(cornerRadius: DSRadius.medium)
-                .stroke(scheme == .dark ? DSColor.borderDark : DSColor.border, lineWidth: 1)
+                .stroke(scheme == .dark ? theme.borderDark : theme.border, lineWidth: 1)
         )
         .accessibilityElement(children: .contain)
         .accessibilityLabel("\(label), API key")
@@ -424,6 +429,7 @@ public struct DSApiKeyRow: View {
 public struct DSAppearancePicker: View {
     @Binding var selection: ColorScheme?
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(selection: Binding<ColorScheme?>) { self._selection = selection }
 
@@ -443,19 +449,19 @@ public struct DSAppearancePicker: View {
                     VStack(spacing: DSSpacing.xs) {
                         ZStack {
                             RoundedRectangle(cornerRadius: DSRadius.medium)
-                                .fill(isSelected ? DSColor.primary.opacity(0.12) : (scheme == .dark ? Color.white.opacity(0.06) : DSColor.border.opacity(0.5)))
+                                .fill(isSelected ? theme.primary.opacity(0.12) : (scheme == .dark ? Color.white.opacity(0.06) : theme.border.opacity(0.5)))
                                 .frame(width: 56, height: 44)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: DSRadius.medium)
-                                        .stroke(isSelected ? DSColor.primary : Color.clear, lineWidth: 2)
+                                        .stroke(isSelected ? theme.primary : Color.clear, lineWidth: 2)
                                 )
                             Image(systemName: opt.icon)
                                 .font(.system(size: 20))
-                                .foregroundStyle(isSelected ? DSColor.primary : DSColor.muted)
+                                .foregroundStyle(isSelected ? theme.primary : theme.muted)
                         }
                         Text(opt.label)
                             .font(DSFont.medium(size: DSFont.Size.xs))
-                            .foregroundStyle(isSelected ? DSColor.primary : DSColor.muted)
+                            .foregroundStyle(isSelected ? theme.primary : theme.muted)
                     }
                 }
                 .buttonStyle(.plain)

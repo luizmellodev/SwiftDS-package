@@ -55,18 +55,18 @@ public struct DSActivityEvent: Identifiable, Sendable {
         }
     }
 
-    var iconColor: Color {
+    func iconColor(_ theme: DSTheme) -> Color {
         switch type {
-        case .comment:     return DSColor.info
-        case .commit:      return DSColor.primary
-        case .deploy:      return DSColor.success
-        case .merge:       return DSColor.primary
-        case .review:      return DSColor.success
-        case .mention:     return DSColor.accent
-        case .create:      return DSColor.success
-        case .delete:      return DSColor.error
-        case .update:      return DSColor.warning
-        case .achievement: return DSColor.warning
+        case .comment:     return theme.info
+        case .commit:      return theme.primary
+        case .deploy:      return theme.success
+        case .merge:       return theme.primary
+        case .review:      return theme.success
+        case .mention:     return theme.accent
+        case .create:      return theme.success
+        case .delete:      return theme.error
+        case .update:      return theme.warning
+        case .achievement: return theme.warning
         }
     }
 }
@@ -86,6 +86,7 @@ public struct DSActivityFeed: View {
 
     @State private var visibleCount: Int = 5
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(events: [DSActivityEvent], title: String = "Atividade Recente", showTimeline: Bool = true) {
         self.events = events
@@ -99,16 +100,16 @@ public struct DSActivityFeed: View {
             HStack {
                 Text(title)
                     .font(DSFont.semibold(size: DSFont.Size.base))
-                    .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                    .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                 Spacer()
                 Button("Ver tudo") {}
                     .font(DSFont.medium(size: DSFont.Size.sm))
-                    .foregroundStyle(DSColor.primary)
+                    .foregroundStyle(theme.primary)
                     .buttonStyle(.plain)
             }
             .padding(DSSpacing.lg)
 
-            Divider().overlay(scheme == .dark ? DSColor.borderDark : DSColor.border)
+            Divider().overlay(scheme == .dark ? theme.borderDark : theme.border)
 
             // Events
             ScrollView {
@@ -141,7 +142,7 @@ public struct DSActivityFeed: View {
                         Image(systemName: "chevron.down")
                             .font(.system(size: 11, weight: .semibold))
                     }
-                    .foregroundStyle(DSColor.primary)
+                    .foregroundStyle(theme.primary)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, DSSpacing.sm)
                 }
@@ -150,9 +151,9 @@ public struct DSActivityFeed: View {
                 .padding(.bottom, DSSpacing.sm)
             }
         }
-        .background(scheme == .dark ? DSColor.surfaceDark : DSColor.surface)
+        .background(scheme == .dark ? theme.surfaceDark : theme.surface)
         .clipShape(RoundedRectangle(cornerRadius: DSRadius.large))
-        .overlay(RoundedRectangle(cornerRadius: DSRadius.large).stroke(scheme == .dark ? DSColor.borderDark : DSColor.border, lineWidth: 1))
+        .overlay(RoundedRectangle(cornerRadius: DSRadius.large).stroke(scheme == .dark ? theme.borderDark : theme.border, lineWidth: 1))
         .dsShadow(.sm)
         .accessibilityElement(children: .contain)
         .accessibilityLabel("\(title) activity feed with \(events.count) events")
@@ -168,6 +169,7 @@ private struct DSActivityRow: View {
     let showTimeline: Bool
     @State private var isHovered = false
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     var body: some View {
         HStack(alignment: .top, spacing: DSSpacing.sm) {
@@ -186,11 +188,11 @@ private struct DSActivityRow: View {
                             )
                         ZStack {
                             Circle()
-                                .fill(scheme == .dark ? DSColor.surfaceDark : DSColor.surface)
+                                .fill(scheme == .dark ? theme.surfaceDark : theme.surface)
                                 .frame(width: 18, height: 18)
                             Image(systemName: event.icon)
                                 .font(.system(size: 9, weight: .bold))
-                                .foregroundStyle(event.iconColor)
+                                .foregroundStyle(event.iconColor(theme))
                         }
                         .offset(x: 4, y: 4)
                     }
@@ -198,7 +200,7 @@ private struct DSActivityRow: View {
                     // Line connector
                     if !isLast {
                         Rectangle()
-                            .fill(scheme == .dark ? DSColor.borderDark : DSColor.border)
+                            .fill(scheme == .dark ? theme.borderDark : theme.border)
                             .frame(width: 1.5)
                             .frame(maxHeight: .infinity)
                             .padding(.top, 4)
@@ -212,23 +214,23 @@ private struct DSActivityRow: View {
                 HStack(spacing: 4) {
                     Text(event.actor)
                         .font(DSFont.semibold(size: DSFont.Size.sm))
-                        .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                        .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                     Text(event.title)
                         .font(DSFont.regular(size: DSFont.Size.sm))
-                        .foregroundStyle(DSColor.muted)
+                        .foregroundStyle(theme.muted)
                     Spacer()
                     Text(relativeTime(event.timestamp))
                         .font(DSFont.regular(size: DSFont.Size.xs))
-                        .foregroundStyle(DSColor.subtle)
+                        .foregroundStyle(theme.subtle)
                 }
 
                 if let detail = event.detail {
                     Text(detail)
                         .font(DSFont.regular(size: DSFont.Size.xs))
-                        .foregroundStyle(DSColor.muted)
+                        .foregroundStyle(theme.muted)
                         .padding(.horizontal, DSSpacing.sm)
                         .padding(.vertical, DSSpacing.xs)
-                        .background(scheme == .dark ? Color.white.opacity(0.05) : DSColor.border.opacity(0.4))
+                        .background(scheme == .dark ? Color.white.opacity(0.05) : theme.border.opacity(0.4))
                         .clipShape(RoundedRectangle(cornerRadius: DSRadius.small))
                         .lineLimit(2)
                 }
@@ -236,13 +238,13 @@ private struct DSActivityRow: View {
                 if let meta = event.metadata {
                     Text(meta)
                         .font(DSFont.mono(size: DSFont.Size.xs))
-                        .foregroundStyle(DSColor.primary)
+                        .foregroundStyle(theme.primary)
                 }
             }
             .padding(.vertical, DSSpacing.md)
         }
         .padding(.horizontal, DSSpacing.lg)
-        .background(isHovered ? (scheme == .dark ? Color.white.opacity(0.03) : DSColor.primary.opacity(0.02)) : Color.clear)
+        .background(isHovered ? (scheme == .dark ? Color.white.opacity(0.03) : theme.primary.opacity(0.02)) : Color.clear)
         .animation(DSAnimation.interactive, value: isHovered)
         .onHover { isHovered = $0 }
     }
@@ -302,14 +304,14 @@ public struct DSNotification: Identifiable, Sendable {
         }
     }
 
-    var iconColor: Color {
+    func iconColor(_ theme: DSTheme) -> Color {
         switch type {
-        case .info:    return DSColor.info
-        case .success: return DSColor.success
-        case .warning: return DSColor.warning
-        case .error:   return DSColor.error
-        case .mention: return DSColor.accent
-        case .system:  return DSColor.muted
+        case .info:    return theme.info
+        case .success: return theme.success
+        case .warning: return theme.warning
+        case .error:   return theme.error
+        case .mention: return theme.accent
+        case .system:  return theme.muted
         }
     }
 }
@@ -327,6 +329,7 @@ public struct DSNotificationCenter: View {
     @State private var selectedFilter: String = "Todas"
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(notifications: Binding<[DSNotification]>, isPresented: Binding<Bool>) {
         self._notifications = notifications
@@ -352,11 +355,11 @@ public struct DSNotificationCenter: View {
                 VStack(alignment: .leading, spacing: 2) {
                     Text("Notificações")
                         .font(DSFont.semibold(size: DSFont.Size.md))
-                        .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                        .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                     if unreadCount > 0 {
                         Text("\(unreadCount) não lidas")
                             .font(DSFont.regular(size: DSFont.Size.xs))
-                            .foregroundStyle(DSColor.muted)
+                            .foregroundStyle(theme.muted)
                     }
                 }
                 Spacer()
@@ -370,16 +373,16 @@ public struct DSNotificationCenter: View {
                     } label: {
                         Text("Marcar todas como lidas")
                             .font(DSFont.medium(size: DSFont.Size.xs))
-                            .foregroundStyle(DSColor.primary)
+                            .foregroundStyle(theme.primary)
                     }
                     .buttonStyle(.plain)
 
                     Button { withAnimation(DSAnimation.smooth) { isPresented = false } } label: {
                         Image(systemName: "xmark")
                             .font(.system(size: 13, weight: .semibold))
-                            .foregroundStyle(DSColor.muted)
+                            .foregroundStyle(theme.muted)
                             .padding(6)
-                            .background(scheme == .dark ? Color.white.opacity(0.08) : DSColor.border.opacity(0.5))
+                            .background(scheme == .dark ? Color.white.opacity(0.08) : theme.border.opacity(0.5))
                             .clipShape(Circle())
                     }
                     .buttonStyle(.plain)
@@ -398,10 +401,10 @@ public struct DSNotificationCenter: View {
                         } label: {
                             Text(f)
                                 .font(DSFont.medium(size: DSFont.Size.xs))
-                                .foregroundStyle(selectedFilter == f ? .white : (scheme == .dark ? DSColor.foregroundDark : DSColor.foreground))
+                                .foregroundStyle(selectedFilter == f ? .white : (scheme == .dark ? theme.foregroundDark : theme.foreground))
                                 .padding(.horizontal, DSSpacing.sm)
                                 .padding(.vertical, 5)
-                                .background(selectedFilter == f ? DSColor.primary : (scheme == .dark ? Color.white.opacity(0.06) : DSColor.border.opacity(0.5)))
+                                .background(selectedFilter == f ? theme.primary : (scheme == .dark ? Color.white.opacity(0.06) : theme.border.opacity(0.5)))
                                 .clipShape(Capsule())
                         }
                         .buttonStyle(.plain)
@@ -411,17 +414,17 @@ public struct DSNotificationCenter: View {
                 .padding(.bottom, DSSpacing.sm)
             }
 
-            Divider().overlay(scheme == .dark ? DSColor.borderDark : DSColor.border)
+            Divider().overlay(scheme == .dark ? theme.borderDark : theme.border)
 
             // Notifications list
             if filtered.isEmpty {
                 VStack(spacing: DSSpacing.sm) {
                     Image(systemName: "bell.slash")
                         .font(.system(size: 32, weight: .light))
-                        .foregroundStyle(DSColor.subtle)
+                        .foregroundStyle(theme.subtle)
                     Text("Nenhuma notificação")
                         .font(DSFont.medium(size: DSFont.Size.base))
-                        .foregroundStyle(DSColor.muted)
+                        .foregroundStyle(theme.muted)
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, DSSpacing.xxl)
@@ -439,7 +442,7 @@ public struct DSNotificationCenter: View {
                                 }
                             }
                             Divider()
-                                .overlay(scheme == .dark ? DSColor.borderDark : DSColor.border)
+                                .overlay(scheme == .dark ? theme.borderDark : theme.border)
                                 .padding(.leading, 60)
                         }
                     }
@@ -447,7 +450,7 @@ public struct DSNotificationCenter: View {
                 .frame(maxHeight: 420)
             }
         }
-        .background(scheme == .dark ? DSColor.surfaceDark : DSColor.surface)
+        .background(scheme == .dark ? theme.surfaceDark : theme.surface)
         .clipShape(RoundedRectangle(cornerRadius: DSRadius.large))
         .dsShadow(.xl)
         .frame(width: 380)
@@ -465,13 +468,14 @@ private struct DSNotificationRow: View {
     let onRead: () -> Void
     @State private var isHovered = false
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     var body: some View {
         Button(action: onRead) {
             HStack(alignment: .top, spacing: DSSpacing.sm) {
                 // Unread dot
                 Circle()
-                    .fill(notification.isRead ? Color.clear : DSColor.primary)
+                    .fill(notification.isRead ? Color.clear : theme.primary)
                     .frame(width: 6, height: 6)
                     .padding(.top, 8)
 
@@ -486,11 +490,11 @@ private struct DSNotificationRow: View {
                             .foregroundStyle(notification.senderColor)
                     } else {
                         Circle()
-                            .fill(notification.iconColor.opacity(0.12))
+                            .fill(notification.iconColor(theme).opacity(0.12))
                             .frame(width: 36, height: 36)
                         Image(systemName: notification.icon)
                             .font(.system(size: 16))
-                            .foregroundStyle(notification.iconColor)
+                            .foregroundStyle(notification.iconColor(theme))
                     }
                 }
 
@@ -498,23 +502,23 @@ private struct DSNotificationRow: View {
                 VStack(alignment: .leading, spacing: 3) {
                     Text(notification.title)
                         .font(DSFont.semibold(size: DSFont.Size.sm))
-                        .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                        .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                         .lineLimit(1)
                     Text(notification.message)
                         .font(DSFont.regular(size: DSFont.Size.sm))
-                        .foregroundStyle(DSColor.muted)
+                        .foregroundStyle(theme.muted)
                         .lineLimit(2)
                     HStack(spacing: DSSpacing.xs) {
                         Text(relativeTime(notification.timestamp))
                             .font(DSFont.regular(size: DSFont.Size.xs))
-                            .foregroundStyle(DSColor.subtle)
+                            .foregroundStyle(theme.subtle)
                         if let action = notification.action {
                             Text("·")
-                                .foregroundStyle(DSColor.subtle)
+                                .foregroundStyle(theme.subtle)
                                 .font(.caption)
                             Text(action)
                                 .font(DSFont.medium(size: DSFont.Size.xs))
-                                .foregroundStyle(DSColor.primary)
+                                .foregroundStyle(theme.primary)
                         }
                     }
                 }
@@ -525,8 +529,8 @@ private struct DSNotificationRow: View {
             .padding(.vertical, DSSpacing.md)
             .background(
                 !notification.isRead
-                    ? (scheme == .dark ? DSColor.surfaceElevatedDark : DSColor.primary.opacity(0.03))
-                    : (isHovered ? (scheme == .dark ? Color.white.opacity(0.03) : DSColor.border.opacity(0.3)) : Color.clear)
+                    ? (scheme == .dark ? theme.surfaceElevatedDark : theme.primary.opacity(0.03))
+                    : (isHovered ? (scheme == .dark ? Color.white.opacity(0.03) : theme.border.opacity(0.3)) : Color.clear)
             )
             .contentShape(Rectangle())
         }
@@ -558,6 +562,7 @@ public struct DSNotificationBell: View {
     @Binding var showCenter: Bool
     @State private var isBouncing = false
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(notifications: Binding<[DSNotification]>, showCenter: Binding<Bool>) {
         self._notifications = notifications
@@ -573,13 +578,13 @@ public struct DSNotificationBell: View {
             ZStack(alignment: .topTrailing) {
                 Image(systemName: "bell")
                     .font(.system(size: 18, weight: .medium))
-                    .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                    .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                     .rotationEffect(.degrees(isBouncing ? -15 : 0))
 
                 if unreadCount > 0 {
                     ZStack {
                         Circle()
-                            .fill(DSColor.error)
+                            .fill(theme.error)
                             .frame(width: 18, height: 18)
                         Text(unreadCount > 9 ? "9+" : "\(unreadCount)")
                             .font(DSFont.bold(size: 9))
@@ -589,7 +594,7 @@ public struct DSNotificationBell: View {
                 }
             }
             .padding(8)
-            .background(scheme == .dark ? Color.white.opacity(0.08) : DSColor.border.opacity(0.5))
+            .background(scheme == .dark ? Color.white.opacity(0.08) : theme.border.opacity(0.5))
             .clipShape(Circle())
         }
         .buttonStyle(.plain)
@@ -635,6 +640,7 @@ public struct DSNotificationBell: View {
 
 #Preview("Notification Center") {
     struct PreviewWrapper: View {
+        @Environment(\.dsTheme) private var theme
         @State var notifs: [DSNotification] = [
             .init(type: .mention, title: "Carlos mencionou você", message: "Ei @ana, pode revisar o PR do dashboard? Está pronto para review.", timestamp: Date().addingTimeInterval(-300), action: "Ver PR", senderInitials: "CS", senderColor: DSColor.primary),
             .init(type: .success, title: "Deploy concluído", message: "v2.4.1 foi deployado com sucesso em produção.", timestamp: Date().addingTimeInterval(-900), isRead: true),

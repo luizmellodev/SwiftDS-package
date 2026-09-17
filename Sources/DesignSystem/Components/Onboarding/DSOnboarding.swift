@@ -42,6 +42,7 @@ public struct DSOnboardingCarousel: View {
     @State private var currentIndex: Int = 0
     @State private var animateContent = true
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(steps: [DSOnboardingStep], onComplete: @escaping () -> Void, onSkip: (() -> Void)? = nil) {
         self.steps = steps; self.onComplete = onComplete; self.onSkip = onSkip
@@ -64,7 +65,7 @@ public struct DSOnboardingCarousel: View {
                     if !isLast, let onSkip = onSkip {
                         Button("Pular", action: onSkip)
                             .font(DSFont.medium(size: DSFont.Size.base))
-                            .foregroundStyle(DSColor.muted)
+                            .foregroundStyle(theme.muted)
                             .padding(DSSpacing.lg)
                     }
                 }
@@ -93,12 +94,12 @@ public struct DSOnboardingCarousel: View {
                 VStack(spacing: DSSpacing.md) {
                     Text(step.title)
                         .font(DSFont.bold(size: DSFont.Size.xxxl))
-                        .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                        .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                         .multilineTextAlignment(.center)
 
                     Text(step.subtitle)
                         .font(DSFont.regular(size: DSFont.Size.md))
-                        .foregroundStyle(DSColor.muted)
+                        .foregroundStyle(theme.muted)
                         .multilineTextAlignment(.center)
                         .lineSpacing(5)
                         .padding(.horizontal, DSSpacing.xl)
@@ -106,7 +107,7 @@ public struct DSOnboardingCarousel: View {
                     if let detail = step.detail {
                         Text(detail)
                             .font(DSFont.regular(size: DSFont.Size.sm))
-                            .foregroundStyle(DSColor.subtle)
+                            .foregroundStyle(theme.subtle)
                             .multilineTextAlignment(.center)
                             .padding(.horizontal, DSSpacing.xxl)
                     }
@@ -122,7 +123,7 @@ public struct DSOnboardingCarousel: View {
                     HStack(spacing: 8) {
                         ForEach(steps.indices, id: \.self) { i in
                             Capsule()
-                                .fill(i == currentIndex ? step.iconColor : DSColor.border)
+                                .fill(i == currentIndex ? step.iconColor : theme.border)
                                 .frame(width: i == currentIndex ? 24 : 8, height: 8)
                                 .animation(DSAnimation.interactive, value: currentIndex)
                         }
@@ -223,6 +224,7 @@ public struct DSSetupChecklist: View {
     let subtitle: String
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(items: Binding<[ChecklistItem]>, title: String = "Configure sua conta", subtitle: String = "Complete esses passos para aproveitar ao máximo.") {
         self._items = items; self.title = title; self.subtitle = subtitle
@@ -239,19 +241,19 @@ public struct DSSetupChecklist: View {
                     VStack(alignment: .leading, spacing: 3) {
                         Text(title)
                             .font(DSFont.bold(size: DSFont.Size.xl))
-                            .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                            .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                         Text(subtitle)
                             .font(DSFont.regular(size: DSFont.Size.sm))
-                            .foregroundStyle(DSColor.muted)
+                            .foregroundStyle(theme.muted)
                     }
                     Spacer()
                     VStack(alignment: .trailing, spacing: 2) {
                         Text("\(completedCount)/\(items.count)")
                             .font(DSFont.bold(size: DSFont.Size.xl))
-                            .foregroundStyle(DSColor.primary)
+                            .foregroundStyle(theme.primary)
                         Text("concluídos")
                             .font(DSFont.regular(size: DSFont.Size.xs))
-                            .foregroundStyle(DSColor.muted)
+                            .foregroundStyle(theme.muted)
                     }
                 }
 
@@ -259,10 +261,10 @@ public struct DSSetupChecklist: View {
                 GeometryReader { geo in
                     ZStack(alignment: .leading) {
                         RoundedRectangle(cornerRadius: DSRadius.pill)
-                            .fill(DSColor.primary.opacity(0.12))
+                            .fill(theme.primary.opacity(0.12))
                             .frame(height: 6)
                         RoundedRectangle(cornerRadius: DSRadius.pill)
-                            .fill(LinearGradient(colors: [DSColor.primary, DSColor.accent], startPoint: .leading, endPoint: .trailing))
+                            .fill(LinearGradient(colors: [theme.primary, theme.accent], startPoint: .leading, endPoint: .trailing))
                             .frame(width: geo.size.width * progress, height: 6)
                             .animation(DSAnimation.smooth, value: progress)
                     }
@@ -287,9 +289,9 @@ public struct DSSetupChecklist: View {
             }
         }
         .padding(DSSpacing.lg)
-        .background(scheme == .dark ? DSColor.surfaceDark : DSColor.surface)
+        .background(scheme == .dark ? theme.surfaceDark : theme.surface)
         .clipShape(RoundedRectangle(cornerRadius: DSRadius.large))
-        .overlay(RoundedRectangle(cornerRadius: DSRadius.large).stroke(scheme == .dark ? DSColor.borderDark : DSColor.border, lineWidth: 1))
+        .overlay(RoundedRectangle(cornerRadius: DSRadius.large).stroke(scheme == .dark ? theme.borderDark : theme.border, lineWidth: 1))
         .dsShadow(.sm)
         .animation(DSAnimation.smooth, value: completedCount)
         .accessibilityElement(children: .contain)
@@ -302,6 +304,7 @@ private struct DSChecklistRow: View {
     @Binding var item: DSSetupChecklist.ChecklistItem
     @State private var isHovered = false
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     var body: some View {
         Button {
@@ -312,11 +315,11 @@ private struct DSChecklistRow: View {
                 // Check circle
                 ZStack {
                     Circle()
-                        .stroke(item.isCompleted ? DSColor.success : (scheme == .dark ? DSColor.borderDark : DSColor.border), lineWidth: 2)
+                        .stroke(item.isCompleted ? theme.success : (scheme == .dark ? theme.borderDark : theme.border), lineWidth: 2)
                         .frame(width: 24, height: 24)
                     if item.isCompleted {
                         Circle()
-                            .fill(DSColor.success)
+                            .fill(theme.success)
                             .frame(width: 24, height: 24)
                         Image(systemName: "checkmark")
                             .font(.system(size: 11, weight: .bold))
@@ -328,11 +331,11 @@ private struct DSChecklistRow: View {
                 // Icon
                 ZStack {
                     RoundedRectangle(cornerRadius: DSRadius.small)
-                        .fill(item.isCompleted ? DSColor.success.opacity(0.1) : DSColor.primary.opacity(0.1))
+                        .fill(item.isCompleted ? theme.success.opacity(0.1) : theme.primary.opacity(0.1))
                         .frame(width: 32, height: 32)
                     Image(systemName: item.icon)
                         .font(.system(size: 14, weight: .medium))
-                        .foregroundStyle(item.isCompleted ? DSColor.success : DSColor.primary)
+                        .foregroundStyle(item.isCompleted ? theme.success : theme.primary)
                 }
 
                 VStack(alignment: .leading, spacing: 2) {
@@ -340,13 +343,13 @@ private struct DSChecklistRow: View {
                         .font(DSFont.medium(size: DSFont.Size.base))
                         .foregroundStyle(
                             item.isCompleted
-                                ? DSColor.muted
-                                : (scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                                ? theme.muted
+                                : (scheme == .dark ? theme.foregroundDark : theme.foreground)
                         )
-                        .strikethrough(item.isCompleted, color: DSColor.muted)
+                        .strikethrough(item.isCompleted, color: theme.muted)
                     Text(item.description)
                         .font(DSFont.regular(size: DSFont.Size.xs))
-                        .foregroundStyle(DSColor.subtle)
+                        .foregroundStyle(theme.subtle)
                 }
                 .frame(minHeight: 40, alignment: .leading)
 
@@ -355,7 +358,7 @@ private struct DSChecklistRow: View {
             .padding(DSSpacing.sm)
             .background(
                 isHovered && !item.isCompleted
-                    ? (scheme == .dark ? Color.white.opacity(0.04) : DSColor.primary.opacity(0.03))
+                    ? (scheme == .dark ? Color.white.opacity(0.04) : theme.primary.opacity(0.03))
                     : Color.clear
             )
             .clipShape(RoundedRectangle(cornerRadius: DSRadius.medium))
@@ -372,6 +375,7 @@ private struct DSChecklistRow: View {
 private struct DSSetupComplete: View {
     @State private var bounce = false
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     var body: some View {
         HStack(spacing: DSSpacing.sm) {
@@ -387,17 +391,17 @@ private struct DSSetupComplete: View {
             VStack(alignment: .leading, spacing: 2) {
                 Text("Tudo pronto!")
                     .font(DSFont.semibold(size: DSFont.Size.base))
-                    .foregroundStyle(DSColor.success)
+                    .foregroundStyle(theme.success)
                 Text("Você está pronto para começar a usar.")
                     .font(DSFont.regular(size: DSFont.Size.sm))
-                    .foregroundStyle(DSColor.muted)
+                    .foregroundStyle(theme.muted)
             }
             Spacer()
         }
         .padding(DSSpacing.md)
-        .background(DSColor.successMuted)
+        .background(theme.successMuted)
         .clipShape(RoundedRectangle(cornerRadius: DSRadius.medium))
-        .overlay(RoundedRectangle(cornerRadius: DSRadius.medium).stroke(DSColor.success.opacity(0.3), lineWidth: 1))
+        .overlay(RoundedRectangle(cornerRadius: DSRadius.medium).stroke(theme.success.opacity(0.3), lineWidth: 1))
     }
 }
 
@@ -420,6 +424,7 @@ public struct DSWelcomeSplash: View {
 
     @State private var animateIn = false
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         productName: String,
@@ -440,11 +445,11 @@ public struct DSWelcomeSplash: View {
                 // Logo area
                 ZStack {
                     Circle()
-                        .fill(DSColor.primary.opacity(0.12))
+                        .fill(theme.primary.opacity(0.12))
                         .frame(width: 100, height: 100)
                     Image(systemName: "sparkles")
                         .font(.system(size: 44, weight: .medium))
-                        .foregroundStyle(DSColor.primary)
+                        .foregroundStyle(theme.primary)
                 }
                 .scaleEffect(animateIn ? 1 : 0.5)
                 .opacity(animateIn ? 1 : 0)
@@ -452,10 +457,10 @@ public struct DSWelcomeSplash: View {
                 VStack(spacing: DSSpacing.sm) {
                     Text(productName)
                         .font(DSFont.bold(size: DSFont.Size.huge))
-                        .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                        .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                     Text(tagline)
                         .font(DSFont.regular(size: DSFont.Size.md))
-                        .foregroundStyle(DSColor.muted)
+                        .foregroundStyle(theme.muted)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, DSSpacing.xl)
                 }
@@ -468,11 +473,11 @@ public struct DSWelcomeSplash: View {
                         HStack(spacing: DSSpacing.sm) {
                             Image(systemName: features[i].icon)
                                 .font(.system(size: 16))
-                                .foregroundStyle(DSColor.primary)
+                                .foregroundStyle(theme.primary)
                                 .frame(width: 24)
                             Text(features[i].text)
                                 .font(DSFont.regular(size: DSFont.Size.base))
-                                .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                                .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                         }
                         .offset(y: animateIn ? 0 : 12)
                         .opacity(animateIn ? 1 : 0)
@@ -480,7 +485,7 @@ public struct DSWelcomeSplash: View {
                     }
                 }
                 .padding(DSSpacing.lg)
-                .background(scheme == .dark ? Color.white.opacity(0.04) : DSColor.border.opacity(0.3))
+                .background(scheme == .dark ? Color.white.opacity(0.04) : theme.border.opacity(0.3))
                 .clipShape(RoundedRectangle(cornerRadius: DSRadius.large))
                 .padding(.horizontal, DSSpacing.lg)
             }
@@ -497,7 +502,7 @@ public struct DSWelcomeSplash: View {
                         .padding(.vertical, 16)
                         .background(
                             RoundedRectangle(cornerRadius: DSRadius.large)
-                                .fill(DSColor.primary)
+                                .fill(theme.primary)
                         )
                         .dsShadow(.primary)
                 }
@@ -506,7 +511,7 @@ public struct DSWelcomeSplash: View {
                 Button(action: onSignIn) {
                     Text("Já tenho uma conta")
                         .font(DSFont.medium(size: DSFont.Size.base))
-                        .foregroundStyle(DSColor.primary)
+                        .foregroundStyle(theme.primary)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 14)
                 }
@@ -517,7 +522,7 @@ public struct DSWelcomeSplash: View {
             .offset(y: animateIn ? 0 : 24)
             .opacity(animateIn ? 1 : 0)
         }
-        .background(scheme == .dark ? DSColor.backgroundDark : DSColor.background)
+        .background(scheme == .dark ? theme.backgroundDark : theme.background)
         .onAppear {
             withAnimation(DSAnimation.smooth.delay(0.1)) { animateIn = true }
         }

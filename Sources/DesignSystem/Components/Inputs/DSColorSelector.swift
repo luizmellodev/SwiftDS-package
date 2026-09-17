@@ -16,6 +16,7 @@ public struct DSColorSelector: View {
     let accessibilityLabel: String?
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         colors: [Color],

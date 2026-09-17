@@ -77,11 +77,11 @@ public enum DSShowcaseMenu {
                 DSDocDemo(id: "getting_started_configuration", name: "Configuration", showsInShowroom: false) {
                     DSDocsReferenceView(
                         title: "Configuration",
-                        message: "Reference page for design token and theme setup.",
+                        message: "Apply a brand palette at the app root with .dsTheme, or pass color: on individual components.",
                         bullets: [
-                            "Configure color scheme behavior and token usage.",
-                            "Validate typography, spacing, and states in the Foundations section.",
-                            "Use shared tokens consistently across product screens."
+                            "ContentView().dsTheme(.brand(primary: Color(hex: \"#234134\")))",
+                            "DSButton(\"Save\", color: Color(hex: \"#234134\"))",
+                            "Semantic variants (.success, .destructive) stay available alongside custom color."
                         ]
                     )
                 }
@@ -210,6 +210,7 @@ public enum DSShowcaseMenu {
                 }
             },
             DSCategory("Foundations") {
+                DSDocDemo(id: "foundations_theming", name: "Theming") { ScrollView { FoundationsThemingShowcase().padding(DSSpacing.xl) } }
                 DSDocDemo(id: "foundations_tokens", name: "Design Tokens") { ScrollView { FoundationsPaletteShowcase().padding(DSSpacing.xl) } }
                 DSDocDemo(id: "foundations_colors", name: "Colors") { ScrollView { FoundationsPaletteShowcase().padding(DSSpacing.xl) } }
                 DSDocDemo(id: "foundations_typography", name: "Typography") { ScrollView { FoundationsTypographyShowcase().padding(DSSpacing.xl) } }

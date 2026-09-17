@@ -18,6 +18,7 @@ public struct DSDatePicker: View {
     let accessibilityLabel: String?
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         label: String? = nil,
@@ -38,17 +39,17 @@ public struct DSDatePicker: View {
             if let label {
                 Text(label)
                     .font(.system(size: 13, weight: .medium))
-                    .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                    .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
             }
 
             if let range {
                 DatePicker("", selection: $selection, in: range, displayedComponents: displayedComponents)
                     .labelsHidden()
-                    .tint(DSColor.primary)
+                    .tint(theme.primary)
             } else {
                 DatePicker("", selection: $selection, displayedComponents: displayedComponents)
                     .labelsHidden()
-                    .tint(DSColor.primary)
+                    .tint(theme.primary)
             }
         }
         .accessibilityElement(children: .combine)
