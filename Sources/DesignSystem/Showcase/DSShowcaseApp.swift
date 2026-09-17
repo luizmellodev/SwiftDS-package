@@ -161,6 +161,43 @@ struct FoundationsPaletteShowcase: View {
     }
 }
 
+struct FoundationsThemingShowcase: View {
+    private let brand = DSTheme.brand(primary: Color(hex: "#234134"))
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: DSSpacing.xxl) {
+            ShowcaseSection("Default tokens", subtitle: "Sand palette shipped with SwiftDS.") {
+                themedSample
+            }
+
+            ShowcaseSection("App brand via .dsTheme", subtitle: "One modifier at the root recolors every DS* control.") {
+                themedSample
+                    .dsTheme(brand)
+            }
+
+            ShowcaseSection("Per-instance color", subtitle: "Overrides only that control.") {
+                VStack(alignment: .leading, spacing: DSSpacing.sm) {
+                    DSButton("Custom hex", color: Color(hex: "#234134"))
+                    DSLink("Custom link", color: Color(hex: "#234134")) { }
+                    DSChipToggle("Chip", isOn: .constant(true), color: Color(hex: "#234134"))
+                }
+            }
+        }
+        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+    }
+
+    private var themedSample: some View {
+        VStack(alignment: .leading, spacing: DSSpacing.sm) {
+            HStack(spacing: DSSpacing.sm) {
+                DSButton("Primary", variant: .primary)
+                DSButton("Secondary", variant: .secondary)
+            }
+            DSProgressBar(value: 0.65, label: "Progress")
+            DSLink("Themed link") { }
+        }
+    }
+}
+
 struct FoundationsTypographyShowcase: View {
     @Environment(\.colorScheme) private var scheme
 

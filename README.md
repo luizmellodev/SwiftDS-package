@@ -75,6 +75,16 @@ struct ContentView: View {
         .padding()
     }
 }
+
+@main
+struct MyApp: App {
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+                .dsTheme(.brand(primary: Color(hex: "#234134")))
+        }
+    }
+}
 ```
 
 ## Components
@@ -108,6 +118,41 @@ struct ContentView: View {
 
 ### And more...
 Settings · User Profile · Command Palette · Activity Feed · Onboarding · Product Cards
+
+## Theming
+
+SwiftDS is a template: keep the component APIs and swap the brand palette in the consumer app. You do **not** need to fork the package to change `#C4A882`.
+
+### App-wide brand (Environment)
+
+```swift
+ContentView()
+    .dsTheme(.brand(primary: Color(hex: "#234134")))
+```
+
+Every `DSButton(.primary)`, chip, link, and progress control in that subtree reads `@Environment(\.dsTheme)`. `DSTheme.default` is the shipped sand palette.
+
+Customize more tokens:
+
+```swift
+var theme = DSTheme.default
+theme.primary = Color(hex: "#234134")
+theme.accent = Color(hex: "#234134")
+theme.success = Color(hex: "#16A34A")
+ContentView().dsTheme(theme)
+```
+
+`DSColor.primary` remains the static default token (useful for defaults and `Color.dsPrimary`). Components paint from the environment, not those lets.
+
+### Per-instance override
+
+```swift
+DSButton("texto aqui", color: Color(hex: "#234134"), isDisabled: false) { }
+DSTextField(placeholder: "1232131", text: $text, isDisabled: false)
+DSLink("Docs", color: Color(hex: "#234134")) { }
+```
+
+`color:` on buttons, icon buttons, links, chips, toggles, checkboxes, radios, sliders, steppers, and spinners tints that instance only. Inputs already expose `placeholder`, `text`/`isOn`, and `isDisabled` where those props apply — a button has no placeholder.
 
 ## Design Tokens
 

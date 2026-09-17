@@ -18,21 +18,21 @@ public enum DSTidbitStyle {
         }
     }
 
-    var color: Color {
+    func color(_ theme: DSTheme) -> Color {
         switch self {
-        case .info: return DSColor.info
-        case .success: return DSColor.success
-        case .warning: return DSColor.warning
-        case .error: return DSColor.error
+        case .info: return theme.info
+        case .success: return theme.success
+        case .warning: return theme.warning
+        case .error: return theme.error
         }
     }
 
-    var backgroundColor: Color {
+    func backgroundColor(_ theme: DSTheme) -> Color {
         switch self {
-        case .info: return DSColor.infoMuted
-        case .success: return DSColor.successMuted
-        case .warning: return DSColor.warningMuted
-        case .error: return DSColor.errorMuted
+        case .info: return theme.infoMuted
+        case .success: return theme.successMuted
+        case .warning: return theme.warningMuted
+        case .error: return theme.errorMuted
         }
     }
 
@@ -66,6 +66,7 @@ public struct DSTidbit: View {
     let accessibilityLabel: String?
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         title: String? = nil,
@@ -86,21 +87,21 @@ public struct DSTidbit: View {
     }
 
     private var textColor: Color {
-        scheme == .dark ? DSColor.foregroundDark : DSColor.foreground
+        scheme == .dark ? theme.foregroundDark : theme.foreground
     }
 
     private var backgroundColor: Color {
         if scheme == .dark {
-            return style.color.opacity(0.12)
+            return style.color(theme).opacity(0.12)
         }
-        return style.backgroundColor
+        return style.backgroundColor(theme)
     }
 
     public var body: some View {
         HStack(alignment: .top, spacing: DSSpacing.sm) {
             Image(systemName: style.icon)
                 .font(.system(size: 20))
-                .foregroundStyle(style.color)
+                .foregroundStyle(style.color(theme))
 
             VStack(alignment: .leading, spacing: DSSpacing.xs) {
                 if let title {

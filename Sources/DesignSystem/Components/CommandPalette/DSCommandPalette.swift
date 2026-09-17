@@ -50,6 +50,7 @@ public struct DSCommandPalette: View {
     @State private var selectedIndex: Int = 0
     @FocusState private var searchFocused: Bool
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         isPresented: Binding<Bool>,
@@ -78,8 +79,8 @@ public struct DSCommandPalette: View {
         groupedItems.keys.sorted()
     }
 
-    private var bgColor: Color { scheme == .dark ? DSColor.surfaceDark : DSColor.surface }
-    private var borderColor: Color { scheme == .dark ? DSColor.borderDark : DSColor.border }
+    private var bgColor: Color { scheme == .dark ? theme.surfaceDark : theme.surface }
+    private var borderColor: Color { scheme == .dark ? theme.borderDark : theme.border }
 
     public var body: some View {
         ZStack {
@@ -93,7 +94,7 @@ public struct DSCommandPalette: View {
                 HStack(spacing: DSSpacing.sm) {
                     Image(systemName: "magnifyingglass")
                         .font(.system(size: 16, weight: .medium))
-                        .foregroundStyle(DSColor.muted)
+                        .foregroundStyle(theme.muted)
 
                     TextField(placeholder, text: $query)
                         .font(DSFont.regular(size: DSFont.Size.base))
@@ -104,7 +105,7 @@ public struct DSCommandPalette: View {
                     if !query.isEmpty {
                         Button { query = "" } label: {
                             Image(systemName: "xmark.circle.fill")
-                                .foregroundStyle(DSColor.subtle)
+                                .foregroundStyle(theme.subtle)
                         }
                         .buttonStyle(.plain)
                     }
@@ -178,13 +179,14 @@ private struct DSCommandCategory: View {
     let items: [DSCommandItem]
     let onSelect: (DSCommandItem) -> Void
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             Text(category.uppercased())
                 .font(DSFont.semibold(size: DSFont.Size.xs))
                 .tracking(0.8)
-                .foregroundStyle(DSColor.muted)
+                .foregroundStyle(theme.muted)
                 .padding(.horizontal, DSSpacing.md)
                 .padding(.top, DSSpacing.md)
                 .padding(.bottom, DSSpacing.xs)
@@ -203,9 +205,10 @@ private struct DSCommandRow: View {
     let onSelect: (DSCommandItem) -> Void
     @State private var isHovered = false
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     private var hoverColor: Color {
-        scheme == .dark ? Color.white.opacity(0.06) : DSColor.primary.opacity(0.06)
+        scheme == .dark ? Color.white.opacity(0.06) : theme.primary.opacity(0.06)
     }
 
     var body: some View {
@@ -216,21 +219,21 @@ private struct DSCommandRow: View {
                 // Icon
                 ZStack {
                     RoundedRectangle(cornerRadius: DSRadius.small)
-                        .fill(isHovered ? DSColor.primary.opacity(0.15) : (scheme == .dark ? Color.white.opacity(0.08) : DSColor.border.opacity(0.5)))
+                        .fill(isHovered ? theme.primary.opacity(0.15) : (scheme == .dark ? Color.white.opacity(0.08) : theme.border.opacity(0.5)))
                         .frame(width: 32, height: 32)
                     Image(systemName: item.icon)
                         .font(.system(size: 14, weight: .medium))
-                        .foregroundStyle(isHovered ? DSColor.primary : (scheme == .dark ? DSColor.foregroundDark : DSColor.foreground))
+                        .foregroundStyle(isHovered ? theme.primary : (scheme == .dark ? theme.foregroundDark : theme.foreground))
                 }
 
                 VStack(alignment: .leading, spacing: 1) {
                     Text(item.title)
                         .font(DSFont.medium(size: DSFont.Size.base))
-                        .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                        .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                     if let sub = item.subtitle {
                         Text(sub)
                             .font(DSFont.regular(size: DSFont.Size.sm))
-                            .foregroundStyle(DSColor.muted)
+                            .foregroundStyle(theme.muted)
                     }
                 }
 
@@ -260,6 +263,7 @@ private struct DSCommandRow: View {
 public struct DSShortcutBadge: View {
     let keys: [String]
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(keys: [String]) { self.keys = keys }
 
@@ -268,15 +272,15 @@ public struct DSShortcutBadge: View {
             ForEach(keys, id: \.self) { key in
                 Text(key)
                     .font(DSFont.mono(size: DSFont.Size.xs))
-                    .foregroundStyle(DSColor.muted)
+                    .foregroundStyle(theme.muted)
                     .padding(.horizontal, 6)
                     .padding(.vertical, 2)
                     .background(
                         RoundedRectangle(cornerRadius: DSRadius.small)
-                            .fill(scheme == .dark ? Color.white.opacity(0.08) : DSColor.border.opacity(0.6))
+                            .fill(scheme == .dark ? Color.white.opacity(0.08) : theme.border.opacity(0.6))
                             .overlay(
                                 RoundedRectangle(cornerRadius: DSRadius.small)
-                                    .stroke(scheme == .dark ? DSColor.borderDark : DSColor.border, lineWidth: 1)
+                                    .stroke(scheme == .dark ? theme.borderDark : theme.border, lineWidth: 1)
                             )
                     )
             }
@@ -294,10 +298,10 @@ private struct DSCommandEmptyState: View {
         VStack(spacing: DSSpacing.sm) {
             Image(systemName: "magnifyingglass")
                 .font(.system(size: 28, weight: .light))
-                .foregroundStyle(DSColor.subtle)
+                .foregroundStyle(theme.subtle)
             Text("Sem resultados para \"\(query)\"")
                 .font(DSFont.medium(size: DSFont.Size.base))
-                .foregroundStyle(DSColor.muted)
+                .foregroundStyle(theme.muted)
         }
     }
 }
@@ -311,19 +315,19 @@ private struct DSCommandFooter: View {
                 DSShortcutBadge(keys: ["↑", "↓"])
                 Text("navegar")
                     .font(DSFont.regular(size: DSFont.Size.xs))
-                    .foregroundStyle(DSColor.subtle)
+                    .foregroundStyle(theme.subtle)
             }
             HStack(spacing: 4) {
                 DSShortcutBadge(keys: ["↵"])
                 Text("selecionar")
                     .font(DSFont.regular(size: DSFont.Size.xs))
-                    .foregroundStyle(DSColor.subtle)
+                    .foregroundStyle(theme.subtle)
             }
             HStack(spacing: 4) {
                 DSShortcutBadge(keys: ["esc"])
                 Text("fechar")
                     .font(DSFont.regular(size: DSFont.Size.xs))
-                    .foregroundStyle(DSColor.subtle)
+                    .foregroundStyle(theme.subtle)
             }
             Spacer()
         }
@@ -349,6 +353,7 @@ public struct DSSearchInterface: View {
     @State private var showSuggestions = false
     @FocusState private var fieldFocused: Bool
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         query: Binding<String>,
@@ -362,8 +367,8 @@ public struct DSSearchInterface: View {
         self.onSubmit = onSubmit
     }
 
-    private var bgColor: Color { scheme == .dark ? DSColor.surfaceDark : DSColor.surface }
-    private var borderColor: Color { isFocused ? DSColor.primary : (scheme == .dark ? DSColor.borderDark : DSColor.border) }
+    private var bgColor: Color { scheme == .dark ? theme.surfaceDark : theme.surface }
+    private var borderColor: Color { isFocused ? theme.primary : (scheme == .dark ? theme.borderDark : theme.border) }
 
     public var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -371,7 +376,7 @@ public struct DSSearchInterface: View {
             HStack(spacing: DSSpacing.sm) {
                 Image(systemName: "magnifyingglass")
                     .font(.system(size: 15, weight: .medium))
-                    .foregroundStyle(isFocused ? DSColor.primary : DSColor.muted)
+                    .foregroundStyle(isFocused ? theme.primary : theme.muted)
                     .animation(DSAnimation.interactive, value: isFocused)
 
                 TextField(placeholder, text: $query)
@@ -393,7 +398,7 @@ public struct DSSearchInterface: View {
                         withAnimation(DSAnimation.interactive) { showSuggestions = false }
                     } label: {
                         Image(systemName: "xmark.circle.fill")
-                            .foregroundStyle(DSColor.subtle)
+                            .foregroundStyle(theme.subtle)
                     }
                     .buttonStyle(.plain)
                     .transition(.opacity.combined(with: .scale(scale: 0.8)))
@@ -445,24 +450,25 @@ private struct DSSearchSuggestionRow: View {
     let onTap: () -> Void
     @State private var isHovered = false
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     var body: some View {
         Button(action: onTap) {
             HStack(spacing: DSSpacing.sm) {
                 Image(systemName: "clock.arrow.circlepath")
                     .font(.system(size: 13))
-                    .foregroundStyle(DSColor.subtle)
+                    .foregroundStyle(theme.subtle)
                 Text(text)
                     .font(DSFont.regular(size: DSFont.Size.base))
-                    .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                    .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                 Spacer()
                 Image(systemName: "arrow.up.left")
                     .font(.system(size: 12))
-                    .foregroundStyle(DSColor.subtle)
+                    .foregroundStyle(theme.subtle)
             }
             .padding(.horizontal, DSSpacing.md)
             .padding(.vertical, DSSpacing.sm)
-            .background(isHovered ? (scheme == .dark ? Color.white.opacity(0.05) : DSColor.primary.opacity(0.05)) : Color.clear)
+            .background(isHovered ? (scheme == .dark ? Color.white.opacity(0.05) : theme.primary.opacity(0.05)) : Color.clear)
         }
         .buttonStyle(.plain)
         .onHover { isHovered = $0 }
@@ -476,12 +482,13 @@ private struct DSSearchSuggestionRow: View {
 /// - Parameters:
 ///   - filters: Filter option labels.
 ///   - selected: Binding to selected filter.
-///   - accentColor: Selected pill color; default DSColor.primary.
+///   - accentColor: Selected pill color; default theme.primary.
 public struct DSFilterBar: View {
     let filters: [String]
     @Binding var selected: String
     @Namespace private var animation
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(filters: [String], selected: Binding<String>) {
         self.filters = filters
@@ -497,17 +504,17 @@ public struct DSFilterBar: View {
                     } label: {
                         Text(filter)
                             .font(DSFont.medium(size: DSFont.Size.sm))
-                            .foregroundStyle(selected == filter ? .white : (scheme == .dark ? DSColor.foregroundDark : DSColor.foreground))
+                            .foregroundStyle(selected == filter ? .white : (scheme == .dark ? theme.foregroundDark : theme.foreground))
                             .padding(.horizontal, DSSpacing.md)
                             .padding(.vertical, DSSpacing.sm)
                             .background {
                                 if selected == filter {
                                     RoundedRectangle(cornerRadius: DSRadius.pill)
-                                        .fill(DSColor.primary)
+                                        .fill(theme.primary)
                                         .matchedGeometryEffect(id: "filter_pill", in: animation)
                                 } else {
                                     RoundedRectangle(cornerRadius: DSRadius.pill)
-                                        .fill(scheme == .dark ? Color.white.opacity(0.06) : DSColor.border.opacity(0.5))
+                                        .fill(scheme == .dark ? Color.white.opacity(0.06) : theme.border.opacity(0.5))
                                 }
                             }
                     }

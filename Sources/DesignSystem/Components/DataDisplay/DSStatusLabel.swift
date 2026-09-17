@@ -20,13 +20,13 @@ public enum DSStatusLabelStyle {
         }
     }
 
-    var color: Color {
+    func color(_ theme: DSTheme) -> Color {
         switch self {
-        case .success: return DSColor.success
-        case .warning: return DSColor.warning
-        case .error: return DSColor.error
-        case .info: return DSColor.info
-        case .neutral: return DSColor.muted
+        case .success: return theme.success
+        case .warning: return theme.warning
+        case .error: return theme.error
+        case .info: return theme.info
+        case .neutral: return theme.muted
         }
     }
 
@@ -55,6 +55,7 @@ public struct DSStatusLabel: View {
     let accessibilityLabel: String?
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         _ text: String,
@@ -77,7 +78,7 @@ public struct DSStatusLabel: View {
             Text(text)
                 .font(.system(size: 13, weight: .medium))
         }
-        .foregroundStyle(style.color)
+        .foregroundStyle(style.color(theme))
         .accessibilityElement(children: .combine)
         .accessibilityLabel("\(style.accessibilityPrefix) \(accessibilityLabel ?? text)")
     }
@@ -89,7 +90,7 @@ public struct DSStatusLabel: View {
 ///
 /// - Parameters:
 ///   - text: Label text.
-///   - color: Background and text color; default DSColor.error.
+///   - color: Background and text color; default theme.error.
 ///   - accessibilityLabel: Optional accessibility label.
 public struct DSPromoLabel: View {
     let text: String

@@ -62,6 +62,7 @@ public struct DSProfileHeroCard: View {
 
     @State private var isHovered = false
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(user: DSUser, onEdit: (() -> Void)? = nil, onMessage: (() -> Void)? = nil) {
         self.user = user; self.onEdit = onEdit; self.onMessage = onMessage
@@ -92,14 +93,14 @@ public struct DSProfileHeroCard: View {
                                 .foregroundStyle(user.avatarColor)
                         )
                         .overlay(
-                            Circle().stroke(scheme == .dark ? DSColor.surfaceDark : DSColor.surface, lineWidth: 3)
+                            Circle().stroke(scheme == .dark ? theme.surfaceDark : theme.surface, lineWidth: 3)
                         )
 
                     if user.isOnline {
                         Circle()
-                            .fill(DSColor.success)
+                            .fill(theme.success)
                             .frame(width: 16, height: 16)
-                            .overlay(Circle().stroke(scheme == .dark ? DSColor.surfaceDark : DSColor.surface, lineWidth: 2))
+                            .overlay(Circle().stroke(scheme == .dark ? theme.surfaceDark : theme.surface, lineWidth: 2))
                     }
                 }
                 .offset(y: 40)
@@ -113,17 +114,17 @@ public struct DSProfileHeroCard: View {
                 HStack(spacing: 6) {
                     Text(user.name)
                         .font(DSFont.bold(size: DSFont.Size.xl))
-                        .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                        .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                     if user.isVerified {
                         Image(systemName: "checkmark.seal.fill")
                             .font(.system(size: 18))
-                            .foregroundStyle(DSColor.primary)
+                            .foregroundStyle(theme.primary)
                     }
                 }
 
                 Text("@\(user.username)")
                     .font(DSFont.regular(size: DSFont.Size.sm))
-                    .foregroundStyle(DSColor.muted)
+                    .foregroundStyle(theme.muted)
 
                 Text(user.role)
                     .font(DSFont.medium(size: DSFont.Size.sm))
@@ -136,7 +137,7 @@ public struct DSProfileHeroCard: View {
                 if let bio = user.bio {
                     Text(bio)
                         .font(DSFont.regular(size: DSFont.Size.sm))
-                        .foregroundStyle(DSColor.muted)
+                        .foregroundStyle(theme.muted)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, DSSpacing.lg)
                 }
@@ -150,7 +151,7 @@ public struct DSProfileHeroCard: View {
                             Text(location)
                                 .font(DSFont.regular(size: DSFont.Size.xs))
                         }
-                        .foregroundStyle(DSColor.muted)
+                        .foregroundStyle(theme.muted)
                     }
                     if let website = user.website {
                         HStack(spacing: 4) {
@@ -159,7 +160,7 @@ public struct DSProfileHeroCard: View {
                             Text(website)
                                 .font(DSFont.regular(size: DSFont.Size.xs))
                         }
-                        .foregroundStyle(DSColor.primary)
+                        .foregroundStyle(theme.primary)
                     }
                 }
 
@@ -192,22 +193,22 @@ public struct DSProfileHeroCard: View {
                             VStack(spacing: 2) {
                                 Text(stat.value)
                                     .font(DSFont.bold(size: DSFont.Size.md))
-                                    .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                                    .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                                 Text(stat.label)
                                     .font(DSFont.regular(size: DSFont.Size.xs))
-                                    .foregroundStyle(DSColor.muted)
+                                    .foregroundStyle(theme.muted)
                             }
                             .frame(maxWidth: .infinity)
                             if i < user.stats.count - 1 {
                                 Divider()
                                     .frame(height: 28)
-                                    .overlay(scheme == .dark ? DSColor.borderDark : DSColor.border)
+                                    .overlay(scheme == .dark ? theme.borderDark : theme.border)
                             }
                         }
                     }
                     .padding(.horizontal, DSSpacing.lg)
                     .padding(.vertical, DSSpacing.sm)
-                    .background(scheme == .dark ? Color.white.opacity(0.04) : DSColor.border.opacity(0.3))
+                    .background(scheme == .dark ? Color.white.opacity(0.04) : theme.border.opacity(0.3))
                     .clipShape(RoundedRectangle(cornerRadius: DSRadius.medium))
                     .padding(.horizontal, DSSpacing.lg)
                 }
@@ -230,10 +231,10 @@ public struct DSProfileHeroCard: View {
                         Button(action: onEdit) {
                             Label("Editar Perfil", systemImage: "pencil")
                                 .font(DSFont.semibold(size: DSFont.Size.sm))
-                                .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                                .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                                 .padding(.horizontal, DSSpacing.lg)
                                 .padding(.vertical, 10)
-                                .background(scheme == .dark ? Color.white.opacity(0.08) : DSColor.border.opacity(0.5))
+                                .background(scheme == .dark ? Color.white.opacity(0.08) : theme.border.opacity(0.5))
                                 .clipShape(RoundedRectangle(cornerRadius: DSRadius.medium))
                         }
                         .buttonStyle(.plain)
@@ -242,9 +243,9 @@ public struct DSProfileHeroCard: View {
                 .padding(.bottom, DSSpacing.lg)
             }
         }
-        .background(scheme == .dark ? DSColor.surfaceDark : DSColor.surface)
+        .background(scheme == .dark ? theme.surfaceDark : theme.surface)
         .clipShape(RoundedRectangle(cornerRadius: DSRadius.large))
-        .overlay(RoundedRectangle(cornerRadius: DSRadius.large).stroke(scheme == .dark ? DSColor.borderDark : DSColor.border, lineWidth: 1))
+        .overlay(RoundedRectangle(cornerRadius: DSRadius.large).stroke(scheme == .dark ? theme.borderDark : theme.border, lineWidth: 1))
         .dsShadow(.sm)
         .accessibilityElement(children: .contain)
         .accessibilityLabel("Profile: \(user.name), \(user.role)")
@@ -266,6 +267,7 @@ public struct DSProfileRow: View {
 
     @State private var isHovered = false
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         user: DSUser,
@@ -290,9 +292,9 @@ public struct DSProfileRow: View {
                         )
                     if user.isOnline {
                         Circle()
-                            .fill(DSColor.success)
+                            .fill(theme.success)
                             .frame(width: 10, height: 10)
-                            .overlay(Circle().stroke(scheme == .dark ? DSColor.surfaceDark : DSColor.surface, lineWidth: 1.5))
+                            .overlay(Circle().stroke(scheme == .dark ? theme.surfaceDark : theme.surface, lineWidth: 1.5))
                     }
                 }
 
@@ -300,16 +302,16 @@ public struct DSProfileRow: View {
                     HStack(spacing: 4) {
                         Text(user.name)
                             .font(DSFont.semibold(size: DSFont.Size.base))
-                            .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                            .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                         if user.isVerified {
                             Image(systemName: "checkmark.seal.fill")
                                 .font(.system(size: 12))
-                                .foregroundStyle(DSColor.primary)
+                                .foregroundStyle(theme.primary)
                         }
                     }
                     Text(user.role)
                         .font(DSFont.regular(size: DSFont.Size.sm))
-                        .foregroundStyle(DSColor.muted)
+                        .foregroundStyle(theme.muted)
                 }
 
                 Spacer()
@@ -319,11 +321,11 @@ public struct DSProfileRow: View {
                 } else {
                     Image(systemName: "chevron.right")
                         .font(.system(size: 12, weight: .semibold))
-                        .foregroundStyle(DSColor.subtle)
+                        .foregroundStyle(theme.subtle)
                 }
             }
             .padding(DSSpacing.md)
-            .background(isHovered ? (scheme == .dark ? Color.white.opacity(0.04) : DSColor.primary.opacity(0.03)) : Color.clear)
+            .background(isHovered ? (scheme == .dark ? Color.white.opacity(0.04) : theme.primary.opacity(0.03)) : Color.clear)
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
@@ -348,6 +350,7 @@ public struct DSTeamGrid: View {
     let onInvite: (() -> Void)?
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(members: [DSUser], title: String = "Membros do Time", onInvite: (() -> Void)? = nil) {
         self.members = members; self.title = title; self.onInvite = onInvite
@@ -358,21 +361,21 @@ public struct DSTeamGrid: View {
             HStack {
                 Text(title)
                     .font(DSFont.semibold(size: DSFont.Size.base))
-                    .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                    .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                 DSBadgePill(text: "\(members.count)")
                 Spacer()
                 if let onInvite = onInvite {
                     Button(action: onInvite) {
                         Label("Convidar", systemImage: "person.badge.plus")
                             .font(DSFont.medium(size: DSFont.Size.sm))
-                            .foregroundStyle(DSColor.primary)
+                            .foregroundStyle(theme.primary)
                     }
                     .buttonStyle(.plain)
                 }
             }
             .padding(DSSpacing.lg)
 
-            Divider().overlay(scheme == .dark ? DSColor.borderDark : DSColor.border)
+            Divider().overlay(scheme == .dark ? theme.borderDark : theme.border)
 
             VStack(spacing: 0) {
                 ForEach(members, id: \.username) { member in
@@ -380,25 +383,25 @@ public struct DSTeamGrid: View {
                         trailing: AnyView(
                             HStack(spacing: 4) {
                                 Circle()
-                                    .fill(member.isOnline ? DSColor.success : DSColor.subtle)
+                                    .fill(member.isOnline ? theme.success : theme.subtle)
                                     .frame(width: 7, height: 7)
                                 Text(member.isOnline ? "Online" : "Offline")
                                     .font(DSFont.regular(size: DSFont.Size.xs))
-                                    .foregroundStyle(member.isOnline ? DSColor.success : DSColor.subtle)
+                                    .foregroundStyle(member.isOnline ? theme.success : theme.subtle)
                             }
                         )
                     )
                     if member.username != members.last?.username {
                         Divider()
-                            .overlay(scheme == .dark ? DSColor.borderDark : DSColor.border)
+                            .overlay(scheme == .dark ? theme.borderDark : theme.border)
                             .padding(.leading, 72)
                     }
                 }
             }
         }
-        .background(scheme == .dark ? DSColor.surfaceDark : DSColor.surface)
+        .background(scheme == .dark ? theme.surfaceDark : theme.surface)
         .clipShape(RoundedRectangle(cornerRadius: DSRadius.large))
-        .overlay(RoundedRectangle(cornerRadius: DSRadius.large).stroke(scheme == .dark ? DSColor.borderDark : DSColor.border, lineWidth: 1))
+        .overlay(RoundedRectangle(cornerRadius: DSRadius.large).stroke(scheme == .dark ? theme.borderDark : theme.border, lineWidth: 1))
         .dsShadow(.sm)
         .accessibilityElement(children: .contain)
         .accessibilityLabel("\(title), \(members.count) members")
@@ -410,13 +413,14 @@ public struct DSTeamGrid: View {
 private struct DSBadgePill: View {
     let text: String
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
     var body: some View {
         Text(text)
             .font(DSFont.semibold(size: DSFont.Size.xs))
-            .foregroundStyle(DSColor.muted)
+            .foregroundStyle(theme.muted)
             .padding(.horizontal, 8)
             .padding(.vertical, 2)
-            .background(scheme == .dark ? Color.white.opacity(0.08) : DSColor.border.opacity(0.6))
+            .background(scheme == .dark ? Color.white.opacity(0.08) : theme.border.opacity(0.6))
             .clipShape(Capsule())
     }
 }
@@ -436,6 +440,7 @@ public struct DSMentionDropdown: View {
     let onSelect: (DSUser) -> Void
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(users: [DSUser], query: String, onSelect: @escaping (DSUser) -> Void) {
         self.users = users; self.query = query; self.onSelect = onSelect
@@ -462,10 +467,10 @@ public struct DSMentionDropdown: View {
                         VStack(alignment: .leading, spacing: 1) {
                             Text(user.name)
                                 .font(DSFont.medium(size: DSFont.Size.sm))
-                                .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                                .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                             Text("@\(user.username)")
                                 .font(DSFont.regular(size: DSFont.Size.xs))
-                                .foregroundStyle(DSColor.muted)
+                                .foregroundStyle(theme.muted)
                         }
                         Spacer()
                     }
@@ -477,10 +482,10 @@ public struct DSMentionDropdown: View {
             }
         }
         .padding(.vertical, DSSpacing.xs)
-        .background(scheme == .dark ? DSColor.surfaceDark : DSColor.surface)
+        .background(scheme == .dark ? theme.surfaceDark : theme.surface)
         .clipShape(RoundedRectangle(cornerRadius: DSRadius.medium))
         .dsShadow(.lg)
-        .overlay(RoundedRectangle(cornerRadius: DSRadius.medium).stroke(scheme == .dark ? DSColor.borderDark : DSColor.border, lineWidth: 1))
+        .overlay(RoundedRectangle(cornerRadius: DSRadius.medium).stroke(scheme == .dark ? theme.borderDark : theme.border, lineWidth: 1))
         .accessibilityElement(children: .contain)
         .accessibilityLabel("Mention suggestions, \(filtered.count) users")
     }

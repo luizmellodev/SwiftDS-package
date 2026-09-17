@@ -24,6 +24,7 @@ public struct DSHeroSection: View {
 
     @State private var animateIn = false
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         eyebrow: String? = nil,
@@ -48,17 +49,17 @@ public struct DSHeroSection: View {
                     if let icon = badgeIcon {
                         Image(systemName: icon)
                             .font(.system(size: 11, weight: .semibold))
-                            .foregroundStyle(DSColor.primary)
+                            .foregroundStyle(theme.primary)
                     }
                     Text(eyebrow)
                         .font(DSFont.semibold(size: DSFont.Size.sm))
-                        .foregroundStyle(DSColor.primary)
+                        .foregroundStyle(theme.primary)
                 }
                 .padding(.horizontal, DSSpacing.md)
                 .padding(.vertical, 6)
-                .background(DSColor.primary.opacity(0.1))
+                .background(theme.primary.opacity(0.1))
                 .clipShape(Capsule())
-                .overlay(Capsule().stroke(DSColor.primary.opacity(0.25), lineWidth: 1))
+                .overlay(Capsule().stroke(theme.primary.opacity(0.25), lineWidth: 1))
                 .offset(y: animateIn ? 0 : -10)
                 .opacity(animateIn ? 1 : 0)
             }
@@ -67,13 +68,13 @@ public struct DSHeroSection: View {
             VStack(spacing: DSSpacing.sm) {
                 Text(headline)
                     .font(DSFont.bold(size: DSFont.Size.huge))
-                    .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                    .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                     .multilineTextAlignment(.center)
                     .tracking(-1.5)
 
                 Text(subheadline)
                     .font(DSFont.regular(size: DSFont.Size.md))
-                    .foregroundStyle(DSColor.muted)
+                    .foregroundStyle(theme.muted)
                     .multilineTextAlignment(.center)
                     .lineSpacing(5)
                     .padding(.horizontal, DSSpacing.xl)
@@ -95,7 +96,7 @@ public struct DSHeroSection: View {
                     .padding(.vertical, 14)
                     .background(
                         RoundedRectangle(cornerRadius: DSRadius.large)
-                            .fill(DSColor.primary)
+                            .fill(theme.primary)
                     )
                     .dsShadow(.primary)
                 }
@@ -106,17 +107,17 @@ public struct DSHeroSection: View {
                         HStack(spacing: DSSpacing.xs) {
                             Text(secondary.label)
                                 .font(DSFont.medium(size: DSFont.Size.base))
-                                .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                                .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                             Image(systemName: "play.circle")
                                 .font(.system(size: 14))
-                                .foregroundStyle(DSColor.muted)
+                                .foregroundStyle(theme.muted)
                         }
                         .padding(.horizontal, DSSpacing.lg)
                         .padding(.vertical, 14)
                         .background(
                             RoundedRectangle(cornerRadius: DSRadius.large)
-                                .fill(scheme == .dark ? Color.white.opacity(0.06) : DSColor.surface)
-                                .overlay(RoundedRectangle(cornerRadius: DSRadius.large).stroke(scheme == .dark ? DSColor.borderDark : DSColor.border, lineWidth: 1))
+                                .fill(scheme == .dark ? Color.white.opacity(0.06) : theme.surface)
+                                .overlay(RoundedRectangle(cornerRadius: DSRadius.large).stroke(scheme == .dark ? theme.borderDark : theme.border, lineWidth: 1))
                         )
                     }
                     .buttonStyle(.plain)
@@ -130,12 +131,12 @@ public struct DSHeroSection: View {
                 HStack(spacing: DSSpacing.xs) {
                     ForEach(0..<5, id: \.self) { i in
                         Circle()
-                            .fill(DSColor.primary.opacity(Double(i + 1) * 0.15 + 0.1))
+                            .fill(theme.primary.opacity(Double(i + 1) * 0.15 + 0.1))
                             .frame(width: 24, height: 24)
                             .overlay(
                                 Text(["JL", "CS", "AM", "PR", "BF"][i])
                                     .font(DSFont.bold(size: 8))
-                                    .foregroundStyle(DSColor.primary)
+                                    .foregroundStyle(theme.primary)
                             )
                             .offset(x: CGFloat(i) * -8)
                     }
@@ -146,12 +147,12 @@ public struct DSHeroSection: View {
                             ForEach(0..<5, id: \.self) { _ in
                                 Image(systemName: "star.fill")
                                     .font(.system(size: 10))
-                                    .foregroundStyle(DSColor.warning)
+                                    .foregroundStyle(theme.warning)
                             }
                         }
                         Text(proof)
                             .font(DSFont.regular(size: DSFont.Size.sm))
-                            .foregroundStyle(DSColor.muted)
+                            .foregroundStyle(theme.muted)
                     }
                 }
                 .opacity(animateIn ? 1 : 0)
@@ -180,6 +181,7 @@ public struct DSLogoStrip: View {
     let logos: [(name: String, icon: String)]
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(title: String = "Utilizado por equipes em todo o Brasil", logos: [(name: String, icon: String)]) {
         self.title = title; self.logos = logos
@@ -189,7 +191,7 @@ public struct DSLogoStrip: View {
         VStack(spacing: DSSpacing.lg) {
             Text(title)
                 .font(DSFont.regular(size: DSFont.Size.sm))
-                .foregroundStyle(DSColor.subtle)
+                .foregroundStyle(theme.subtle)
                 .multilineTextAlignment(.center)
 
             VStack(spacing: DSSpacing.md) {
@@ -197,10 +199,10 @@ public struct DSLogoStrip: View {
                     HStack(spacing: 6) {
                         Image(systemName: logo.icon)
                             .font(.system(size: 16, weight: .medium))
-                            .foregroundStyle(scheme == .dark ? DSColor.subtle : DSColor.muted)
+                            .foregroundStyle(scheme == .dark ? theme.subtle : theme.muted)
                         Text(logo.name)
                             .font(DSFont.semibold(size: DSFont.Size.base))
-                            .foregroundStyle(scheme == .dark ? DSColor.subtle : DSColor.muted)
+                            .foregroundStyle(scheme == .dark ? theme.subtle : theme.muted)
                             .fixedSize(horizontal: true, vertical: false)
                     }
                 }
@@ -233,6 +235,7 @@ public struct DSTestimonialCard: View {
 
     @State private var isHovered = false
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         quote: String,
@@ -254,14 +257,14 @@ public struct DSTestimonialCard: View {
                 ForEach(0..<5, id: \.self) { i in
                     Image(systemName: i < rating ? "star.fill" : "star")
                         .font(.system(size: 12))
-                        .foregroundStyle(DSColor.warning)
+                        .foregroundStyle(theme.warning)
                 }
             }
 
             // Quote
             Text("\"\(quote)\"")
                 .font(DSFont.regular(size: DSFont.Size.base))
-                .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                 .lineSpacing(5)
                 .fixedSize(horizontal: false, vertical: true)
 
@@ -280,20 +283,20 @@ public struct DSTestimonialCard: View {
                 VStack(alignment: .leading, spacing: 1) {
                     Text(authorName)
                         .font(DSFont.semibold(size: DSFont.Size.sm))
-                        .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                        .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                     Text(authorRole)
                         .font(DSFont.regular(size: DSFont.Size.xs))
-                        .foregroundStyle(DSColor.muted)
+                        .foregroundStyle(theme.muted)
                 }
             }
         }
         .padding(DSSpacing.lg)
         .frame(minHeight: 200)
-        .background(scheme == .dark ? DSColor.surfaceDark : DSColor.surface)
+        .background(scheme == .dark ? theme.surfaceDark : theme.surface)
         .clipShape(RoundedRectangle(cornerRadius: DSRadius.large))
         .overlay(
             RoundedRectangle(cornerRadius: DSRadius.large)
-                .stroke(isHovered ? DSColor.primary.opacity(0.3) : (scheme == .dark ? DSColor.borderDark : DSColor.border), lineWidth: 1)
+                .stroke(isHovered ? theme.primary.opacity(0.3) : (scheme == .dark ? theme.borderDark : theme.border), lineWidth: 1)
         )
         .dsShadow(isHovered ? .md : .sm)
         .scaleEffect(isHovered ? 1.01 : 1.0)
@@ -314,6 +317,7 @@ public struct DSTestimonialCard: View {
 public struct DSStatsBanner: View {
     let stats: [(value: String, label: String)]
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
     @Environment(\.horizontalSizeClass) private var sizeClass
 
     public init(stats: [(value: String, label: String)]) { self.stats = stats }
@@ -328,17 +332,17 @@ public struct DSStatsBanner: View {
                         VStack(spacing: 4) {
                             Text(stats[i].value)
                                 .font(DSFont.bold(size: DSFont.Size.xxxl))
-                                .foregroundStyle(DSColor.primary)
+                                .foregroundStyle(theme.primary)
                             Text(stats[i].label)
                                 .font(DSFont.regular(size: DSFont.Size.sm))
-                                .foregroundStyle(DSColor.muted)
+                                .foregroundStyle(theme.muted)
                                 .multilineTextAlignment(.center)
                                 .lineLimit(2)
                         }
                         .frame(maxWidth: .infinity)
                         if i < stats.count - 1 {
                             Rectangle()
-                                .fill(scheme == .dark ? DSColor.borderDark : DSColor.border)
+                                .fill(scheme == .dark ? theme.borderDark : theme.border)
                                 .frame(height: 1)
                                 .padding(.vertical, DSSpacing.sm)
                         }
@@ -350,17 +354,17 @@ public struct DSStatsBanner: View {
                         VStack(spacing: 4) {
                             Text(stats[i].value)
                                 .font(DSFont.bold(size: DSFont.Size.xxxl))
-                                .foregroundStyle(DSColor.primary)
+                                .foregroundStyle(theme.primary)
                             Text(stats[i].label)
                                 .font(DSFont.regular(size: DSFont.Size.sm))
-                                .foregroundStyle(DSColor.muted)
+                                .foregroundStyle(theme.muted)
                                 .multilineTextAlignment(.center)
                                 .lineLimit(2)
                         }
                         .frame(maxWidth: .infinity)
                         if i < stats.count - 1 {
                             Rectangle()
-                                .fill(scheme == .dark ? DSColor.borderDark : DSColor.border)
+                                .fill(scheme == .dark ? theme.borderDark : theme.border)
                                 .frame(width: 1, height: 48)
                         }
                     }
@@ -369,9 +373,9 @@ public struct DSStatsBanner: View {
         }
         .padding(.vertical, DSSpacing.xl)
         .padding(.horizontal, DSSpacing.lg)
-        .background(scheme == .dark ? DSColor.surfaceDark : DSColor.surface)
+        .background(scheme == .dark ? theme.surfaceDark : theme.surface)
         .clipShape(RoundedRectangle(cornerRadius: DSRadius.large))
-        .overlay(RoundedRectangle(cornerRadius: DSRadius.large).stroke(scheme == .dark ? DSColor.borderDark : DSColor.border, lineWidth: 1))
+        .overlay(RoundedRectangle(cornerRadius: DSRadius.large).stroke(scheme == .dark ? theme.borderDark : theme.border, lineWidth: 1))
         .dsShadow(.sm)
         .accessibilityElement(children: .combine)
         .accessibilityLabel("Stats: \(stats.map { "\($0.value) \($0.label)" }.joined(separator: ", "))")
@@ -399,6 +403,7 @@ public struct DSFAQSection: View {
     let items: [Item]
     @State private var expandedId: String?
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(title: String = "Perguntas Frequentes", items: [Item]) {
         self.title = title; self.items = items
@@ -408,7 +413,7 @@ public struct DSFAQSection: View {
         VStack(alignment: .leading, spacing: DSSpacing.lg) {
             Text(title)
                 .font(DSFont.bold(size: DSFont.Size.xxl))
-                .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                 .frame(maxWidth: .infinity, alignment: .center)
 
             VStack(spacing: DSSpacing.xs) {
@@ -433,6 +438,7 @@ private struct DSFAQItem: View {
     let onToggle: () -> Void
     @State private var isHovered = false
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -440,17 +446,17 @@ private struct DSFAQItem: View {
                 HStack(spacing: DSSpacing.sm) {
                     Text(item.question)
                         .font(DSFont.semibold(size: DSFont.Size.base))
-                        .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                        .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                         .multilineTextAlignment(.leading)
                     Spacer()
                     Image(systemName: "chevron.right")
                         .font(.system(size: 12, weight: .semibold))
-                        .foregroundStyle(DSColor.muted)
+                        .foregroundStyle(theme.muted)
                         .rotationEffect(.degrees(isExpanded ? 90 : 0))
                         .animation(DSAnimation.interactive, value: isExpanded)
                 }
                 .padding(DSSpacing.lg)
-                .background(isHovered ? (scheme == .dark ? Color.white.opacity(0.03) : DSColor.primary.opacity(0.02)) : Color.clear)
+                .background(isHovered ? (scheme == .dark ? Color.white.opacity(0.03) : theme.primary.opacity(0.02)) : Color.clear)
                 .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
@@ -459,16 +465,16 @@ private struct DSFAQItem: View {
             if isExpanded {
                 Text(item.answer)
                     .font(DSFont.regular(size: DSFont.Size.base))
-                    .foregroundStyle(DSColor.muted)
+                    .foregroundStyle(theme.muted)
                     .lineSpacing(5)
                     .padding(.horizontal, DSSpacing.lg)
                     .padding(.bottom, DSSpacing.lg)
                     .transition(.opacity.combined(with: .move(edge: .top)))
             }
         }
-        .background(scheme == .dark ? DSColor.surfaceDark : DSColor.surface)
+        .background(scheme == .dark ? theme.surfaceDark : theme.surface)
         .clipShape(RoundedRectangle(cornerRadius: DSRadius.medium))
-        .overlay(RoundedRectangle(cornerRadius: DSRadius.medium).stroke(scheme == .dark ? DSColor.borderDark : DSColor.border, lineWidth: 1))
+        .overlay(RoundedRectangle(cornerRadius: DSRadius.medium).stroke(scheme == .dark ? theme.borderDark : theme.border, lineWidth: 1))
     }
 }
 
@@ -493,6 +499,7 @@ public struct DSCTABanner: View {
     let accentColor: Color
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         title: String,

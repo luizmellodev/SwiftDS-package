@@ -14,21 +14,25 @@ public struct DSLink: View {
     let title: String
     let size: DSLinkSize
     let isUnderlined: Bool
+    let color: Color?
     let action: () -> Void
     let accessibilityLabel: String?
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         _ title: String,
         size: DSLinkSize = .md,
         isUnderlined: Bool = true,
+        color: Color? = nil,
         accessibilityLabel: String? = nil,
         action: @escaping () -> Void
     ) {
         self.title = title
         self.size = size
         self.isUnderlined = isUnderlined
+        self.color = color
         self.accessibilityLabel = accessibilityLabel
         self.action = action
     }
@@ -37,7 +41,7 @@ public struct DSLink: View {
         Button(action: action) {
             Text(title)
                 .font(.system(size: size.fontSize, weight: .medium))
-                .foregroundStyle(DSColor.primary)
+                .foregroundStyle(color ?? theme.primary)
                 .underline(isUnderlined)
         }
         .buttonStyle(.plain)

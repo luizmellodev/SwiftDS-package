@@ -145,6 +145,7 @@ public struct DSSection<Content: View>: View {
     @ViewBuilder let content: Content
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         title: String? = nil,
@@ -167,12 +168,12 @@ public struct DSSection<Content: View>: View {
                         if let title {
                             Text(title)
                                 .font(.system(size: 18, weight: .semibold))
-                                .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                                .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                         }
                         if let description {
                             Text(description)
                                 .font(.system(size: 14))
-                                .foregroundStyle(DSColor.muted)
+                                .foregroundStyle(theme.muted)
                         }
                     }
 
@@ -201,6 +202,7 @@ public struct DSDivider: View {
     let color: Color?
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(label: String? = nil, thickness: CGFloat = 1, color: Color? = nil) {
         self.label     = label
@@ -209,7 +211,7 @@ public struct DSDivider: View {
     }
 
     public var body: some View {
-        let lineColor = color ?? (scheme == .dark ? DSColor.borderDark : DSColor.border)
+        let lineColor = color ?? (scheme == .dark ? theme.borderDark : theme.border)
 
         if let label {
             HStack(spacing: DSSpacing.md) {
@@ -219,7 +221,7 @@ public struct DSDivider: View {
 
                 Text(label)
                     .font(.system(size: 12, weight: .medium))
-                    .foregroundStyle(DSColor.muted)
+                    .foregroundStyle(theme.muted)
                     .fixedSize()
 
                 Rectangle()
@@ -254,6 +256,7 @@ public struct DSPageLayout<Header: View, Content: View, Footer: View>: View {
     let scrollable: Bool
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         scrollable: Bool = true,
@@ -284,7 +287,7 @@ public struct DSPageLayout<Header: View, Content: View, Footer: View>: View {
 
             footer
         }
-        .background(scheme == .dark ? DSColor.backgroundDark : DSColor.background)
+        .background(scheme == .dark ? theme.backgroundDark : theme.background)
     }
 }
 

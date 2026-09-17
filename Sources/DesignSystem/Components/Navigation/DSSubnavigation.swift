@@ -14,6 +14,7 @@ public struct DSSubnavigation: View {
     let accessibilityLabel: String?
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         items: [String],
@@ -34,7 +35,7 @@ public struct DSSubnavigation: View {
                     } label: {
                         Text(title)
                             .font(.system(size: 14, weight: selection == index ? .semibold : .regular))
-                            .foregroundStyle(selection == index ? DSColor.primary : (scheme == .dark ? DSColor.foregroundDark : DSColor.foreground))
+                            .foregroundStyle(selection == index ? theme.primary : (scheme == .dark ? theme.foregroundDark : theme.foreground))
                             .padding(.horizontal, DSSpacing.md)
                             .padding(.vertical, DSSpacing.sm)
                     }

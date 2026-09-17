@@ -33,6 +33,7 @@ public struct DSTabs<Content: View>: View {
     @ViewBuilder let content: (DSTabItem) -> Content
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         items: [DSTabItem],
@@ -70,7 +71,7 @@ public struct DSTabs<Content: View>: View {
                     .overlay(
                         Rectangle()
                             .frame(height: 0.5)
-                            .foregroundStyle(scheme == .dark ? DSColor.borderDark : DSColor.border),
+                            .foregroundStyle(scheme == .dark ? theme.borderDark : theme.border),
                         alignment: .top
                     )
             )
@@ -97,15 +98,15 @@ public struct DSTabs<Content: View>: View {
                             .foregroundStyle(.white)
                             .padding(.horizontal, 4)
                             .padding(.vertical, 2)
-                            .background(Capsule().fill(DSColor.error))
+                            .background(Capsule().fill(theme.error))
                             .offset(x: 8, y: -6)
                     }
                 }
-                .foregroundStyle(isSelected ? DSColor.primary : DSColor.muted)
+                .foregroundStyle(isSelected ? theme.primary : theme.muted)
 
                 Text(item.label)
                     .font(.system(size: 10, weight: isSelected ? .semibold : .regular))
-                    .foregroundStyle(isSelected ? DSColor.primary : DSColor.muted)
+                    .foregroundStyle(isSelected ? theme.primary : theme.muted)
             }
             .frame(maxWidth: .infinity)
             .scaleEffect(isSelected ? 1.05 : 1.0)
@@ -131,6 +132,7 @@ public struct DSSegmentedControl<T: Hashable>: View {
 
     @Namespace private var namespace
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         options: [(label: String, value: T, icon: String?)],
@@ -151,7 +153,7 @@ public struct DSSegmentedControl<T: Hashable>: View {
         .padding(3)
         .background(
             RoundedRectangle(cornerRadius: DSRadius.medium + 2, style: .continuous)
-                .fill(scheme == .dark ? DSColor.surfaceDark : DSColor.secondaryMuted)
+                .fill(scheme == .dark ? theme.surfaceDark : theme.secondaryMuted)
         )
         .accessibilityElement(children: .contain)
         .accessibilityLabel("Segmented control")
@@ -172,15 +174,15 @@ public struct DSSegmentedControl<T: Hashable>: View {
                     .lineLimit(1)
             }
             .foregroundStyle(isSelected
-                ? (scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
-                : DSColor.muted)
+                ? (scheme == .dark ? theme.foregroundDark : theme.foreground)
+                : theme.muted)
             .padding(.horizontal, size.horizontalPadding - 4)
             .padding(.vertical, size.verticalPadding - 2)
             .background(
                 Group {
                     if isSelected {
                         RoundedRectangle(cornerRadius: DSRadius.medium - 1, style: .continuous)
-                            .fill(scheme == .dark ? DSColor.surfaceElevatedDark : DSColor.surfaceElevated)
+                            .fill(scheme == .dark ? theme.surfaceElevatedDark : theme.surfaceElevated)
                             .matchedGeometryEffect(id: "segment", in: namespace)
                             .dsShadow(.sm)
                     }
@@ -213,6 +215,7 @@ public struct DSNavigationBar: View {
     let showDivider: Bool
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         title: String,
@@ -244,11 +247,11 @@ public struct DSNavigationBar: View {
                 VStack(spacing: 1) {
                     Text(title)
                         .font(.system(size: 17, weight: .semibold))
-                        .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                        .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                     if let subtitle {
                         Text(subtitle)
                             .font(.system(size: 12))
-                            .foregroundStyle(DSColor.muted)
+                            .foregroundStyle(theme.muted)
                     }
                 }
 
@@ -263,11 +266,11 @@ public struct DSNavigationBar: View {
             }
             .padding(.horizontal, DSSpacing.md)
             .frame(height: 52)
-            .background(scheme == .dark ? DSColor.backgroundDark : DSColor.background)
+            .background(scheme == .dark ? theme.backgroundDark : theme.background)
 
             if showDivider {
                 Divider()
-                    .overlay(scheme == .dark ? DSColor.borderDark : DSColor.border)
+                    .overlay(scheme == .dark ? theme.borderDark : theme.border)
             }
         }
         .accessibilityElement(children: .combine)
@@ -318,6 +321,7 @@ public struct DSSidebar: View {
     var footer: AnyView?
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         sections: [(title: String?, items: [DSSidebarItem])],
@@ -339,7 +343,7 @@ public struct DSSidebar: View {
                         if let title = section.title {
                             Text(title.uppercased())
                                 .font(.system(size: 11, weight: .semibold))
-                                .foregroundStyle(DSColor.muted)
+                                .foregroundStyle(theme.muted)
                                 .padding(.horizontal, DSSpacing.md)
                                 .padding(.top, idx == 0 ? DSSpacing.md : DSSpacing.lg)
                                 .padding(.bottom, 4)
@@ -357,16 +361,16 @@ public struct DSSidebar: View {
 
             if let footer {
                 Divider()
-                    .overlay(scheme == .dark ? DSColor.borderDark : DSColor.border)
+                    .overlay(scheme == .dark ? theme.borderDark : theme.border)
                 footer.padding(DSSpacing.md)
             }
         }
         .frame(width: 240)
-        .background(scheme == .dark ? DSColor.surfaceDark : DSColor.surface)
+        .background(scheme == .dark ? theme.surfaceDark : theme.surface)
         .overlay(
             Rectangle()
                 .frame(width: 1)
-                .foregroundStyle(scheme == .dark ? DSColor.borderDark : DSColor.border),
+                .foregroundStyle(scheme == .dark ? theme.borderDark : theme.border),
             alignment: .trailing
         )
         .accessibilityElement(children: .contain)
@@ -382,25 +386,25 @@ public struct DSSidebar: View {
                 Image(systemName: item.icon)
                     .font(.system(size: 16, weight: isSelected ? .semibold : .regular))
                     .frame(width: 20)
-                    .foregroundStyle(isSelected ? DSColor.primary : DSColor.muted)
+                    .foregroundStyle(isSelected ? theme.primary : theme.muted)
 
                 Text(item.label)
                     .font(.system(size: 14, weight: isSelected ? .semibold : .regular))
                     .foregroundStyle(isSelected
-                        ? (scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
-                        : DSColor.muted)
+                        ? (scheme == .dark ? theme.foregroundDark : theme.foreground)
+                        : theme.muted)
 
                 Spacer()
 
                 if let badge = item.badge {
                     Text(badge)
                         .font(.system(size: 11, weight: .semibold))
-                        .foregroundStyle(isSelected ? DSColor.primary : DSColor.muted)
+                        .foregroundStyle(isSelected ? theme.primary : theme.muted)
                         .padding(.horizontal, 7)
                         .padding(.vertical, 2)
                         .background(
                             Capsule()
-                                .fill(isSelected ? (scheme == .dark ? DSColor.primary.opacity(0.25) : DSColor.primaryMuted) : (scheme == .dark ? DSColor.borderDark : DSColor.borderSubtle))
+                                .fill(isSelected ? (scheme == .dark ? theme.primary.opacity(0.25) : theme.primaryMuted) : (scheme == .dark ? theme.borderDark : theme.borderSubtle))
                         )
                 }
             }
@@ -410,7 +414,7 @@ public struct DSSidebar: View {
                 Group {
                     if isSelected {
                         RoundedRectangle(cornerRadius: DSRadius.small, style: .continuous)
-                            .fill(scheme == .dark ? DSColor.primary.opacity(0.18) : DSColor.primaryMuted)
+                            .fill(scheme == .dark ? theme.primary.opacity(0.18) : theme.primaryMuted)
                             .padding(.horizontal, 6)
                     }
                 }
@@ -449,6 +453,7 @@ public struct DSTabBar<T: Hashable>: View {
 
     @Namespace private var namespace
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         options: [(label: String, value: T, count: Int?)],
@@ -469,7 +474,7 @@ public struct DSTabBar<T: Hashable>: View {
             }
             Rectangle()
                 .frame(height: 1)
-                .foregroundStyle(scheme == .dark ? DSColor.borderDark : DSColor.border)
+                .foregroundStyle(scheme == .dark ? theme.borderDark : theme.border)
         }
         .animation(DSAnimation.interactive, value: selection as AnyHashable)
     }
@@ -487,22 +492,22 @@ public struct DSTabBar<T: Hashable>: View {
                         .font(.system(size: 14, weight: isActive ? .semibold : .regular))
                         .foregroundStyle(
                             isActive
-                                ? (scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
-                                : DSColor.muted
+                                ? (scheme == .dark ? theme.foregroundDark : theme.foreground)
+                                : theme.muted
                         )
 
                     if let count = option.count {
                         Text("\(count)")
                             .font(.system(size: 11, weight: .medium))
-                            .foregroundStyle(isActive ? DSColor.primary : DSColor.muted)
+                            .foregroundStyle(isActive ? theme.primary : theme.muted)
                             .padding(.horizontal, 6)
                             .padding(.vertical, 2)
                             .background(
                                 Capsule()
                                     .fill(
                                         isActive
-                                            ? DSColor.primaryMuted
-                                            : (scheme == .dark ? DSColor.borderDark : DSColor.borderSubtle)
+                                            ? theme.primaryMuted
+                                            : (scheme == .dark ? theme.borderDark : theme.borderSubtle)
                                     )
                             )
                     }
@@ -514,7 +519,7 @@ public struct DSTabBar<T: Hashable>: View {
                 if isActive {
                     Rectangle()
                         .frame(height: 2)
-                        .foregroundStyle(DSColor.primary)
+                        .foregroundStyle(theme.primary)
                         .matchedGeometryEffect(id: "tabUnderline", in: namespace)
                 } else {
                     Rectangle()

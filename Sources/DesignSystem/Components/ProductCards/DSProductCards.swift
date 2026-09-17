@@ -11,7 +11,7 @@ import SwiftUI
 ///   - title: Card title.
 ///   - description: Body text.
 ///   - style: .outlined, .filled, .gradient, or .minimal.
-///   - accentColor: Tint; default DSColor.primary.
+///   - accentColor: Tint; default theme.primary.
 ///   - badge: Optional badge text.
 public struct DSFeatureCard: View {
     public enum Style { case outlined, filled, gradient, minimal }
@@ -25,6 +25,7 @@ public struct DSFeatureCard: View {
 
     @State private var isHovered = false
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         icon: String,
@@ -44,9 +45,9 @@ public struct DSFeatureCard: View {
 
     private var bgColor: Color {
         switch style {
-        case .outlined:  return scheme == .dark ? DSColor.surfaceDark : DSColor.surface
+        case .outlined:  return scheme == .dark ? theme.surfaceDark : theme.surface
         case .filled:    return accentColor.opacity(scheme == .dark ? 0.15 : 0.07)
-        case .gradient:  return scheme == .dark ? DSColor.surfaceDark : DSColor.surface
+        case .gradient:  return scheme == .dark ? theme.surfaceDark : theme.surface
         case .minimal:   return .clear
         }
     }
@@ -72,10 +73,10 @@ public struct DSFeatureCard: View {
             VStack(alignment: .leading, spacing: DSSpacing.xs) {
                 Text(title)
                     .font(DSFont.semibold(size: DSFont.Size.md))
-                    .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                    .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                 Text(description)
                     .font(DSFont.regular(size: DSFont.Size.sm))
-                    .foregroundStyle(DSColor.muted)
+                    .foregroundStyle(theme.muted)
                     .lineSpacing(4)
                     .lineLimit(2)
             }
@@ -103,7 +104,7 @@ public struct DSFeatureCard: View {
         .overlay(
             RoundedRectangle(cornerRadius: DSRadius.large)
                 .stroke(
-                    isHovered ? accentColor.opacity(0.4) : (scheme == .dark ? DSColor.borderDark : DSColor.border),
+                    isHovered ? accentColor.opacity(0.4) : (scheme == .dark ? theme.borderDark : theme.border),
                     lineWidth: style == .minimal ? 0 : 1
                 )
         )
@@ -231,6 +232,7 @@ public struct DSPricingCard: View {
 
     @State private var isHovered = false
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(plan: DSPricingPlan, isAnnual: Bool = false, onSelect: @escaping () -> Void = {}) {
         self.plan = plan
@@ -241,11 +243,11 @@ public struct DSPricingCard: View {
     private var bgColor: Color {
         plan.isPopular
             ? (scheme == .dark ? plan.color.opacity(0.15) : plan.color.opacity(0.04))
-            : (scheme == .dark ? DSColor.surfaceDark : DSColor.surface)
+            : (scheme == .dark ? theme.surfaceDark : theme.surface)
     }
 
     private var borderColor: Color {
-        plan.isPopular ? plan.color.opacity(0.5) : (scheme == .dark ? DSColor.borderDark : DSColor.border)
+        plan.isPopular ? plan.color.opacity(0.5) : (scheme == .dark ? theme.borderDark : theme.border)
     }
 
     public var body: some View {
@@ -270,36 +272,36 @@ public struct DSPricingCard: View {
                 VStack(alignment: .leading, spacing: DSSpacing.xs) {
                     Text(plan.name)
                         .font(DSFont.semibold(size: DSFont.Size.md))
-                        .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                        .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                     Text(plan.description)
                         .font(DSFont.regular(size: DSFont.Size.sm))
-                        .foregroundStyle(DSColor.muted)
+                        .foregroundStyle(theme.muted)
                 }
 
                 // Price
                 HStack(alignment: .lastTextBaseline, spacing: 2) {
                     Text(plan.price)
                         .font(DSFont.bold(size: 40))
-                        .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                        .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                     Text(plan.period)
                         .font(DSFont.regular(size: DSFont.Size.base))
-                        .foregroundStyle(DSColor.muted)
+                        .foregroundStyle(theme.muted)
                 }
 
                 if isAnnual {
                     Text("Economize 20% no plano anual")
                         .font(DSFont.medium(size: DSFont.Size.xs))
-                        .foregroundStyle(DSColor.success)
+                        .foregroundStyle(theme.success)
                         .padding(.horizontal, 8)
                         .padding(.vertical, 3)
-                        .background(DSColor.successMuted)
+                        .background(theme.successMuted)
                         .clipShape(Capsule())
                         .padding(.top, -DSSpacing.sm)
                 }
 
                 // Divider
                 Rectangle()
-                    .fill(scheme == .dark ? DSColor.borderDark : DSColor.border)
+                    .fill(scheme == .dark ? theme.borderDark : theme.border)
                     .frame(height: 1)
 
                 // Features
@@ -353,18 +355,19 @@ private struct DSPricingFeatureRow: View {
     let feature: DSPricingFeature
     let accentColor: Color
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     var body: some View {
         HStack(spacing: DSSpacing.sm) {
             Image(systemName: feature.included ? "checkmark.circle.fill" : "xmark.circle.fill")
                 .font(.system(size: 16))
-                .foregroundStyle(feature.included ? accentColor : DSColor.subtle)
+                .foregroundStyle(feature.included ? accentColor : theme.subtle)
             Text(feature.text)
                 .font(DSFont.regular(size: DSFont.Size.sm))
                 .foregroundStyle(
                     feature.included
-                        ? (scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
-                        : DSColor.subtle
+                        ? (scheme == .dark ? theme.foregroundDark : theme.foreground)
+                        : theme.subtle
                 )
         }
     }
@@ -382,6 +385,7 @@ private struct DSPricingFeatureRow: View {
 public struct DSBillingToggle: View {
     @Binding var isAnnual: Bool
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(isAnnual: Binding<Bool>) { self._isAnnual = isAnnual }
 
@@ -389,23 +393,23 @@ public struct DSBillingToggle: View {
         HStack(spacing: DSSpacing.sm) {
             Text("Mensal")
                 .font(DSFont.medium(size: DSFont.Size.sm))
-                .foregroundStyle(isAnnual ? DSColor.muted : (scheme == .dark ? DSColor.foregroundDark : DSColor.foreground))
+                .foregroundStyle(isAnnual ? theme.muted : (scheme == .dark ? theme.foregroundDark : theme.foreground))
 
             Toggle("", isOn: $isAnnual)
                 .toggleStyle(.switch)
-                .tint(DSColor.primary)
+                .tint(theme.primary)
                 .labelsHidden()
 
             HStack(spacing: 4) {
                 Text("Anual")
                     .font(DSFont.medium(size: DSFont.Size.sm))
-                    .foregroundStyle(!isAnnual ? DSColor.muted : (scheme == .dark ? DSColor.foregroundDark : DSColor.foreground))
+                    .foregroundStyle(!isAnnual ? theme.muted : (scheme == .dark ? theme.foregroundDark : theme.foreground))
                 Text("–20%")
                     .font(DSFont.semibold(size: DSFont.Size.xs))
-                    .foregroundStyle(DSColor.success)
+                    .foregroundStyle(theme.success)
                     .padding(.horizontal, 6)
                     .padding(.vertical, 2)
-                    .background(DSColor.successMuted)
+                    .background(theme.successMuted)
                     .clipShape(Capsule())
             }
         }
@@ -439,6 +443,7 @@ public struct DSBillingToggle: View {
 
 #Preview("Pricing Cards") {
     struct PreviewWrapper: View {
+        @Environment(\.dsTheme) private var theme
         @State var annual = false
         var body: some View {
             ScrollView {

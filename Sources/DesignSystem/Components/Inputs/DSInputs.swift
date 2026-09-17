@@ -43,6 +43,7 @@ public struct DSTextField: View {
 
     @FocusState private var isFocused: Bool
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         label: String? = nil,
@@ -73,19 +74,19 @@ public struct DSTextField: View {
             if let label {
                 Text(label)
                     .font(.system(size: 13, weight: .medium))
-                    .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                    .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
             }
 
             HStack(spacing: DSSpacing.sm) {
                 if let leadingIcon {
                     Image(systemName: leadingIcon)
                         .font(.system(size: size.fontSize - 1, weight: .regular))
-                        .foregroundStyle(DSColor.muted)
+                        .foregroundStyle(theme.muted)
                 }
 
                 TextField(placeholder, text: $text)
                     .font(.system(size: size.fontSize))
-                    .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                    .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                     .focused($isFocused)
                     .disabled(isDisabled)
                     .onSubmit { onSubmit?() }
@@ -94,19 +95,19 @@ public struct DSTextField: View {
                     Button(action: { text = "" }) {
                         Image(systemName: "xmark.circle.fill")
                             .font(.system(size: 14))
-                            .foregroundStyle(DSColor.muted)
+                            .foregroundStyle(theme.muted)
                     }
                     .buttonStyle(.plain)
                     .transition(.scale.combined(with: .opacity))
                 } else if let trailingIcon {
                     Image(systemName: trailingIcon)
                         .font(.system(size: size.fontSize - 1))
-                        .foregroundStyle(DSColor.muted)
+                        .foregroundStyle(theme.muted)
                 }
             }
             .padding(.horizontal, size.horizontalPad)
             .frame(height: size.height)
-            .background(scheme == .dark ? DSColor.surfaceDark : DSColor.surface)
+            .background(scheme == .dark ? theme.surfaceDark : theme.surface)
             .clipShape(RoundedRectangle(cornerRadius: size.cornerRadius, style: .continuous))
             .overlay(
                 RoundedRectangle(cornerRadius: size.cornerRadius, style: .continuous)
@@ -123,11 +124,11 @@ public struct DSTextField: View {
                     Text(error)
                         .font(.system(size: 12))
                 }
-                .foregroundStyle(DSColor.error)
+                .foregroundStyle(theme.error)
             } else if let hint {
                 Text(hint)
                     .font(.system(size: 12))
-                    .foregroundStyle(DSColor.muted)
+                    .foregroundStyle(theme.muted)
             }
         }
         .animation(DSAnimation.fade, value: text.isEmpty)
@@ -138,9 +139,9 @@ public struct DSTextField: View {
     }
 
     private var borderColor: Color {
-        if error != nil { return DSColor.error }
-        if isFocused { return DSColor.primary }
-        return scheme == .dark ? DSColor.borderDark : DSColor.border
+        if error != nil { return theme.error }
+        if isFocused { return theme.primary }
+        return scheme == .dark ? theme.borderDark : theme.border
     }
 }
 
@@ -166,6 +167,7 @@ public struct DSSecureField: View {
     @State private var isVisible = false
     @FocusState private var isFocused: Bool
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         label: String? = nil,
@@ -188,13 +190,13 @@ public struct DSSecureField: View {
             if let label {
                 Text(label)
                     .font(.system(size: 13, weight: .medium))
-                    .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                    .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
             }
 
             HStack(spacing: DSSpacing.sm) {
                 Image(systemName: "lock")
                     .font(.system(size: size.fontSize - 1))
-                    .foregroundStyle(DSColor.muted)
+                    .foregroundStyle(theme.muted)
 
                 Group {
                     if isVisible {
@@ -204,20 +206,20 @@ public struct DSSecureField: View {
                     }
                 }
                 .font(.system(size: size.fontSize))
-                .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                 .focused($isFocused)
                 .disabled(isDisabled)
 
                 Button(action: { withAnimation(DSAnimation.interactive) { isVisible.toggle() } }) {
                     Image(systemName: isVisible ? "eye.slash" : "eye")
                         .font(.system(size: 14))
-                        .foregroundStyle(DSColor.muted)
+                        .foregroundStyle(theme.muted)
                 }
                 .buttonStyle(.plain)
             }
             .padding(.horizontal, size.horizontalPad)
             .frame(height: size.height)
-            .background(scheme == .dark ? DSColor.surfaceDark : DSColor.surface)
+            .background(scheme == .dark ? theme.surfaceDark : theme.surface)
             .clipShape(RoundedRectangle(cornerRadius: size.cornerRadius, style: .continuous))
             .overlay(
                 RoundedRectangle(cornerRadius: size.cornerRadius, style: .continuous)
@@ -232,7 +234,7 @@ public struct DSSecureField: View {
                     Image(systemName: "exclamationmark.circle.fill").font(.system(size: 12))
                     Text(error).font(.system(size: 12))
                 }
-                .foregroundStyle(DSColor.error)
+                .foregroundStyle(theme.error)
             }
         }
         .accessibilityElement(children: .contain)
@@ -242,9 +244,9 @@ public struct DSSecureField: View {
     }
 
     private var borderColor: Color {
-        if error != nil { return DSColor.error }
-        if isFocused { return DSColor.primary }
-        return scheme == .dark ? DSColor.borderDark : DSColor.border
+        if error != nil { return theme.error }
+        if isFocused { return theme.primary }
+        return scheme == .dark ? theme.borderDark : theme.border
     }
 }
 
@@ -265,6 +267,7 @@ public struct DSSearchBar: View {
 
     @FocusState private var isFocused: Bool
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         placeholder: String = "Search...",
@@ -282,12 +285,12 @@ public struct DSSearchBar: View {
         HStack(spacing: DSSpacing.sm) {
             Image(systemName: "magnifyingglass")
                 .font(.system(size: size.fontSize - 1, weight: .medium))
-                .foregroundStyle(isFocused ? DSColor.primary : DSColor.muted)
+                .foregroundStyle(isFocused ? theme.primary : theme.muted)
                 .animation(DSAnimation.interactive, value: isFocused)
 
             TextField(placeholder, text: $text)
                 .font(.system(size: size.fontSize))
-                .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                 .focused($isFocused)
                 .onSubmit { onSubmit?() }
 
@@ -295,7 +298,7 @@ public struct DSSearchBar: View {
                 Button(action: { withAnimation(DSAnimation.interactive) { text = "" } }) {
                     Image(systemName: "xmark.circle.fill")
                         .font(.system(size: 14))
-                        .foregroundStyle(DSColor.muted)
+                        .foregroundStyle(theme.muted)
                 }
                 .buttonStyle(.plain)
                 .transition(.scale.combined(with: .opacity))
@@ -305,12 +308,12 @@ public struct DSSearchBar: View {
         .frame(height: size.height)
         .background(
             RoundedRectangle(cornerRadius: DSRadius.medium, style: .continuous)
-                .fill(scheme == .dark ? DSColor.surfaceDark : DSColor.secondaryMuted)
+                .fill(scheme == .dark ? theme.surfaceDark : theme.secondaryMuted)
         )
         .overlay(
             RoundedRectangle(cornerRadius: DSRadius.medium, style: .continuous)
                 .stroke(
-                    isFocused ? DSColor.primary : (scheme == .dark ? DSColor.borderDark : Color.clear),
+                    isFocused ? theme.primary : (scheme == .dark ? theme.borderDark : Color.clear),
                     lineWidth: isFocused ? 1.5 : 0.5
                 )
         )
@@ -345,6 +348,7 @@ public struct DSTextArea: View {
 
     @FocusState private var isFocused: Bool
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         label: String? = nil,
@@ -367,21 +371,21 @@ public struct DSTextArea: View {
             if let label {
                 Text(label)
                     .font(.system(size: 13, weight: .medium))
-                    .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                    .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
             }
 
             TextEditor(text: $text)
                 .font(.system(size: 15))
-                .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                 .frame(minHeight: CGFloat(minLines) * 22,
                        maxHeight: CGFloat(maxLines) * 22)
                 .padding(DSSpacing.sm)
-                .background(scheme == .dark ? DSColor.surfaceDark : DSColor.surface)
+                .background(scheme == .dark ? theme.surfaceDark : theme.surface)
                 .scrollContentBackground(.hidden)
                 .clipShape(RoundedRectangle(cornerRadius: DSRadius.medium, style: .continuous))
                 .overlay(
                     RoundedRectangle(cornerRadius: DSRadius.medium, style: .continuous)
-                        .stroke(isFocused ? DSColor.primary : (scheme == .dark ? DSColor.borderDark : DSColor.border),
+                        .stroke(isFocused ? theme.primary : (scheme == .dark ? theme.borderDark : theme.border),
                                 lineWidth: 1.5)
                 )
                 .focused($isFocused)
@@ -392,7 +396,7 @@ public struct DSTextArea: View {
                     Image(systemName: "exclamationmark.circle.fill").font(.system(size: 12))
                     Text(error).font(.system(size: 12))
                 }
-                .foregroundStyle(DSColor.error)
+                .foregroundStyle(theme.error)
             }
         }
         .accessibilityElement(children: .contain)
@@ -416,19 +420,23 @@ public struct DSToggle: View {
     let description: String?
     @Binding var isOn: Bool
     let isDisabled: Bool
+    let color: Color?
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         _ label: String,
         description: String? = nil,
         isOn: Binding<Bool>,
-        isDisabled: Bool = false
+        isDisabled: Bool = false,
+        color: Color? = nil
     ) {
         self.label       = label
         self.description = description
         self._isOn       = isOn
         self.isDisabled  = isDisabled
+        self.color       = color
     }
 
     public var body: some View {
@@ -436,11 +444,11 @@ public struct DSToggle: View {
             VStack(alignment: .leading, spacing: 2) {
                 Text(label)
                     .font(.system(size: 15, weight: .medium))
-                    .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                    .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                 if let description {
                     Text(description)
                         .font(.system(size: 13))
-                        .foregroundStyle(DSColor.muted)
+                        .foregroundStyle(theme.muted)
                 }
             }
 
@@ -448,7 +456,7 @@ public struct DSToggle: View {
 
             Toggle("", isOn: $isOn)
                 .labelsHidden()
-                .tint(DSColor.primary)
+                .tint(color ?? theme.primary)
                 .disabled(isDisabled)
                 .animation(DSAnimation.interactive, value: isOn)
         }
@@ -474,13 +482,16 @@ public struct DSCheckbox: View {
     let label: String
     @Binding var isChecked: Bool
     let isDisabled: Bool
+    let color: Color?
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
-    public init(_ label: String, isChecked: Binding<Bool>, isDisabled: Bool = false) {
+    public init(_ label: String, isChecked: Binding<Bool>, isDisabled: Bool = false, color: Color? = nil) {
         self.label      = label
         self._isChecked = isChecked
         self.isDisabled = isDisabled
+        self.color      = color
     }
 
     public var body: some View {
@@ -491,11 +502,11 @@ public struct DSCheckbox: View {
             HStack(spacing: DSSpacing.sm) {
                 ZStack {
                     RoundedRectangle(cornerRadius: 5, style: .continuous)
-                        .fill(isChecked ? DSColor.primary : .clear)
+                        .fill(isChecked ? (color ?? theme.primary) : .clear)
                         .frame(width: 20, height: 20)
                         .overlay(
                             RoundedRectangle(cornerRadius: 5, style: .continuous)
-                                .stroke(isChecked ? DSColor.primary : (scheme == .dark ? DSColor.borderDark : DSColor.border), lineWidth: 1.5)
+                                .stroke(isChecked ? (color ?? theme.primary) : (scheme == .dark ? theme.borderDark : theme.border), lineWidth: 1.5)
                         )
 
                     if isChecked {
@@ -509,7 +520,7 @@ public struct DSCheckbox: View {
 
                 Text(label)
                     .font(.system(size: 15))
-                    .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                    .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
             }
         }
         .buttonStyle(.plain)
@@ -534,13 +545,16 @@ public struct DSRadioGroup<T: Hashable>: View {
     let options: [(label: String, value: T)]
     @Binding var selection: T
     let isDisabled: Bool
+    let color: Color?
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
-    public init(options: [(label: String, value: T)], selection: Binding<T>, isDisabled: Bool = false) {
+    public init(options: [(label: String, value: T)], selection: Binding<T>, isDisabled: Bool = false, color: Color? = nil) {
         self.options    = options
         self._selection = selection
         self.isDisabled = isDisabled
+        self.color      = color
     }
 
     public var body: some View {
@@ -553,12 +567,12 @@ public struct DSRadioGroup<T: Hashable>: View {
                     HStack(spacing: DSSpacing.sm) {
                         ZStack {
                             Circle()
-                                .stroke(selection == option.value ? DSColor.primary : (scheme == .dark ? DSColor.borderDark : DSColor.border), lineWidth: 1.5)
+                                .stroke(selection == option.value ? (color ?? theme.primary) : (scheme == .dark ? theme.borderDark : theme.border), lineWidth: 1.5)
                                 .frame(width: 20, height: 20)
 
                             if selection == option.value {
                                 Circle()
-                                    .fill(DSColor.primary)
+                                    .fill(color ?? theme.primary)
                                     .frame(width: 10, height: 10)
                                     .transition(.scale.combined(with: .opacity))
                             }
@@ -566,7 +580,7 @@ public struct DSRadioGroup<T: Hashable>: View {
 
                         Text(option.label)
                             .font(.system(size: 15))
-                            .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                            .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                     }
                 }
                 .buttonStyle(.plain)
@@ -599,8 +613,10 @@ public struct DSSlider: View {
     let step: Double
     let showValue: Bool
     let formatValue: ((Double) -> String)?
+    let color: Color?
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         label: String? = nil,
@@ -608,7 +624,8 @@ public struct DSSlider: View {
         range: ClosedRange<Double> = 0...100,
         step: Double = 1,
         showValue: Bool = true,
-        formatValue: ((Double) -> String)? = nil
+        formatValue: ((Double) -> String)? = nil,
+        color: Color? = nil
     ) {
         self.label       = label
         self._value      = value
@@ -616,6 +633,7 @@ public struct DSSlider: View {
         self.step        = step
         self.showValue   = showValue
         self.formatValue = formatValue
+        self.color       = color
     }
 
     public var body: some View {
@@ -625,19 +643,19 @@ public struct DSSlider: View {
                     if let label {
                         Text(label)
                             .font(.system(size: 13, weight: .medium))
-                            .foregroundStyle(scheme == .dark ? DSColor.foregroundDark : DSColor.foreground)
+                            .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                     }
                     Spacer()
                     if showValue {
                         Text(formatValue?(value) ?? String(Int(value)))
                             .font(.system(size: 13, weight: .semibold, design: .monospaced))
-                            .foregroundStyle(DSColor.primary)
+                            .foregroundStyle(color ?? theme.primary)
                     }
                 }
             }
 
             Slider(value: $value, in: range, step: step)
-                .tint(DSColor.primary)
+                .tint(color ?? theme.primary)
                 .animation(DSAnimation.interactive, value: value)
         }
         .accessibilityElement(children: .contain)
@@ -657,8 +675,10 @@ public struct DSStepper: View {
     let accessibilityDecrementLabel: String?
     let accessibilityIncrementLabel: String?
     let accessibilityValueLabel: String?
+    let color: Color?
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         value: Binding<Int>,
@@ -666,7 +686,8 @@ public struct DSStepper: View {
         maxValue: Int = 99,
         accessibilityDecrementLabel: String? = nil,
         accessibilityIncrementLabel: String? = nil,
-        accessibilityValueLabel: String? = nil
+        accessibilityValueLabel: String? = nil,
+        color: Color? = nil
     ) {
         self._value = value
         self.minValue = minValue
@@ -674,14 +695,15 @@ public struct DSStepper: View {
         self.accessibilityDecrementLabel = accessibilityDecrementLabel
         self.accessibilityIncrementLabel = accessibilityIncrementLabel
         self.accessibilityValueLabel = accessibilityValueLabel
+        self.color = color
     }
 
     private var borderColor: Color {
-        scheme == .dark ? DSColor.borderDark : DSColor.border
+        scheme == .dark ? theme.borderDark : theme.border
     }
 
     private var fgColor: Color {
-        scheme == .dark ? DSColor.foregroundDark : DSColor.foreground
+        scheme == .dark ? theme.foregroundDark : theme.foreground
     }
 
     public var body: some View {
@@ -691,7 +713,7 @@ public struct DSStepper: View {
             } label: {
                 Image(systemName: "minus")
                     .font(.system(size: 14, weight: .semibold))
-                    .foregroundStyle(value <= minValue ? DSColor.muted : fgColor)
+                    .foregroundStyle(value <= minValue ? theme.muted : (color ?? fgColor))
                     .frame(width: 40, height: 40)
             }
             .buttonStyle(.plain)
@@ -709,7 +731,7 @@ public struct DSStepper: View {
             } label: {
                 Image(systemName: "plus")
                     .font(.system(size: 14, weight: .semibold))
-                    .foregroundStyle(value >= maxValue ? DSColor.muted : fgColor)
+                    .foregroundStyle(value >= maxValue ? theme.muted : (color ?? fgColor))
                     .frame(width: 40, height: 40)
             }
             .buttonStyle(.plain)
@@ -718,7 +740,7 @@ public struct DSStepper: View {
         }
         .padding(.horizontal, DSSpacing.sm)
         .padding(.vertical, DSSpacing.xs)
-        .background(scheme == .dark ? DSColor.surfaceDark : DSColor.surface)
+        .background(scheme == .dark ? theme.surfaceDark : theme.surface)
         .overlay(
             Capsule()
                 .strokeBorder(borderColor, lineWidth: 1)

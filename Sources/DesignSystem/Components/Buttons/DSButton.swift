@@ -69,10 +69,12 @@ public struct DSButton: View {
     let iconPosition: HorizontalAlignment
     let isLoading: Bool
     let isDisabled: Bool
+    let color: Color?
     let accessibilityLabel: String?
     let action: () -> Void
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
     @State private var isHovered = false
 
     public init(
@@ -83,6 +85,7 @@ public struct DSButton: View {
         iconPosition: HorizontalAlignment = .leading,
         isLoading: Bool = false,
         isDisabled: Bool = false,
+        color: Color? = nil,
         accessibilityLabel: String? = nil,
         action: @escaping () -> Void = {}
     ) {
@@ -93,6 +96,7 @@ public struct DSButton: View {
         self.iconPosition = iconPosition
         self.isLoading    = isLoading
         self.isDisabled   = isDisabled
+        self.color        = color
         self.accessibilityLabel = accessibilityLabel
         self.action       = action
     }
@@ -154,29 +158,33 @@ public struct DSButton: View {
 
     private var bgColor: Color {
         let hovered = isHovered && !isDisabled
+        if let color {
+            return hovered ? color.opacity(0.88) : color
+        }
         switch variant {
-        case .primary:     return hovered ? DSColor.primaryHover     : DSColor.primary
+        case .primary:     return hovered ? theme.primaryHover     : theme.primary
         case .secondary:   return scheme == .dark
-            ? (hovered ? DSColor.surfaceElevatedDark : DSColor.surfaceDark)
-            : (hovered ? DSColor.secondaryMuted : DSColor.secondaryMuted)
+            ? (hovered ? theme.surfaceElevatedDark : theme.surfaceDark)
+            : (hovered ? theme.secondaryMuted : theme.secondaryMuted)
         case .ghost:       return hovered ? (scheme == .dark ? Color.white.opacity(0.07) : Color.black.opacity(0.04)) : .clear
-        case .destructive: return hovered ? DSColor.error.opacity(0.85) : DSColor.error
-        case .success:     return hovered ? DSColor.success.opacity(0.85) : DSColor.success
+        case .destructive: return hovered ? theme.error.opacity(0.85) : theme.error
+        case .success:     return hovered ? theme.success.opacity(0.85) : theme.success
         }
     }
 
     private var fgColor: Color {
+        if color != nil { return .white }
         switch variant {
         case .primary, .destructive, .success: return .white
-        case .secondary:   return scheme == .dark ? DSColor.foregroundDark : DSColor.foreground
-        case .ghost:       return scheme == .dark ? DSColor.foregroundDark : DSColor.foreground
+        case .secondary:   return scheme == .dark ? theme.foregroundDark : theme.foreground
+        case .ghost:       return scheme == .dark ? theme.foregroundDark : theme.foreground
         }
     }
 
     private var borderColor: Color {
         switch variant {
-        case .secondary: return scheme == .dark ? DSColor.borderDark : DSColor.border
-        case .ghost:     return scheme == .dark ? DSColor.borderDark.opacity(0.5) : DSColor.border.opacity(0.6)
+        case .secondary: return scheme == .dark ? theme.borderDark : theme.border
+        case .ghost:     return scheme == .dark ? theme.borderDark.opacity(0.5) : theme.border.opacity(0.6)
         default:         return .clear
         }
     }
@@ -190,9 +198,12 @@ public struct DSButton: View {
 
     private var shadowStyle: DSShadow {
         guard !isDisabled else { return .none }
+        if let color {
+            return DSShadow(color: color.opacity(0.30), radius: 16, x: 0, y: 8)
+        }
         switch variant {
-        case .primary:     return .primary
-        case .destructive: return DSShadow(color: DSColor.error.opacity(0.25), radius: 12, x: 0, y: 6)
+        case .primary:     return theme.primaryShadow()
+        case .destructive: return theme.errorShadow()
         default:           return .sm
         }
     }
@@ -219,17 +230,20 @@ public struct DSIconButton: View {
     let size: DSButtonSize
     let variant: DSButtonVariant
     let isDisabled: Bool
+    let color: Color?
     let accessibilityLabel: String?
     let action: () -> Void
 
     @State private var isHovered = false
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dsTheme) private var theme
 
     public init(
         icon: String,
         size: DSButtonSize = .md,
         variant: DSButtonVariant = .ghost,
         isDisabled: Bool = false,
+        color: Color? = nil,
         accessibilityLabel: String? = nil,
         action: @escaping () -> Void = {}
     ) {
@@ -237,6 +251,7 @@ public struct DSIconButton: View {
         self.size       = size
         self.variant    = variant
         self.isDisabled = isDisabled
+        self.color      = color
         self.accessibilityLabel = accessibilityLabel
         self.action     = action
     }
@@ -270,31 +285,35 @@ public struct DSIconButton: View {
     }
 
     private var fgColor: Color {
+        if color != nil { return .white }
         switch variant {
         case .primary:     return .white
         case .destructive: return .white
-        default:           return scheme == .dark ? DSColor.foregroundDark : DSColor.foreground
+        default:           return scheme == .dark ? theme.foregroundDark : theme.foreground
         }
     }
 
     private var bgColor: Color {
         let hovered = isHovered && !isDisabled
+        if let color {
+            return hovered ? color.opacity(0.88) : color
+        }
         switch variant {
-        case .primary:     return hovered ? DSColor.primaryHover : DSColor.primary
+        case .primary:     return hovered ? theme.primaryHover : theme.primary
         case .ghost:       return hovered ? (scheme == .dark ? Color.white.opacity(0.07) : Color.black.opacity(0.04)) : .clear
         case .destructive: return scheme == .dark
-            ? (hovered ? DSColor.error.opacity(0.9) : DSColor.error)
-            : (hovered ? DSColor.error.opacity(0.9) : DSColor.error)
+            ? (hovered ? theme.error.opacity(0.9) : theme.error)
+            : (hovered ? theme.error.opacity(0.9) : theme.error)
         case .secondary:   return scheme == .dark
-            ? (hovered ? DSColor.surfaceElevatedDark : DSColor.surfaceDark)
-            : DSColor.secondaryMuted
+            ? (hovered ? theme.surfaceElevatedDark : theme.surfaceDark)
+            : theme.secondaryMuted
         default:           return .clear
         }
     }
 
     private var borderColor: Color {
         switch variant {
-        case .ghost: return scheme == .dark ? DSColor.borderDark.opacity(0.5) : DSColor.border.opacity(0.6)
+        case .ghost: return scheme == .dark ? theme.borderDark.opacity(0.5) : theme.border.opacity(0.6)
         default:     return .clear
         }
     }
@@ -340,6 +359,8 @@ public struct DSIconButton: View {
             DSIconButton(icon: "trash", variant: .destructive)
             DSIconButton(icon: "square.and.arrow.up")
         }
+
+        DSButton("Custom hex", color: Color(hex: "#234134"))
     }
     .padding(DSSpacing.xl)
 }
