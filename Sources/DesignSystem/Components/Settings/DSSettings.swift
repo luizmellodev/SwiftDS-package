@@ -264,7 +264,7 @@ public struct DSDangerZone: View {
     @Environment(\.dsTheme) private var theme
 
     public init(
-        title: String = "Zona de Perigo",
+        title: String = "Danger Zone",
         items: [(title: String, description: String, buttonLabel: String, action: () -> Void)]
     ) {
         self.title = title; self.items = items
@@ -396,7 +396,7 @@ public struct DSApiKeyRow: View {
                 .animation(DSAnimation.interactive, value: isCopied)
 
                 Button(action: onRevoke) {
-                    Text("Revogar")
+                    Text("Revoke")
                         .font(DSFont.medium(size: DSFont.Size.xs))
                         .foregroundStyle(theme.error)
                         .padding(.horizontal, 8)
@@ -434,9 +434,9 @@ public struct DSAppearancePicker: View {
     public init(selection: Binding<ColorScheme?>) { self._selection = selection }
 
     private let options: [(label: String, icon: String, value: ColorScheme?)] = [
-        ("Claro", "sun.max.fill", .light),
-        ("Escuro", "moon.fill", .dark),
-        ("Sistema", "circle.lefthalf.filled", nil)
+        ("Light", "sun.max.fill", .light),
+        ("Dark", "moon.fill", .dark),
+        ("System", "circle.lefthalf.filled", nil)
     ]
 
     public var body: some View {
@@ -483,28 +483,28 @@ public struct DSAppearancePicker: View {
     @Previewable @State var appearance: ColorScheme?
 
     return DSSettingsScreen(sections: [
-        DSSettingsSection(title: "Conta", items: [
-            DSSettingsItem(icon: "person.fill", iconColor: DSColor.primary, title: "Informações Pessoais", subtitle: "Nome, email e foto", type: .navigation(destination: AnyView(Text("Perfil")))),
-            DSSettingsItem(icon: "lock.fill", iconColor: DSColor.warning, title: "Segurança", subtitle: "Senha e autenticação", type: .navigation(destination: AnyView(Text("Segurança")))),
-            DSSettingsItem(icon: "creditcard.fill", iconColor: DSColor.success, title: "Plano & Faturamento", subtitle: "Pro · R$49/mês", type: .value(text: "Pro"))
+        DSSettingsSection(title: "Account", items: [
+            DSSettingsItem(icon: "person.fill", iconColor: DSColor.primary, title: "Personal Information", subtitle: "Name, email and photo", type: .navigation(destination: AnyView(Text("Profile")))),
+            DSSettingsItem(icon: "lock.fill", iconColor: DSColor.warning, title: "Security", subtitle: "Password and authentication", type: .navigation(destination: AnyView(Text("Security")))),
+            DSSettingsItem(icon: "creditcard.fill", iconColor: DSColor.success, title: "Plan & Billing", subtitle: "Pro · $49/mo", type: .value(text: "Pro"))
         ]),
-        DSSettingsSection(title: "Notificações", footer: "As notificações de segurança não podem ser desativadas.", items: [
-            DSSettingsItem(icon: "bell.fill", iconColor: DSColor.accent, title: "Notificações Push", type: .toggle(binding: $notifications)),
-            DSSettingsItem(icon: "envelope.fill", iconColor: DSColor.info, title: "Emails de Marketing", type: .toggle(binding: $marketing)),
-            DSSettingsItem(icon: "shield.fill", iconColor: DSColor.success, title: "Autenticação em 2 Fatores", type: .toggle(binding: $twoFactor))
+        DSSettingsSection(title: "Notifications", footer: "Security notifications cannot be turned off.", items: [
+            DSSettingsItem(icon: "bell.fill", iconColor: DSColor.accent, title: "Push Notifications", type: .toggle(binding: $notifications)),
+            DSSettingsItem(icon: "envelope.fill", iconColor: DSColor.info, title: "Marketing Emails", type: .toggle(binding: $marketing)),
+            DSSettingsItem(icon: "shield.fill", iconColor: DSColor.success, title: "Two-Factor Authentication", type: .toggle(binding: $twoFactor))
         ]),
-        DSSettingsSection(title: "Preferências", items: [
-            DSSettingsItem(icon: "globe", iconColor: DSColor.primary, title: "Idioma", type: .value(text: "Português (BR)")),
-            DSSettingsItem(icon: "clock.fill", iconColor: DSColor.muted, title: "Fuso Horário", type: .value(text: "America/Sao_Paulo"))
+        DSSettingsSection(title: "Preferences", items: [
+            DSSettingsItem(icon: "globe", iconColor: DSColor.primary, title: "Language", type: .value(text: "English (US)")),
+            DSSettingsItem(icon: "clock.fill", iconColor: DSColor.muted, title: "Time Zone", type: .value(text: "America/New_York"))
         ])
     ])
 }
 
 #Preview("Danger Zone") {
     DSDangerZone(items: [
-        ("Exportar Dados", "Baixe uma cópia de todos os seus dados.", "Exportar", {}),
-        ("Pausar Conta", "Sua conta ficará inativa por até 90 dias.", "Pausar", {}),
-        ("Excluir Conta", "Esta ação é permanente e não pode ser desfeita.", "Excluir", {})
+        ("Export Data", "Download a copy of all your data.", "Export", {}),
+        ("Pause Account", "Your account will be inactive for up to 90 days.", "Pause", {}),
+        ("Delete Account", "This action is permanent and cannot be undone.", "Delete", {})
     ])
     .padding()
 }

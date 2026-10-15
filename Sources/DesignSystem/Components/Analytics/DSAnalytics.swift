@@ -702,13 +702,13 @@ public struct DSStatsRow: View {
             // KPI Row
             HStack(spacing: DSSpacing.md) {
                 DSMetricCard(
-                    title: "Receita", value: "R$124.5k",
+                    title: "Revenue", value: "$124.5k",
                     change: "+12.4%", trend: .up, icon: "dollarsign.circle.fill",
                     accentColor: DSColor.success,
                     sparkline: [40, 55, 48, 62, 58, 70, 80, 76, 90, 95]
                 )
                 DSMetricCard(
-                    title: "Usuários Ativos", value: "8.291",
+                    title: "Active Users", value: "8,291",
                     change: "+5.8%", trend: .up, icon: "person.fill",
                     accentColor: DSColor.primary,
                     sparkline: [20, 30, 28, 40, 38, 50, 60, 55, 68, 72]
@@ -729,9 +729,9 @@ public struct DSStatsRow: View {
 
             HStack(alignment: .top, spacing: DSSpacing.md) {
                 DSLineChartWidget(
-                    title: "Receita Mensal",
-                    subtitle: "Últimos 6 meses",
-                    xLabels: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun"],
+                    title: "Monthly Revenue",
+                    subtitle: "Last 6 months",
+                    xLabels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
                     series: [
                         .init(label: "2024", values: [45, 52, 48, 60, 72, 80], color: DSColor.primary),
                         .init(label: "2023", values: [30, 38, 35, 42, 55, 60], color: DSColor.muted)
@@ -739,12 +739,12 @@ public struct DSStatsRow: View {
                 )
 
                 DSDonutChartWidget(
-                    title: "Canais de Aquisição",
+                    title: "Acquisition Channels",
                     segments: [
-                        .init(label: "Orgânico", value: 42, color: DSColor.primary),
-                        .init(label: "Pago", value: 28, color: DSColor.accent),
+                        .init(label: "Organic", value: 42, color: DSColor.primary),
+                        .init(label: "Paid", value: 28, color: DSColor.accent),
                         .init(label: "Referral", value: 18, color: DSColor.success),
-                        .init(label: "Direto", value: 12, color: DSColor.warning)
+                        .init(label: "Direct", value: 12, color: DSColor.warning)
                     ],
                     centerValue: "8.3k"
                 )
@@ -752,23 +752,23 @@ public struct DSStatsRow: View {
 
             HStack(alignment: .top, spacing: DSSpacing.md) {
                 DSBarChartWidget(
-                    title: "Conversões por Dia",
-                    subtitle: "Esta semana",
+                    title: "Conversions per Day",
+                    subtitle: "This week",
                     bars: [
-                        .init(label: "Seg", value: 45, color: DSColor.primary),
-                        .init(label: "Ter", value: 62, color: DSColor.primary),
-                        .init(label: "Qua", value: 38, color: DSColor.primary),
-                        .init(label: "Qui", value: 80, color: DSColor.primary),
-                        .init(label: "Sex", value: 72, color: DSColor.primary),
-                        .init(label: "Sáb", value: 30, color: DSColor.muted),
-                        .init(label: "Dom", value: 20, color: DSColor.muted)
+                        .init(label: "Mon", value: 45, color: DSColor.primary),
+                        .init(label: "Tue", value: 62, color: DSColor.primary),
+                        .init(label: "Wed", value: 38, color: DSColor.primary),
+                        .init(label: "Thu", value: 80, color: DSColor.primary),
+                        .init(label: "Fri", value: 72, color: DSColor.primary),
+                        .init(label: "Sat", value: 30, color: DSColor.muted),
+                        .init(label: "Sun", value: 20, color: DSColor.muted)
                     ]
                 )
                 DSProgressRingWidget(
-                    title: "Metas do Trimestre",
+                    title: "Quarterly Goals",
                     metrics: [
-                        ("Receita", 87000, 100000, DSColor.primary),
-                        ("Novos Usuários", 1840, 2500, DSColor.success),
+                        ("Revenue", 87000, 100000, DSColor.primary),
+                        ("New Users", 1840, 2500, DSColor.success),
                         ("NPS", 72, 80, DSColor.warning),
                         ("Uptime", 99.6, 100, DSColor.info)
                     ]

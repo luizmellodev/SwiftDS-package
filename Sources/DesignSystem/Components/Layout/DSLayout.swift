@@ -408,9 +408,9 @@ struct SampleItem: Identifiable {
                 }
             }
 
-            DSDivider(label: "ou")
+            DSDivider(label: "or")
 
-            DSSection(title: "Flow Layout", description: "Tags dinâmicas") {
+            DSSection(title: "Flow Layout", description: "Dynamic tags") {
                 DSFlowLayout(["SwiftUI", "iOS", "Design System", "Apple", "Tokens", "Components", "Animations"]) { tag in
                     DSTag(tag, color: DSColor.primary)
                 }

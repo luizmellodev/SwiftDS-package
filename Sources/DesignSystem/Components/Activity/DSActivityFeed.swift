@@ -88,7 +88,7 @@ public struct DSActivityFeed: View {
     @Environment(\.colorScheme) private var scheme
     @Environment(\.dsTheme) private var theme
 
-    public init(events: [DSActivityEvent], title: String = "Atividade Recente", showTimeline: Bool = true) {
+    public init(events: [DSActivityEvent], title: String = "Recent Activity", showTimeline: Bool = true) {
         self.events = events
         self.title = title
         self.showTimeline = showTimeline
@@ -102,7 +102,7 @@ public struct DSActivityFeed: View {
                     .font(DSFont.semibold(size: DSFont.Size.base))
                     .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                 Spacer()
-                Button("Ver tudo") {}
+                Button("View all") {}
                     .font(DSFont.medium(size: DSFont.Size.sm))
                     .foregroundStyle(theme.primary)
                     .buttonStyle(.plain)
@@ -137,7 +137,7 @@ public struct DSActivityFeed: View {
                     withTransaction(t) { visibleCount += 5 }
                 } label: {
                     HStack(spacing: DSSpacing.xs) {
-                        Text("Carregar mais")
+                        Text("Load more")
                             .font(DSFont.medium(size: DSFont.Size.sm))
                         Image(systemName: "chevron.down")
                             .font(.system(size: 11, weight: .semibold))
@@ -252,7 +252,7 @@ private struct DSActivityRow: View {
     private func relativeTime(_ date: Date) -> String {
         let diff = Date().timeIntervalSince(date)
         switch diff {
-        case ..<60:         return "agora"
+        case ..<60:         return "now"
         case ..<3600:       return "\(Int(diff/60))m"
         case ..<86400:      return "\(Int(diff/3600))h"
         default:            return "\(Int(diff/86400))d"
@@ -326,7 +326,7 @@ public struct DSNotification: Identifiable, Sendable {
 public struct DSNotificationCenter: View {
     @Binding var notifications: [DSNotification]
     @Binding var isPresented: Bool
-    @State private var selectedFilter: String = "Todas"
+    @State private var selectedFilter: String = "All"
 
     @Environment(\.colorScheme) private var scheme
     @Environment(\.dsTheme) private var theme
@@ -336,14 +336,14 @@ public struct DSNotificationCenter: View {
         self._isPresented = isPresented
     }
 
-    private let filters = ["Todas", "Não lidas", "Menções", "Sistema"]
+    private let filters = ["All", "Unread", "Mentions", "System"]
     private var unreadCount: Int { notifications.filter { !$0.isRead }.count }
 
     private var filtered: [DSNotification] {
         switch selectedFilter {
-        case "Não lidas": return notifications.filter { !$0.isRead }
-        case "Menções":   return notifications.filter { $0.type == .mention }
-        case "Sistema":   return notifications.filter { $0.type == .system }
+        case "Unread": return notifications.filter { !$0.isRead }
+        case "Mentions":   return notifications.filter { $0.type == .mention }
+        case "System":   return notifications.filter { $0.type == .system }
         default:          return notifications
         }
     }
@@ -353,11 +353,11 @@ public struct DSNotificationCenter: View {
             // Header
             HStack {
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("Notificações")
+                    Text("Notifications")
                         .font(DSFont.semibold(size: DSFont.Size.md))
                         .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                     if unreadCount > 0 {
-                        Text("\(unreadCount) não lidas")
+                        Text("\(unreadCount) unread")
                             .font(DSFont.regular(size: DSFont.Size.xs))
                             .foregroundStyle(theme.muted)
                     }
@@ -371,7 +371,7 @@ public struct DSNotificationCenter: View {
                             }
                         }
                     } label: {
-                        Text("Marcar todas como lidas")
+                        Text("Mark all as read")
                             .font(DSFont.medium(size: DSFont.Size.xs))
                             .foregroundStyle(theme.primary)
                     }
@@ -422,7 +422,7 @@ public struct DSNotificationCenter: View {
                     Image(systemName: "bell.slash")
                         .font(.system(size: 32, weight: .light))
                         .foregroundStyle(theme.subtle)
-                    Text("Nenhuma notificação")
+                    Text("No notifications")
                         .font(DSFont.medium(size: DSFont.Size.base))
                         .foregroundStyle(theme.muted)
                 }
@@ -542,7 +542,7 @@ private struct DSNotificationRow: View {
     private func relativeTime(_ date: Date) -> String {
         let diff = Date().timeIntervalSince(date)
         switch diff {
-        case ..<60:    return "agora"
+        case ..<60:    return "now"
         case ..<3600:  return "\(Int(diff/60))min"
         case ..<86400: return "\(Int(diff/3600))h"
         default:       return "\(Int(diff/86400))d"
@@ -619,21 +619,21 @@ public struct DSNotificationBell: View {
     let now = Date()
     let events: [DSActivityEvent] = [
         .init(type: .deploy, actor: "Carlos", actorInitials: "CS", actorColor: DSColor.success,
-              title: "fez deploy em produção",
+              title: "deployed to production",
               detail: "v2.4.1 — 12 commits, 3 features, 2 bugfixes",
               timestamp: now.addingTimeInterval(-120), metadata: "feat/dashboard-redesign"),
         .init(type: .comment, actor: "Ana", actorInitials: "AL", actorColor: DSColor.accent,
-              title: "comentou no PR #47",
-              detail: "Gostei da abordagem! Só sugiro refatorar o DSTokens para suportar temas dinâmicos.",
+              title: "commented on PR #47",
+              detail: "Love the approach! I'd just suggest refactoring DSTokens to support dynamic themes.",
               timestamp: now.addingTimeInterval(-600)),
         .init(type: .review, actor: "Pedro", actorInitials: "PO", actorColor: DSColor.primary,
-              title: "aprovou o PR #47",
+              title: "approved PR #47",
               timestamp: now.addingTimeInterval(-1800)),
         .init(type: .merge, actor: "Larissa", actorInitials: "LM", actorColor: DSColor.info,
-              title: "fez merge de feat/pricing-cards", timestamp: now.addingTimeInterval(-3600),
+              title: "merged feat/pricing-cards", timestamp: now.addingTimeInterval(-3600),
               metadata: "main ← feat/pricing-cards"),
-        .init(type: .achievement, actor: "Sistema", actorInitials: "DS", actorColor: DSColor.warning,
-              title: "Time atingiu 1000 deploys!", timestamp: now.addingTimeInterval(-7200))
+        .init(type: .achievement, actor: "System", actorInitials: "DS", actorColor: DSColor.warning,
+              title: "Team reached 1000 deploys!", timestamp: now.addingTimeInterval(-7200))
     ]
     return DSActivityFeed(events: events).padding()
 }
@@ -642,10 +642,10 @@ public struct DSNotificationBell: View {
     struct PreviewWrapper: View {
         @Environment(\.dsTheme) private var theme
         @State var notifs: [DSNotification] = [
-            .init(type: .mention, title: "Carlos mencionou você", message: "Ei @ana, pode revisar o PR do dashboard? Está pronto para review.", timestamp: Date().addingTimeInterval(-300), action: "Ver PR", senderInitials: "CS", senderColor: DSColor.primary),
-            .init(type: .success, title: "Deploy concluído", message: "v2.4.1 foi deployado com sucesso em produção.", timestamp: Date().addingTimeInterval(-900), isRead: true),
-            .init(type: .warning, title: "Limite de uso atingindo", message: "Você usou 85% do seu limite mensal de API.", timestamp: Date().addingTimeInterval(-3600), action: "Upgrade"),
-            .init(type: .info, title: "Novo membro no time", message: "Rodrigo Silva aceitou o convite e entrou no workspace.", timestamp: Date().addingTimeInterval(-7200), isRead: true, senderInitials: "RS", senderColor: DSColor.success)
+            .init(type: .mention, title: "Carlos mentioned you", message: "Hey @ana, can you review the dashboard PR? It's ready for review.", timestamp: Date().addingTimeInterval(-300), action: "View PR", senderInitials: "CS", senderColor: DSColor.primary),
+            .init(type: .success, title: "Deploy complete", message: "v2.4.1 was successfully deployed to production.", timestamp: Date().addingTimeInterval(-900), isRead: true),
+            .init(type: .warning, title: "Approaching usage limit", message: "You've used 85% of your monthly API limit.", timestamp: Date().addingTimeInterval(-3600), action: "Upgrade"),
+            .init(type: .info, title: "New team member", message: "Rodrigo Silva accepted the invite and joined the workspace.", timestamp: Date().addingTimeInterval(-7200), isRead: true, senderInitials: "RS", senderColor: DSColor.success)
         ]
         @State var show = true
         var body: some View {

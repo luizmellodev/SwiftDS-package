@@ -299,7 +299,7 @@ private struct DSCommandEmptyState: View {
             Image(systemName: "magnifyingglass")
                 .font(.system(size: 28, weight: .light))
                 .foregroundStyle(theme.subtle)
-            Text("Sem resultados para \"\(query)\"")
+            Text("No results for \"\(query)\"")
                 .font(DSFont.medium(size: DSFont.Size.base))
                 .foregroundStyle(theme.muted)
         }
@@ -313,19 +313,19 @@ private struct DSCommandFooter: View {
         HStack(spacing: DSSpacing.md) {
             HStack(spacing: 4) {
                 DSShortcutBadge(keys: ["↑", "↓"])
-                Text("navegar")
+                Text("navigate")
                     .font(DSFont.regular(size: DSFont.Size.xs))
                     .foregroundStyle(theme.subtle)
             }
             HStack(spacing: 4) {
                 DSShortcutBadge(keys: ["↵"])
-                Text("selecionar")
+                Text("select")
                     .font(DSFont.regular(size: DSFont.Size.xs))
                     .foregroundStyle(theme.subtle)
             }
             HStack(spacing: 4) {
                 DSShortcutBadge(keys: ["esc"])
-                Text("fechar")
+                Text("close")
                     .font(DSFont.regular(size: DSFont.Size.xs))
                     .foregroundStyle(theme.subtle)
             }
@@ -357,7 +357,7 @@ public struct DSSearchInterface: View {
 
     public init(
         query: Binding<String>,
-        placeholder: String = "Buscar...",
+        placeholder: String = "Search...",
         suggestions: [String] = [],
         onSubmit: @escaping (String) -> Void = { _ in }
     ) {
@@ -536,18 +536,18 @@ public struct DSFilterBar: View {
     struct PreviewWrapper: View {
         @State var show = true
         let items: [DSCommandItem] = [
-            DSCommandItem(title: "Novo Projeto", subtitle: "Criar um projeto do zero", icon: "plus.square.fill", category: "Criar", shortcut: "⌘N"),
-            DSCommandItem(title: "Abrir Arquivo", subtitle: "Abrir arquivo do sistema", icon: "folder.fill", category: "Arquivos", shortcut: "⌘O"),
-            DSCommandItem(title: "Exportar PDF", icon: "arrow.down.doc.fill", category: "Exportar"),
-            DSCommandItem(title: "Configurações", subtitle: "Preferências do app", icon: "gearshape.fill", category: "Sistema", shortcut: "⌘,"),
-            DSCommandItem(title: "Tema Escuro", icon: "moon.fill", category: "Aparência"),
-            DSCommandItem(title: "Convidar Membro", icon: "person.badge.plus", category: "Time"),
-            DSCommandItem(title: "Ver Analytics", icon: "chart.bar.fill", category: "Analytics")
+            DSCommandItem(title: "New Project", subtitle: "Create a project from scratch", icon: "plus.square.fill", category: "Create", shortcut: "⌘N"),
+            DSCommandItem(title: "Open File", subtitle: "Open a file from your device", icon: "folder.fill", category: "Files", shortcut: "⌘O"),
+            DSCommandItem(title: "Export PDF", icon: "arrow.down.doc.fill", category: "Export"),
+            DSCommandItem(title: "Settings", subtitle: "App preferences", icon: "gearshape.fill", category: "System", shortcut: "⌘,"),
+            DSCommandItem(title: "Dark Theme", icon: "moon.fill", category: "Appearance"),
+            DSCommandItem(title: "Invite Member", icon: "person.badge.plus", category: "Team"),
+            DSCommandItem(title: "View Analytics", icon: "chart.bar.fill", category: "Analytics")
         ]
         var body: some View {
             ZStack {
                 Color.gray.opacity(0.1).ignoresSafeArea()
-                Button("Abrir Command Palette") { show = true }
+                Button("Open Command Palette") { show = true }
                 if show {
                     DSCommandPalette(isPresented: $show, items: items)
                 }
@@ -564,11 +564,11 @@ public struct DSFilterBar: View {
             VStack(spacing: DSSpacing.xl) {
                 DSSearchInterface(
                     query: $q,
-                    suggestions: ["Dashboard Analytics", "Configurações de conta", "Exportar relatório", "Convidar usuário"]
+                    suggestions: ["Dashboard Analytics", "Account settings", "Export report", "Invite user"]
                 )
                 DSFilterBar(
-                    filters: ["Todos", "Projetos", "Tarefas", "Membros", "Relatórios"],
-                    selected: .constant("Todos")
+                    filters: ["All", "Projects", "Tasks", "Members", "Reports"],
+                    selected: .constant("All")
                 )
             }
             .padding()

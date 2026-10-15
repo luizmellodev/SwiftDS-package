@@ -63,7 +63,7 @@ public struct DSOnboardingCarousel: View {
                 HStack {
                     Spacer()
                     if !isLast, let onSkip = onSkip {
-                        Button("Pular", action: onSkip)
+                        Button("Skip", action: onSkip)
                             .font(DSFont.medium(size: DSFont.Size.base))
                             .foregroundStyle(theme.muted)
                             .padding(DSSpacing.lg)
@@ -142,7 +142,7 @@ public struct DSOnboardingCarousel: View {
                         }
                     } label: {
                         HStack(spacing: DSSpacing.sm) {
-                            Text(isLast ? "Começar" : "Continuar")
+                            Text(isLast ? "Get started" : "Continue")
                                 .font(DSFont.semibold(size: DSFont.Size.md))
                             Image(systemName: isLast ? "checkmark" : "arrow.right")
                                 .font(.system(size: 15, weight: .semibold))
@@ -226,7 +226,7 @@ public struct DSSetupChecklist: View {
     @Environment(\.colorScheme) private var scheme
     @Environment(\.dsTheme) private var theme
 
-    public init(items: Binding<[ChecklistItem]>, title: String = "Configure sua conta", subtitle: String = "Complete esses passos para aproveitar ao máximo.") {
+    public init(items: Binding<[ChecklistItem]>, title: String = "Set up your account", subtitle: String = "Complete these steps to get the most out of it.") {
         self._items = items; self.title = title; self.subtitle = subtitle
     }
 
@@ -251,7 +251,7 @@ public struct DSSetupChecklist: View {
                         Text("\(completedCount)/\(items.count)")
                             .font(DSFont.bold(size: DSFont.Size.xl))
                             .foregroundStyle(theme.primary)
-                        Text("concluídos")
+                        Text("completed")
                             .font(DSFont.regular(size: DSFont.Size.xs))
                             .foregroundStyle(theme.muted)
                     }
@@ -389,10 +389,10 @@ private struct DSSetupComplete: View {
                     }
                 }
             VStack(alignment: .leading, spacing: 2) {
-                Text("Tudo pronto!")
+                Text("All set!")
                     .font(DSFont.semibold(size: DSFont.Size.base))
                     .foregroundStyle(theme.success)
-                Text("Você está pronto para começar a usar.")
+                Text("You're ready to get started.")
                     .font(DSFont.regular(size: DSFont.Size.sm))
                     .foregroundStyle(theme.muted)
             }
@@ -495,7 +495,7 @@ public struct DSWelcomeSplash: View {
             // CTAs
             VStack(spacing: DSSpacing.sm) {
                 Button(action: onGetStarted) {
-                    Text("Criar conta grátis")
+                    Text("Create free account")
                         .font(DSFont.semibold(size: DSFont.Size.md))
                         .foregroundStyle(.white)
                         .frame(maxWidth: .infinity)
@@ -509,7 +509,7 @@ public struct DSWelcomeSplash: View {
                 .buttonStyle(.plain)
 
                 Button(action: onSignIn) {
-                    Text("Já tenho uma conta")
+                    Text("I already have an account")
                         .font(DSFont.medium(size: DSFont.Size.base))
                         .foregroundStyle(theme.primary)
                         .frame(maxWidth: .infinity)
@@ -538,15 +538,15 @@ public struct DSWelcomeSplash: View {
     DSOnboardingCarousel(
         steps: [
             DSOnboardingStep(icon: "chart.line.uptrend.xyaxis", iconColor: DSColor.primary,
-                title: "Dashboards Poderosos",
-                subtitle: "Visualize todas as suas métricas em um único lugar, em tempo real.",
-                detail: "Conecte suas fontes de dados em segundos."),
+                title: "Powerful Dashboards",
+                subtitle: "See all your metrics in one place, in real time.",
+                detail: "Connect your data sources in seconds."),
             DSOnboardingStep(icon: "person.2.fill", iconColor: DSColor.accent,
-                title: "Colabore com seu Time",
-                subtitle: "Convide membros, atribua permissões e trabalhem juntos sem fricção."),
+                title: "Collaborate with your Team",
+                subtitle: "Invite members, assign permissions and work together without friction."),
             DSOnboardingStep(icon: "bolt.fill", iconColor: DSColor.warning,
-                title: "Automatize Tudo",
-                subtitle: "Crie fluxos automáticos que economizam horas do seu trabalho semanal.")
+                title: "Automate Everything",
+                subtitle: "Build automated workflows that save hours of work every week.")
         ],
         onComplete: {},
         onSkip: {}
@@ -555,10 +555,10 @@ public struct DSWelcomeSplash: View {
 
 #Preview("Setup Checklist") {
     @Previewable @State var items: [DSSetupChecklist.ChecklistItem] = [
-        .init(icon: "person.fill", title: "Complete seu perfil", description: "Adicione nome, foto e bio", isCompleted: true, estimatedTime: "2 min"),
-        .init(icon: "bell.fill", title: "Configure notificações", description: "Escolha como quer ser avisado", estimatedTime: "1 min"),
-        .init(icon: "person.badge.plus", title: "Convide seu time", description: "Adicione pelo menos um membro", estimatedTime: "3 min"),
-        .init(icon: "creditcard.fill", title: "Adicione método de pagamento", description: "Para continuar após o trial", estimatedTime: "2 min")
+        .init(icon: "person.fill", title: "Complete your profile", description: "Add your name, photo and bio", isCompleted: true, estimatedTime: "2 min"),
+        .init(icon: "bell.fill", title: "Set up notifications", description: "Choose how you want to be notified", estimatedTime: "1 min"),
+        .init(icon: "person.badge.plus", title: "Invite your team", description: "Add at least one member", estimatedTime: "3 min"),
+        .init(icon: "creditcard.fill", title: "Add a payment method", description: "To continue after the trial", estimatedTime: "2 min")
     ]
     return ScrollView {
         DSSetupChecklist(items: $items).padding()

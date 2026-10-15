@@ -217,7 +217,7 @@ public struct DSProfileHeroCard: View {
                 HStack(spacing: DSSpacing.sm) {
                     if let onMessage = onMessage {
                         Button(action: onMessage) {
-                            Label("Mensagem", systemImage: "message.fill")
+                            Label("Message", systemImage: "message.fill")
                                 .font(DSFont.semibold(size: DSFont.Size.sm))
                                 .foregroundStyle(.white)
                                 .padding(.horizontal, DSSpacing.lg)
@@ -229,7 +229,7 @@ public struct DSProfileHeroCard: View {
                     }
                     if let onEdit = onEdit {
                         Button(action: onEdit) {
-                            Label("Editar Perfil", systemImage: "pencil")
+                            Label("Edit Profile", systemImage: "pencil")
                                 .font(DSFont.semibold(size: DSFont.Size.sm))
                                 .foregroundStyle(scheme == .dark ? theme.foregroundDark : theme.foreground)
                                 .padding(.horizontal, DSSpacing.lg)
@@ -352,7 +352,7 @@ public struct DSTeamGrid: View {
     @Environment(\.colorScheme) private var scheme
     @Environment(\.dsTheme) private var theme
 
-    public init(members: [DSUser], title: String = "Membros do Time", onInvite: (() -> Void)? = nil) {
+    public init(members: [DSUser], title: String = "Team Members", onInvite: (() -> Void)? = nil) {
         self.members = members; self.title = title; self.onInvite = onInvite
     }
 
@@ -366,7 +366,7 @@ public struct DSTeamGrid: View {
                 Spacer()
                 if let onInvite = onInvite {
                     Button(action: onInvite) {
-                        Label("Convidar", systemImage: "person.badge.plus")
+                        Label("Invite", systemImage: "person.badge.plus")
                             .font(DSFont.medium(size: DSFont.Size.sm))
                             .foregroundStyle(theme.primary)
                     }
@@ -500,13 +500,13 @@ public struct DSMentionDropdown: View {
                 name: "Ana Lima",
                 username: "analima",
                 role: "Product Designer",
-                email: "ana@empresa.com",
+                email: "ana@company.com",
                 initials: "AL",
                 avatarColor: DSColor.accent,
-                bio: "Apaixonada por design systems, acessibilidade e criar produtos que as pessoas amam usar.",
-                location: "São Paulo, BR",
+                bio: "Passionate about design systems, accessibility, and building products people love to use.",
+                location: "San Francisco, CA",
                 website: "analima.design",
-                stats: [("Projetos", "24"), ("Seguidores", "1.2k"), ("Seguindo", "340")],
+                stats: [("Projects", "24"), ("Followers", "1.2k"), ("Following", "340")],
                 badges: [
                     .init(icon: "star.fill", label: "Top Contributor", color: DSColor.warning),
                     .init(icon: "bolt.fill", label: "Early Adopter", color: DSColor.primary)
@@ -523,9 +523,9 @@ public struct DSMentionDropdown: View {
 
 #Preview("Team Grid") {
     let members = [
-        DSUser(name: "Carlos Silva", username: "carlos", role: "Eng. Backend", email: "", initials: "CS", avatarColor: DSColor.primary, isOnline: true),
+        DSUser(name: "Carlos Silva", username: "carlos", role: "Backend Engineer", email: "", initials: "CS", avatarColor: DSColor.primary, isOnline: true),
         DSUser(name: "Ana Lima", username: "analima", role: "Product Designer", email: "", initials: "AL", avatarColor: DSColor.accent, isVerified: true, isOnline: true),
-        DSUser(name: "Pedro Oliveira", username: "pedro", role: "Eng. Frontend", email: "", initials: "PO", avatarColor: DSColor.success, isOnline: false),
+        DSUser(name: "Pedro Oliveira", username: "pedro", role: "Frontend Engineer", email: "", initials: "PO", avatarColor: DSColor.success, isOnline: false),
         DSUser(name: "Larissa Matos", username: "larissa", role: "Product Manager", email: "", initials: "LM", avatarColor: DSColor.info, isOnline: true)
     ]
     DSTeamGrid(members: members, onInvite: {}).padding()

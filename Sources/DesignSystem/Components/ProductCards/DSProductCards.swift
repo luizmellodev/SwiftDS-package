@@ -188,10 +188,10 @@ public struct DSPricingPlan {
     public init(
         name: String,
         price: String,
-        period: String = "/mês",
+        period: String = "/mo",
         description: String,
         features: [DSPricingFeature],
-        ctaLabel: String = "Começar agora",
+        ctaLabel: String = "Get started",
         isPopular: Bool = false,
         color: Color = DSColor.primary
     ) {
@@ -256,7 +256,7 @@ public struct DSPricingCard: View {
             if plan.isPopular {
                 HStack {
                     Spacer()
-                    Text("Mais popular")
+                    Text("Most popular")
                         .font(DSFont.semibold(size: DSFont.Size.xs))
                         .foregroundStyle(.white)
                         .padding(.horizontal, DSSpacing.md)
@@ -289,7 +289,7 @@ public struct DSPricingCard: View {
                 }
 
                 if isAnnual {
-                    Text("Economize 20% no plano anual")
+                    Text("Save 20% with annual billing")
                         .font(DSFont.medium(size: DSFont.Size.xs))
                         .foregroundStyle(theme.success)
                         .padding(.horizontal, 8)
@@ -391,7 +391,7 @@ public struct DSBillingToggle: View {
 
     public var body: some View {
         HStack(spacing: DSSpacing.sm) {
-            Text("Mensal")
+            Text("Monthly")
                 .font(DSFont.medium(size: DSFont.Size.sm))
                 .foregroundStyle(isAnnual ? theme.muted : (scheme == .dark ? theme.foregroundDark : theme.foreground))
 
@@ -401,7 +401,7 @@ public struct DSBillingToggle: View {
                 .labelsHidden()
 
             HStack(spacing: 4) {
-                Text("Anual")
+                Text("Annual")
                     .font(DSFont.medium(size: DSFont.Size.sm))
                     .foregroundStyle(!isAnnual ? theme.muted : (scheme == .dark ? theme.foregroundDark : theme.foreground))
                 Text("–20%")
@@ -428,12 +428,12 @@ public struct DSBillingToggle: View {
     ScrollView {
         DSFeatureGrid(
             features: [
-                ("bolt.fill", "Performance", "Resposta ultra-rápida com edge computing global."),
-                ("shield.lefthalf.filled", "Segurança", "Criptografia de ponta a ponta em todos os dados."),
-                ("arrow.triangle.2.circlepath", "Sincronização", "Dados sincronizados em tempo real entre dispositivos."),
-                ("chart.line.uptrend.xyaxis", "Analytics", "Insights poderosos sobre o comportamento dos usuários."),
-                ("puzzlepiece.extension.fill", "Integrações", "Conecte com mais de 100 ferramentas populares."),
-                ("person.2.fill", "Colaboração", "Time unido trabalhando no mesmo espaço de trabalho.")
+                ("bolt.fill", "Performance", "Ultra-fast responses with global edge computing."),
+                ("shield.lefthalf.filled", "Security", "End-to-end encryption for all your data."),
+                ("arrow.triangle.2.circlepath", "Sync", "Data synced in real time across devices."),
+                ("chart.line.uptrend.xyaxis", "Analytics", "Powerful insights into user behavior."),
+                ("puzzlepiece.extension.fill", "Integrations", "Connect with 100+ popular tools."),
+                ("person.2.fill", "Collaboration", "Your whole team working in the same workspace.")
             ],
             style: .gradient
         )
@@ -452,28 +452,28 @@ public struct DSBillingToggle: View {
                     HStack(alignment: .top, spacing: DSSpacing.md) {
                         DSPricingCard(plan: DSPricingPlan(
                             name: "Starter",
-                            price: "Grátis",
+                            price: "Free",
                             period: "",
-                            description: "Para começar a explorar",
+                            description: "For getting started",
                             features: [
-                                .init(text: "3 projetos"),
-                                .init(text: "1 GB de armazenamento"),
-                                .init(text: "Suporte por email"),
-                                .init(text: "Analytics básico", included: false),
+                                .init(text: "3 projects"),
+                                .init(text: "1 GB storage"),
+                                .init(text: "Email support"),
+                                .init(text: "Basic analytics", included: false),
                                 .init(text: "API Access", included: false)
                             ],
-                            ctaLabel: "Começar grátis"
+                            ctaLabel: "Start for free"
                         ), isAnnual: annual)
 
                         DSPricingCard(plan: DSPricingPlan(
                             name: "Pro",
-                            price: annual ? "R$39" : "R$49",
-                            description: "Para profissionais e times",
+                            price: annual ? "$39" : "$49",
+                            description: "For professionals and teams",
                             features: [
-                                .init(text: "Projetos ilimitados"),
-                                .init(text: "50 GB de armazenamento"),
-                                .init(text: "Suporte prioritário"),
-                                .init(text: "Analytics avançado"),
+                                .init(text: "Unlimited projects"),
+                                .init(text: "50 GB storage"),
+                                .init(text: "Priority support"),
+                                .init(text: "Advanced analytics"),
                                 .init(text: "API Access")
                             ],
                             isPopular: true
@@ -481,16 +481,16 @@ public struct DSBillingToggle: View {
 
                         DSPricingCard(plan: DSPricingPlan(
                             name: "Enterprise",
-                            price: annual ? "R$159" : "R$199",
-                            description: "Para empresas em crescimento",
+                            price: annual ? "$159" : "$199",
+                            description: "For growing companies",
                             features: [
-                                .init(text: "Tudo do Pro"),
-                                .init(text: "500 GB de armazenamento"),
+                                .init(text: "Everything in Pro"),
+                                .init(text: "500 GB storage"),
                                 .init(text: "SLA 99.99%"),
                                 .init(text: "SSO & SAML"),
-                                .init(text: "Gerente dedicado")
+                                .init(text: "Dedicated account manager")
                             ],
-                            ctaLabel: "Falar com vendas",
+                            ctaLabel: "Contact sales",
                             color: DSColor.accent
                         ), isAnnual: annual)
                     }

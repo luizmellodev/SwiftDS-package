@@ -183,7 +183,7 @@ public struct DSLogoStrip: View {
     @Environment(\.colorScheme) private var scheme
     @Environment(\.dsTheme) private var theme
 
-    public init(title: String = "Utilizado por equipes em todo o Brasil", logos: [(name: String, icon: String)]) {
+    public init(title: String = "Trusted by teams around the world", logos: [(name: String, icon: String)]) {
         self.title = title; self.logos = logos
     }
 
@@ -405,7 +405,7 @@ public struct DSFAQSection: View {
     @Environment(\.colorScheme) private var scheme
     @Environment(\.dsTheme) private var theme
 
-    public init(title: String = "Perguntas Frequentes", items: [Item]) {
+    public init(title: String = "Frequently Asked Questions", items: [Item]) {
         self.title = title; self.items = items
     }
 
@@ -574,16 +574,16 @@ public struct DSCTABanner: View {
     ScrollView {
         VStack(spacing: 0) {
             DSHeroSection(
-                eyebrow: "Novo — Design System v2.0",
+                eyebrow: "New — Design System v2.0",
                 headline: "Construa produtos\nque as pessoas amam",
-                subheadline: "Um sistema de design completo para times de produto que querem mover rápido sem sacrificar qualidade.",
-                primaryCTA: ("Começar grátis", {}),
-                secondaryCTA: ("Ver demo", {}),
-                socialProof: "Mais de 2.000 times já usam",
+                subheadline: "A complete design system for product teams who want to move fast without sacrificing quality.",
+                primaryCTA: ("Start for free", {}),
+                secondaryCTA: ("Watch demo", {}),
+                socialProof: "Used by 2,000+ teams",
                 badgeIcon: "sparkles"
             )
             DSLogoStrip(logos: [("Nubank", "creditcard.fill"), ("iFood", "fork.knife"), ("Totvs", "building.2.fill"), ("RD Station", "chart.bar.fill")])
-            DSStatsBanner(stats: [("2M+", "Componentes\nrenderizados"), ("99.9%", "Uptime\ngarantido"), ("< 1ms", "Tempo de\nresposta"), ("150+", "Times\nativos")])
+            DSStatsBanner(stats: [("2M+", "Components\nrendered"), ("99.9%", "Guaranteed\nuptime"), ("< 1ms", "Response\ntime"), ("150+", "Active\nteams")])
                 .padding()
         }
         .padding(.horizontal)
@@ -594,15 +594,15 @@ public struct DSCTABanner: View {
     ScrollView {
         VStack(spacing: DSSpacing.xl) {
             DSFAQSection(items: [
-                .init(question: "Como funciona o período de trial?", answer: "Você tem 14 dias grátis com acesso completo ao plano Pro. Não é necessário cartão de crédito para começar."),
-                .init(question: "Posso cancelar a qualquer momento?", answer: "Sim. Você pode cancelar sua assinatura a qualquer momento diretamente nas configurações da conta, sem multas ou taxas."),
-                .init(question: "Os dados são seguros?", answer: "Todos os dados são criptografados em trânsito e em repouso. Temos conformidade com LGPD e ISO 27001.")
+                .init(question: "How does the free trial work?", answer: "You get 14 days free with full access to the Pro plan. No credit card required to get started."),
+                .init(question: "Can I cancel at any time?", answer: "Yes. You can cancel your subscription at any time directly from your account settings, with no penalties or fees."),
+                .init(question: "Is my data secure?", answer: "All data is encrypted in transit and at rest. We are GDPR and ISO 27001 compliant.")
             ])
             DSCTABanner(
-                title: "Pronto para começar?",
-                subtitle: "Junte-se a mais de 2.000 times que já usam nosso design system.",
-                primaryLabel: "Criar conta grátis",
-                secondaryLabel: "Falar com especialista",
+                title: "Ready to get started?",
+                subtitle: "Join 2,000+ teams already using our design system.",
+                primaryLabel: "Create free account",
+                secondaryLabel: "Talk to an expert",
                 onPrimary: {},
                 onSecondary: {}
             )
