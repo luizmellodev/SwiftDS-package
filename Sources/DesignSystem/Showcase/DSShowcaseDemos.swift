@@ -198,7 +198,7 @@ private struct ProductCardsFeatureScreen: View {
         ScrollView {
             DSFeatureGrid(
                 features: [
-                    ("bolt.fill", "Performance", "Edge computing com 99.9% uptime e resposta sub-milissegundo."),
+                    ("bolt.fill", "Performance", "Edge computing with 99.9% uptime and sub-millisecond responses."),
                     ("shield.lefthalf.filled", "Security", "End-to-end encryption with enterprise-grade compliance."),
                     ("arrow.triangle.2.circlepath", "Real-Time Sync", "Data stays synchronized instantly."),
                     ("chart.line.uptrend.xyaxis", "Analytics", "Insights sobre comportamento e uso."),

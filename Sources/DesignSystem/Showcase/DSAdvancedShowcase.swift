@@ -166,7 +166,7 @@ private struct DSAdvancedNavbar: View {
 struct CommandSearchTab: View {
     @Binding var searchQuery: String
     let commandItems: [DSCommandItem]
-    @State private var selectedFilter = "Todos"
+    @State private var selectedFilter = "All"
 
     var body: some View {
         ScrollView {
@@ -198,7 +198,7 @@ struct CommandSearchTab: View {
 }
 
 private let featureCardData: [(icon: String, title: String, description: String)] = [
-    ("bolt.fill", "Performance", "Edge computing com 99.9% uptime e resposta sub-milissegundo."),
+    ("bolt.fill", "Performance", "Edge computing with 99.9% uptime and sub-millisecond responses."),
     ("shield.lefthalf.filled", "Security", "End-to-end encryption with enterprise-grade compliance."),
     ("arrow.triangle.2.circlepath", "Real-Time Sync", "Data stays synchronized across devices."),
     ("chart.line.uptrend.xyaxis", "Analytics", "Insights sobre comportamento e uso."),
@@ -352,7 +352,7 @@ struct ProfileTab: View {
         ScrollView {
             VStack(alignment: .leading, spacing: DSSpacing.md) {
                 DSProfileHeroCard(
-                    user: DSUser(name: "Ana Lima", username: "analima", role: "Product Designer", email: "ana@company.com", initials: "AL", avatarColor: DSColor.accent, bio: "Passionate about design systems and accessibility.", location: "Sao Paulo, BR", website: "analima.design", stats: [("Projects", "24"), ("Followers", "1.2k"), ("Following", "340")], badges: [.init(icon: "star.fill", label: "Top Contributor", color: DSColor.warning), .init(icon: "bolt.fill", label: "Early Adopter", color: DSColor.primary)], isVerified: true, isOnline: true),
+                    user: DSUser(name: "Ana Lima", username: "analima", role: "Product Designer", email: "ana@company.com", initials: "AL", avatarColor: DSColor.accent, bio: "Passionate about design systems and accessibility.", location: "San Francisco, CA", website: "analima.design", stats: [("Projects", "24"), ("Followers", "1.2k"), ("Following", "340")], badges: [.init(icon: "star.fill", label: "Top Contributor", color: DSColor.warning), .init(icon: "bolt.fill", label: "Early Adopter", color: DSColor.primary)], isVerified: true, isOnline: true),
                     onEdit: {}, onMessage: {}
                 )
                 DSTeamGrid(members: [
@@ -371,7 +371,7 @@ struct ProfileHeroCardScreenDemoView: View {
     var body: some View {
         ScrollView {
             DSProfileHeroCard(
-                user: DSUser(name: "Ana Lima", username: "analima", role: "Product Designer", email: "ana@company.com", initials: "AL", avatarColor: DSColor.accent, bio: "Passionate about design systems and accessibility.", location: "Sao Paulo, BR", website: "analima.design", stats: [("Projects", "24"), ("Followers", "1.2k"), ("Following", "340")], badges: [.init(icon: "star.fill", label: "Top Contributor", color: DSColor.warning), .init(icon: "bolt.fill", label: "Early Adopter", color: DSColor.primary)], isVerified: true, isOnline: true),
+                user: DSUser(name: "Ana Lima", username: "analima", role: "Product Designer", email: "ana@company.com", initials: "AL", avatarColor: DSColor.accent, bio: "Passionate about design systems and accessibility.", location: "San Francisco, CA", website: "analima.design", stats: [("Projects", "24"), ("Followers", "1.2k"), ("Following", "340")], badges: [.init(icon: "star.fill", label: "Top Contributor", color: DSColor.warning), .init(icon: "bolt.fill", label: "Early Adopter", color: DSColor.primary)], isVerified: true, isOnline: true),
                 onEdit: {},
                 onMessage: {}
             )
@@ -418,7 +418,7 @@ struct SettingsTab: View {
 
 struct OnboardingTab: View {
     @State var checklistItems: [DSSetupChecklist.ChecklistItem] = [
-        .init(icon: "person.fill", title: "Complete seu perfil", description: "Adicione nome, foto e bio", isCompleted: true, estimatedTime: "2 min"),
+        .init(icon: "person.fill", title: "Complete your profile", description: "Add your name, photo, and bio", isCompleted: true, estimatedTime: "2 min"),
         .init(icon: "bell.fill", title: "Configure notifications", description: "Choose how you want to be notified", estimatedTime: "1 min"),
         .init(icon: "person.badge.plus", title: "Invite your team", description: "Add at least one teammate", estimatedTime: "3 min"),
         .init(icon: "creditcard.fill", title: "Add billing", description: "Required after the trial period", estimatedTime: "2 min")
