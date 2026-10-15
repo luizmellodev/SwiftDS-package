@@ -201,7 +201,7 @@ private let featureCardData: [(icon: String, title: String, description: String)
     ("bolt.fill", "Performance", "Edge computing with 99.9% uptime and sub-millisecond responses."),
     ("shield.lefthalf.filled", "Security", "End-to-end encryption with enterprise-grade compliance."),
     ("arrow.triangle.2.circlepath", "Real-Time Sync", "Data stays synchronized across devices."),
-    ("chart.line.uptrend.xyaxis", "Analytics", "Insights sobre comportamento e uso."),
+    ("chart.line.uptrend.xyaxis", "Analytics", "Insights into behavior and usage."),
     ("puzzlepiece.extension.fill", "100+ Integrations", "Connect your favorite tools."),
     ("person.2.fill", "Collaboration", "Keep your team aligned in one workspace.")
 ]
