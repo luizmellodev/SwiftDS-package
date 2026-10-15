@@ -163,10 +163,17 @@ class SwiftDSSnapshotTestCase: XCTestCase {
 
         guard FileManager.default.fileExists(atPath: sourceURL.path) else { return }
 
-        // Maintainer-only: sync into the sibling docs site when it is checked out next to this
-        // package. Never create it on contributors' or CI machines.
-        let websiteRoot = packageRoot.deletingLastPathComponent().appendingPathComponent("website doc")
-        guard FileManager.default.fileExists(atPath: websiteRoot.path) else { return }
+        // Maintainer-only: sync into the docs site (SWIFTDS_WEBSITE_PATH, or a sibling "SwiftDS" /
+        // "website doc" checkout). Never create it on contributors' or CI machines.
+        let parent = packageRoot.deletingLastPathComponent()
+        let candidates = [
+            ProcessInfo.processInfo.environment["SWIFTDS_WEBSITE_PATH"].map { URL(fileURLWithPath: $0) },
+            parent.appendingPathComponent("SwiftDS"),
+            parent.appendingPathComponent("website doc"),
+        ].compactMap { $0 }
+        guard let websiteRoot = candidates.first(where: {
+            FileManager.default.fileExists(atPath: $0.appendingPathComponent("next.config.mjs").path)
+        }) else { return }
 
         let websiteScreenshotsRoot = websiteRoot
             .appendingPathComponent("public")

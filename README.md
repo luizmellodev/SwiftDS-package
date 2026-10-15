@@ -1,6 +1,6 @@
 # SwiftDS
 
-A comprehensive, production-ready SwiftUI design system with 124+ components.
+A comprehensive, production-ready SwiftUI design system with 100+ components.
 
 [![Swift 5.10+](https://img.shields.io/badge/Swift-5.10+-orange.svg)](https://swift.org)
 [![iOS 17+](https://img.shields.io/badge/iOS-17+-blue.svg)](https://developer.apple.com/ios/)
@@ -12,9 +12,9 @@ A comprehensive, production-ready SwiftUI design system with 124+ components.
 
 ## Features
 
-- **124+ Components** — Buttons, inputs, cards, navigation, messaging, analytics, and more
+- **100+ Components** — Buttons, inputs, cards, navigation, messaging, analytics, and more
 - **Xcode Library Integration** — All components appear in Xcode's Library (`⌘⇧L`) for drag-and-drop
-- **100% Accessible** — Full VoiceOver support with proper labels, hints, and traits
+- **Accessible** — VoiceOver labels, hints and traits, Dynamic Type through native text styles
 - **Dark Mode** — Adaptive colors for light and dark themes
 - **Multi-Platform** — iOS, macOS, watchOS, tvOS, and visionOS
 - **Type-Safe Tokens** — Colors, spacing, typography, and animations
@@ -98,11 +98,11 @@ struct MyApp: App {
 ### Data Display (14)
 `DSCard` · `DSAvatar` · `DSAvatarGroup` · `DSBadge` · `DSProgressRing` · `DSProgressRingWithLabel` · `DSTable` · `DSStatusLabel` · `DSImageGallery` · `DSCardCarousel` · `DSSkeleton` · `DSEmptyState` · `DSTag` · `DSListRow`
 
-### Navigation (8)
-`DSNavigationBar` · `DSTabBar` · `DSFloatingTabBar` · `DSFloatingTabItem` · `DSSidebar` · `DSSegmentedControl` · `DSBreadcrumb` · `DSSubnavigation`
+### Navigation (7)
+`DSNavigationBar` · `DSTabs` · `DSTabBar` · `DSFloatingTabBar` · `DSSidebar` · `DSSegmentedControl` · `DSSubnavigation`
 
-### Feedback (14)
-`DSSpinner` · `DSToast` · `DSAlert` · `DSNoticeBar` · `DSStepIndicator` · `DSProgressBar` · `DSStarRating` · `DSModal` · `DSBottomSheet` · `DSTidbit` · `DSFullPageInterruption` · `DSSkeleton` · `DSSkeletonCard` · `DSTooltip`
+### Feedback (16)
+`DSSpinner` · `DSToast` · `DSAlert` · `DSNoticeBar` · `DSStepIndicator` · `DSProgressBar` · `DSCircularProgress` · `DSStarRating` · `DSStarRatingControl` · `DSModal` · `DSBottomSheet` · `DSTidbit` · `DSFullPageInterruption` · `DSPageLoader` · `DSSkeletonCard` · `.dsTooltip(_:)`
 
 ### Layout (7)
 `DSContainer` · `DSStack` · `DSGrid` · `DSDivider` · `DSSection` · `DSPageLayout` · `DSDashboardGrid`
@@ -170,21 +170,24 @@ DSSpacing.md   // 16pt
 DSSpacing.lg   // 24pt
 DSSpacing.xl   // 32pt
 
-// Typography
-DSTypography.title1      // 34pt bold
-DSTypography.body        // 17pt regular
-DSTypography.caption     // 12pt regular
+// Typography (native text styles, so Dynamic Type works)
+Text("Title").dsTextStyle(.title)
+DSText("Body copy", style: .body)
+DSFont.semibold(size: DSFont.Size.lg)
 
 // Radius
 DSRadius.small   // 6pt
 DSRadius.medium  // 10pt
-DSRadius.large   // 14pt
-DSRadius.full    // Pill shape
+DSRadius.large   // 16pt
+DSRadius.pill    // Fully rounded
+
+// Shadows
+.dsShadow(.md)
 
 // Animations
-DSAnimation.fast         // 0.15s
-DSAnimation.standard     // 0.25s
-DSAnimation.interactive  // Spring
+DSAnimation.interactive  // Spring (0.3s) — buttons, toggles
+DSAnimation.smooth       // Spring (0.45s) — sheets, overlays
+DSAnimation.fade         // easeOut 0.2s
 ```
 
 ## Xcode Library
@@ -244,7 +247,7 @@ This records the current component and variant assets covered by the documentati
 
 ### Exporting doc assets (maintainers)
 
-If a `website doc` folder exists next to this package, the test run also copies the PNGs into `../website doc/public/screenshots/components/<category>/`. Without that folder nothing is written outside the package.
+If the docs site is checked out next to this package (`../SwiftDS`, or `SWIFTDS_WEBSITE_PATH`), the test run also copies the PNGs into its `public/screenshots/components/<category>/`. Otherwise nothing is written outside the package.
 
 ### Recommended usage
 
