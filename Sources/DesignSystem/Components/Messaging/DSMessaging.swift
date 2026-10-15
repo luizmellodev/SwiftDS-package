@@ -31,6 +31,8 @@ public struct DSMessageBubble: View {
     let timestamp: Date?
     let senderName: String?
     let avatar: AnyView?
+    /// Initials for the text initializer's avatar. Drawn in `body`, where the theme is available.
+    let avatarText: String?
     let isLoading: Bool
 
     @Environment(\.colorScheme) private var scheme
@@ -49,6 +51,7 @@ public struct DSMessageBubble: View {
         self.timestamp = timestamp
         self.senderName = senderName
         self.avatar = avatar
+        self.avatarText = nil
         self.isLoading = isLoading
     }
 
@@ -70,20 +73,23 @@ public struct DSMessageBubble: View {
         self.timestamp = timestamp
         self.senderName = senderName
         self.isLoading = isLoading
+        self.avatar = nil
+        self.avatarText = avatarText
+    }
 
-        if let avatarText = avatarText {
-            self.avatar = AnyView(
-                Circle()
-                    .fill(theme.primary.opacity(0.2))
-                    .frame(width: 28, height: 28)
-                    .overlay(
-                        Text(avatarText)
-                            .font(DSFont.semibold(size: DSFont.Size.xs))
-                            .foregroundStyle(theme.primary)
-                    )
-            )
-        } else {
-            self.avatar = nil
+    @ViewBuilder
+    private var avatarView: some View {
+        if let avatar {
+            avatar
+        } else if let avatarText {
+            Circle()
+                .fill(theme.primary.opacity(0.2))
+                .frame(width: 28, height: 28)
+                .overlay(
+                    Text(avatarText)
+                        .font(DSFont.semibold(size: DSFont.Size.xs))
+                        .foregroundStyle(theme.primary)
+                )
         }
     }
 
@@ -118,7 +124,7 @@ public struct DSMessageBubble: View {
 
     public var body: some View {
         HStack(alignment: .bottom, spacing: DSSpacing.sm) {
-            if !isFromUser, let avatarView = avatar {
+            if !isFromUser {
                 avatarView
             }
 

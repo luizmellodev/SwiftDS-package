@@ -294,6 +294,7 @@ public struct DSShortcutBadge: View {
 
 private struct DSCommandEmptyState: View {
     let query: String
+    @Environment(\.dsTheme) private var theme
     var body: some View {
         VStack(spacing: DSSpacing.sm) {
             Image(systemName: "magnifyingglass")
@@ -309,6 +310,7 @@ private struct DSCommandEmptyState: View {
 // MARK: - Command Footer
 
 private struct DSCommandFooter: View {
+    @Environment(\.dsTheme) private var theme
     var body: some View {
         HStack(spacing: DSSpacing.md) {
             HStack(spacing: 4) {
