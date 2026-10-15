@@ -1,6 +1,8 @@
 # SwiftDS
 
-A comprehensive, production-ready SwiftUI design system with 100+ components.
+A comprehensive SwiftUI design system with 100+ components.
+
+> **Work in progress.** SwiftDS is actively developed: components are still being added and refined, and until 1.0 a minor release may change an API. Pin a version (`from: "0.1.0"`) and check the release notes before upgrading.
 
 [![Swift 5.10+](https://img.shields.io/badge/Swift-5.10+-orange.svg)](https://swift.org)
 [![iOS 17+](https://img.shields.io/badge/iOS-17+-blue.svg)](https://developer.apple.com/ios/)
