@@ -407,8 +407,8 @@ struct SettingsTab: View {
                 .padding(.horizontal, DSSpacing.md)
                 DSShowcaseSection(title: "API Key Manager") {
                     VStack(spacing: DSSpacing.sm) {
-                        DSApiKeyRow(label: "Production Key", keyValue: "sk_live_abc123def456ghi789jkl", onRevoke: {}, onCopy: {})
-                        DSApiKeyRow(label: "Test Key", keyValue: "sk_test_xyz987wvu654tsr321qpo", onRevoke: {}, onCopy: {})
+                        DSApiKeyRow(label: "Production Key", keyValue: "demo_live_abc123def456ghi789jkl", onRevoke: {}, onCopy: {})
+                        DSApiKeyRow(label: "Test Key", keyValue: "demo_test_xyz987wvu654tsr321qpo", onRevoke: {}, onCopy: {})
                     }
                 }
             }

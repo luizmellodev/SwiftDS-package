@@ -34,7 +34,7 @@ https://github.com/luizmellodev/SwiftDS-package
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/luizmellodev/SwiftDS-package", from: "1.0.0")
+    .package(url: "https://github.com/luizmellodev/SwiftDS-package", from: "0.1.0")
 ]
 ```
 
@@ -43,7 +43,7 @@ Then add it to your target:
 ```swift
 .target(
     name: "YourApp",
-    dependencies: ["SwiftDS"]
+    dependencies: [.product(name: "SwiftDS", package: "SwiftDS-package")]
 )
 ```
 
@@ -57,7 +57,7 @@ Then add it to your target:
 | tvOS      | 17.0+   |
 | visionOS  | 1.0+    |
 | Swift     | 5.10+   |
-| Xcode     | 15.0+   |
+| Xcode     | 15.3+   |
 
 ## Quick Start
 
@@ -147,8 +147,8 @@ ContentView().dsTheme(theme)
 ### Per-instance override
 
 ```swift
-DSButton("texto aqui", color: Color(hex: "#234134"), isDisabled: false) { }
-DSTextField(placeholder: "1232131", text: $text, isDisabled: false)
+DSButton("Continue", color: Color(hex: "#234134"), isDisabled: false) { }
+DSTextField(placeholder: "Email", text: $text, isDisabled: false)
 DSLink("Docs", color: Color(hex: "#234134")) { }
 ```
 
@@ -215,11 +215,9 @@ See [ACCESSIBILITY.md](ACCESSIBILITY.md) for details.
 
 ## Documentation
 
-Full documentation site: **[swiftds.dev](https://swiftds.dev)** *(coming soon)*
-
 - [ACCESSIBILITY.md](ACCESSIBILITY.md) — Accessibility guidelines
 - [USE_CASES.md](USE_CASES.md) — Real-world example apps
-- [PREVIEW_LIST.md](PREVIEW_LIST.md) — Component previews
+- [SwiftBoard](https://github.com/luizmellodev/SwiftBoard) — Browse every SwiftDS component as a website
 - [XcodeSnippets/README.md](XcodeSnippets/README.md) — Code snippets
 
 ## Snapshot Testing
@@ -244,14 +242,14 @@ RECORD_SNAPSHOTS=1 swift test
 
 This records the current component and variant assets covered by the documentation snapshot catalog.
 
-### Exporting doc assets
+### Exporting doc assets (maintainers)
 
-Both `swift test` and `RECORD_SNAPSHOTS=1 swift test` already sync the PNGs directly into `../website doc/public/screenshots/components/<category>/` via the shared snapshot helper.
+If a `website doc` folder exists next to this package, the test run also copies the PNGs into `../website doc/public/screenshots/components/<category>/`. Without that folder nothing is written outside the package.
 
 ### Recommended usage
 
 - Use snapshot tests to keep documentation previews aligned with real SwiftUI components and variants.
-- Record first when references need refreshing; the website doc assets are synchronized automatically during the test run.
+- Record first when references need refreshing.
 - Prefer compact, deterministic component states instead of broad showcase screens.
 
 ## License

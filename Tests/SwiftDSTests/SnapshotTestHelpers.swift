@@ -163,8 +163,12 @@ class SwiftDSSnapshotTestCase: XCTestCase {
 
         guard FileManager.default.fileExists(atPath: sourceURL.path) else { return }
 
-        let websiteScreenshotsRoot = packageRoot.deletingLastPathComponent()
-            .appendingPathComponent("website doc")
+        // Maintainer-only: sync into the sibling docs site when it is checked out next to this
+        // package. Never create it on contributors' or CI machines.
+        let websiteRoot = packageRoot.deletingLastPathComponent().appendingPathComponent("website doc")
+        guard FileManager.default.fileExists(atPath: websiteRoot.path) else { return }
+
+        let websiteScreenshotsRoot = websiteRoot
             .appendingPathComponent("public")
             .appendingPathComponent("screenshots")
 
